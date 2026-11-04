@@ -85,7 +85,7 @@ $("countdown").firstChild.textContent=target?timer(target.date-now):"00:00:00";$
 document.querySelectorAll(".event").forEach(el=>{let e=events(cfg.days[dayIndex],cfg.days[dayIndex].events[eventIndex]||{})[+el.dataset.step];if(!e)return;el.classList.toggle("done",now>=e.date&&e.label!=="Fin del WOD");el.classList.toggle("current",!!active&&active.date.getTime()===e.date.getTime())})}
 
 
-function wodIdFor(w){const n=Number((w?.name||"").match(/\\d+/)?.[0]||0);return n>=1&&n<=4?"wod"+n:null}
+function wodIdFor(w){const n=Number((w?.name||"").match(/\d+/)?.[0]||0);return n>=1&&n<=4?"wod"+n:null}
 function accessMessage(message){const p=$("accessPanel");if(p)p.innerHTML="<p>"+message+"</p>"}
 function setAccessMode(mode,details={}){
   accessMode=mode;
@@ -195,7 +195,7 @@ async function deleteNote(id){
   }catch(e){if(status)status.textContent=e.message||"No se pudieron borrar las notas"}
 }
 async function initAccess(){
-  $("guestModeBtn").onclick=()=>setAccessMode("guest");
+  $("guestModeBtn").onclick=async()=>{if(accessMode==="admin")await sb.auth.signOut();setAccessMode("guest")};
   $("teamModeBtn").onclick=showTeamForm;
   $("adminModeBtn").onclick=showAdminForm;
   sb.auth.onAuthStateChange((_event,session)=>{
