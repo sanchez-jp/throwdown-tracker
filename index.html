@@ -39,11 +39,11 @@
 <section class="section"><div class="sectionHead"><h3>Resumen de la jornada</h3><span class="hint">Todos los WOD</span></div><div class="cards" id="cards"></div></section>
 <footer>Throwdown Tracker · Horarios editables en data/competition.json<br>Hora oficial de Portugal · Actualización automática cada segundo</footer></main>
 <script type="module">
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL="https://wovdcffjchshmvcqyand.supabase.co";
 const SUPABASE_KEY="sb_publishable_zMQNt3ncjnX_8AzPU7r29Q_dl8NzPT_";
 const TEAM_NOTES_URL=SUPABASE_URL+"/functions/v1/team-notes";
-const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
+let sb=null;
+async function ensureSupabase(){if(!sb){const {createClient}=await import("https://esm.sh/@supabase/supabase-js@2");sb=createClient(SUPABASE_URL,SUPABASE_KEY)}return sb;}
 let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};const $=id=>document.getElementById(id);
 const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
 function zone(){return cfg?.competition?.timezone||"Europe/Lisbon"}
@@ -98,7 +98,7 @@ function setAccessMode(mode,details={}){
   }else{
     const who=mode==="admin"?(currentAdmin||"Administrador"):"Acceso compartido del equipo";
     accessMessage("Sesión activa: "+who+'. <button class="button" id="logoutBtn" type="button">Cerrar sesión</button>');
-    $("logoutBtn").onclick=async()=>{if(mode==="admin")await sb.auth.signOut();setAccessMode("guest")};
+    $("logoutBtn").onclick=async()=>{if(mode==="admin"&&sb)await sb.auth.signOut();setAccessMode("guest")};
     if(notesPoll)clearInterval(notesPoll);
     notesPoll=setInterval(refreshCurrentNote,5000);
   }
@@ -121,7 +121,8 @@ function showAdminForm(){
   $("adminLoginBtn").onclick=async()=>{
     const email=$("adminEmail").value.trim().toLowerCase();
     $("accessFeedback").textContent="Enviando enlace…";
-    const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
+    const client=await ensureSupabase();
+    const {error}=await client.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
     $("accessFeedback").textContent=error?error.message:"Te hemos enviado un enlace. Ábrelo desde este dispositivo para activar el acceso.";
   };
 }
@@ -196,13 +197,14 @@ async function initAccess(){
   $("guestModeBtn").onclick=async()=>{if(accessMode==="admin")await sb.auth.signOut();setAccessMode("guest")};
   $("teamModeBtn").onclick=showTeamForm;
   $("adminModeBtn").onclick=showAdminForm;
-  sb.auth.onAuthStateChange((_event,session)=>{
-    const email=session?.user?.email?.toLowerCase();
-    if(session?.user?.email)setAccessMode("admin",{email:session.user.email});
-    else setAccessMode("guest")
-  });
-  const {data}=await sb.auth.getSession();
-  if(data.session?.user?.email)setAccessMode("admin",{email:data.session.user.email});
+  try{
+    const client=await ensureSupabase();
+    client.auth.onAuthStateChange((_event,session)=>{
+      queueMicrotask(()=>{if(session?.user?.email)setAccessMode("admin",{email:session.user.email});else setAccessMode("guest")});
+    });
+    const {data}=await client.auth.getSession();
+    if(data.session?.user?.email)setAccessMode("admin",{email:data.session.user.email});
+  }catch(e){console.warn("El acceso de administrador no está disponible sin conexión",e)}
 }
 
 async function init(){try{let r=await fetch("./data/competition.json",{cache:"no-store"});if(!r.ok)throw Error("No se encuentra data/competition.json");cfg=await r.json();$("subtitle").textContent=cfg.competition.category||"";$("heat").textContent="HEAT "+cfg.competition.heat;$("venue").textContent=cfg.competition.venue;$("compName").textContent=cfg.competition.name;$("lane").textContent=cfg.competition.lane;$("team").textContent=cfg.competition.team;$("dayCount").textContent=cfg.days.length+" jornadas";let iso=dateInZone(new Date()),idx=cfg.days.findIndex(d=>d.date===iso);if(idx>=0)dayIndex=idx;renderDays();renderWods();renderEvent();update();setInterval(update,1000)}catch(e){$("statusTitle").textContent="Error al cargar";$("statusDesc").textContent=e.message}}
