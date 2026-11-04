@@ -66,11 +66,11 @@ const eyebrow=document.createElement("div");eyebrow.className="wodtitle";eyebrow
 const title=document.createElement("h4");title.textContent=w.title||w.name;
 const format=document.createElement("div");format.className="format";format.textContent=(x.format||"")+(x.timeCap&&/^For Time/i.test(x.format||"")?" · TC "+x.timeCap:"");
 card.append(eyebrow,title,format);
-if(w.flowUrl){const flow=document.createElement("a");flow.className="flow-link";flow.href=w.flowUrl;flow.target="_blank";flow.rel="noopener noreferrer";flow.textContent="VER FLOW ↗";card.append(flow)}
 const addList=(heading,items,cls)=>{if(!items||!items.length)return;const box=document.createElement("div");if(cls)box.className=cls;const b=document.createElement("b");b.textContent=heading;box.append(b);const ul=document.createElement("ul");items.forEach(v=>{const li=document.createElement("li");li.textContent=v;ul.append(li)});box.append(ul);card.append(box)};
 addList("Estructura",x.blocks,"");
 addList("Puntuación",x.scores,"scores");
 addList("Pesos / categorías",x.loads,"loads");
+if(w.flowUrl){const flow=document.createElement("a");flow.className="flow-link";flow.href=w.flowUrl;flow.target="_blank";flow.rel="noopener noreferrer";flow.textContent="VER FLOW ↗";card.append(flow)}
 
 root.append(card);
 if(accessMode!=="guest")renderNotes(w)
