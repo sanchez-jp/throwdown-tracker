@@ -32,7 +32,7 @@ if(!x){root.innerHTML='<div class="empty">La descripción de este WOD todavía n
 const card=document.createElement("div");card.className="workout";
 const eyebrow=document.createElement("div");eyebrow.className="wodtitle";eyebrow.textContent=(w.name||"WOD")+" · "+(w.title||"");
 const title=document.createElement("h4");title.textContent=w.title||w.name;
-const format=document.createElement("div");format.className="format";format.textContent=x.format||"";
+const format=document.createElement("div");format.className="format";format.textContent=(x.format||"")+(x.timeCap&&/^For Time/i.test(x.format||"")?" · TC "+x.timeCap:"");
 card.append(eyebrow,title,format);
 const addList=(heading,items,cls)=>{if(!items||!items.length)return;const box=document.createElement("div");if(cls)box.className=cls;const b=document.createElement("b");b.textContent=heading;box.append(b);const ul=document.createElement("ul");items.forEach(v=>{const li=document.createElement("li");li.textContent=v;ul.append(li)});box.append(ul);card.append(box)};
 addList("Estructura",x.blocks,"");
