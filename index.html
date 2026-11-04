@@ -38,13 +38,13 @@
 <section class="section"><div class="sectionHead"><h3 id="workoutHeading">Descripción del WOD</h3><span class="hint">Movimientos y puntuación</span></div><div id="workout"></div></section>
 <section class="section"><div class="sectionHead"><h3>Resumen de la jornada</h3><span class="hint">Todos los WOD</span></div><div class="cards" id="cards"></div></section>
 <footer>Throwdown Tracker · Horarios editables en data/competition.json<br>Hora oficial de Portugal · Actualización automática cada segundo</footer></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+<script type="module">
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL="https://wovdcffjchshmvcqyand.supabase.co";
 const SUPABASE_KEY="sb_publishable_zMQNt3ncjnX_8AzPU7r29Q_dl8NzPT_";
 const TEAM_NOTES_URL=SUPABASE_URL+"/functions/v1/team-notes";
 const ADMIN_EMAIL="sanchezalvarezjp@gmail.com";
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
 let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};const $=id=>document.getElementById(id);
 const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
 function zone(){return cfg?.competition?.timezone||"Europe/Lisbon"}
