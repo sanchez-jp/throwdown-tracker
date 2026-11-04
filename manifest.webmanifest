@@ -1,0 +1,17 @@
+{
+  "name": "Throwdown Tracker",
+  "short_name": "Throwdown",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1117",
+  "theme_color": "#101820",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
