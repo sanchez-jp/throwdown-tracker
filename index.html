@@ -43,7 +43,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL="https://wovdcffjchshmvcqyand.supabase.co";
 const SUPABASE_KEY="sb_publishable_zMQNt3ncjnX_8AzPU7r29Q_dl8NzPT_";
 const TEAM_NOTES_URL=SUPABASE_URL+"/functions/v1/team-notes";
-const ADMIN_EMAIL="sanchezalvarezjp@gmail.com";
 const sb=createClient(SUPABASE_URL,SUPABASE_KEY);
 let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};const $=id=>document.getElementById(id);
 const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
@@ -97,7 +96,7 @@ function setAccessMode(mode,details={}){
     accessMessage("Estás como invitado. Las notas estratégicas permanecen ocultas.");
     if(notesPoll){clearInterval(notesPoll);notesPoll=null}
   }else{
-    const who=mode==="admin"?(currentAdmin||ADMIN_EMAIL):"Acceso compartido del equipo";
+    const who=mode==="admin"?(currentAdmin||"Administrador"):"Acceso compartido del equipo";
     accessMessage("Sesión activa: "+who+'. <button class="button" id="logoutBtn" type="button">Cerrar sesión</button>');
     $("logoutBtn").onclick=async()=>{if(mode==="admin")await sb.auth.signOut();setAccessMode("guest")};
     if(notesPoll)clearInterval(notesPoll);
@@ -118,10 +117,9 @@ function showTeamForm(){
   };
 }
 function showAdminForm(){
-  $("accessPanel").innerHTML='<p>Te enviaremos un enlace de acceso al correo autorizado de administrador.</p><div class="access-fields"><label>Correo electrónico<input id="adminEmail" type="email" autocomplete="email" value="'+ADMIN_EMAIL+'"></label><button class="button" id="adminLoginBtn" type="button">Enviar enlace de acceso</button><div class="note-status" id="accessFeedback"></div></div>';
+  $("accessPanel").innerHTML='<p>Te enviaremos un enlace de acceso al correo autorizado de administrador.</p><div class="access-fields"><label>Correo electrónico<input id="adminEmail" type="email" autocomplete="email" placeholder="Correo autorizado"></label><button class="button" id="adminLoginBtn" type="button">Enviar enlace de acceso</button><div class="note-status" id="accessFeedback"></div></div>';
   $("adminLoginBtn").onclick=async()=>{
     const email=$("adminEmail").value.trim().toLowerCase();
-    if(email!==ADMIN_EMAIL){$("accessFeedback").textContent="Este correo no está autorizado como administrador.";return}
     $("accessFeedback").textContent="Enviando enlace…";
     const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
     $("accessFeedback").textContent=error?error.message:"Te hemos enviado un enlace. Ábrelo desde este dispositivo para activar el acceso.";
@@ -170,7 +168,7 @@ async function fetchNote(id){
 async function loadNote(id){
   try{const note=await fetchNote(id);notesCache[id]=note||{wod_id:id,content:""};if(currentNoteWodId!==id)return;
     const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=note?.content||"";updateNoteMeta(note);
-  }catch(e){const status=$("noteStatus");if(status)status.textContent=e.message||"No se pudieron cargar las notas"}
+  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const status=$("noteStatus");if(status)status.textContent=e.message||"No se pudieron cargar las notas"}
 }
 async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId)return;await loadNote(currentNoteWodId)}
 async function saveNote(id,content){
@@ -200,11 +198,11 @@ async function initAccess(){
   $("adminModeBtn").onclick=showAdminForm;
   sb.auth.onAuthStateChange((_event,session)=>{
     const email=session?.user?.email?.toLowerCase();
-    if(email===ADMIN_EMAIL)setAccessMode("admin",{email});
-    else if(session){sb.auth.signOut();setAccessMode("guest")}
+    if(session?.user?.email)setAccessMode("admin",{email:session.user.email});
+    else setAccessMode("guest")
   });
   const {data}=await sb.auth.getSession();
-  if(data.session?.user?.email?.toLowerCase()===ADMIN_EMAIL)setAccessMode("admin",{email:ADMIN_EMAIL});
+  if(data.session?.user?.email)setAccessMode("admin",{email:data.session.user.email});
 }
 
 async function init(){try{let r=await fetch("./data/competition.json",{cache:"no-store"});if(!r.ok)throw Error("No se encuentra data/competition.json");cfg=await r.json();$("subtitle").textContent=cfg.competition.category||"";$("heat").textContent="HEAT "+cfg.competition.heat;$("venue").textContent=cfg.competition.venue;$("compName").textContent=cfg.competition.name;$("lane").textContent=cfg.competition.lane;$("team").textContent=cfg.competition.team;$("dayCount").textContent=cfg.days.length+" jornadas";let iso=dateInZone(new Date()),idx=cfg.days.findIndex(d=>d.date===iso);if(idx>=0)dayIndex=idx;renderDays();renderWods();renderEvent();update();setInterval(update,1000)}catch(e){$("statusTitle").textContent="Error al cargar";$("statusDesc").textContent=e.message}}
