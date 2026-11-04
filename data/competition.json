@@ -7,7 +7,7 @@
     "venue": "Coliseo",
     "lane": "19",
     "heat": "5",
-    "timezone": "Europe/Madrid"
+    "timezone": "Europe/Lisbon"
   },
   "days": [
     {
@@ -27,7 +27,10 @@
           "workout": {
             "format": "AMRAP 12 minutos",
             "timeCap": "12 min",
-            "score": ["Score 1: máximo de repeticiones de gimnasia", "Score 2: metros de remo"],
+            "score": [
+              "Score 1: máximo de repeticiones de gimnasia",
+              "Score 2: metros de remo"
+            ],
             "blocks": [
               "Atletas 1 y 2: relevos por rondas completas",
               "4 Wall Walk",
@@ -49,13 +52,18 @@
           "workout": {
             "format": "For Time · 4 RFT por atleta",
             "timeCap": "10 min",
-            "score": ["Tiempo"],
+            "score": [
+              "Tiempo"
+            ],
             "blocks": [
               "Atleta 1: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch",
               "Después, atleta 2: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch",
               "Después, atleta 3: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch"
             ],
-            "loads": ["Tríos MMF: 55 kg / 35 kg", "Tríos MMM: 55 kg"]
+            "loads": [
+              "Tríos MMF: 55 kg / 35 kg",
+              "Tríos MMM: 55 kg"
+            ]
           }
         },
         {
@@ -70,7 +78,9 @@
           "workout": {
             "format": "For Time · 2 RFT",
             "timeCap": "12 min",
-            "score": ["Tiempo"],
+            "score": [
+              "Tiempo"
+            ],
             "blocks": [
               "Cash-in: 44 Worm Squat — 2 atletas, cambios libres",
               "33 Pull-Up — 2 atletas sincronizados",
@@ -93,7 +103,9 @@
           "workout": {
             "format": "3 sets · AMRAP 2 min 30 s",
             "timeCap": "3 sets de 2:30",
-            "score": ["Repeticiones totales"],
+            "score": [
+              "Repeticiones totales"
+            ],
             "blocks": [
               "15 T2B — atletas 1 y 2 sincronizados",
               "15 T2B — atleta 3",
@@ -102,7 +114,10 @@
               "Máximos Burpees Over the Worm — 3 atletas sincronizados",
               "Descanso: 1 minuto entre sets"
             ],
-            "loads": ["Tríos MMF: 70 kg / 45 kg; Front Squat sincronizado entre atleta masculino y femenino (MF)", "Tríos MMM: 70 kg"]
+            "loads": [
+              "Tríos MMF: 70 kg / 45 kg; Front Squat sincronizado entre atleta masculino y femenino (MF)",
+              "Tríos MMM: 70 kg"
+            ]
           }
         }
       ]
