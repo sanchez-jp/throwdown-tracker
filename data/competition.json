@@ -1,0 +1,54 @@
+{
+  "appName": "Throwdown Tracker",
+  "competition": {
+    "name": "Throwdown",
+    "category": "Trios Intermedio (MMM)",
+    "team": "VENI VIDI REGULINCHI",
+    "venue": "Coliseo",
+    "lane": "19",
+    "heat": "5",
+    "timezone": "Europe/Madrid"
+  },
+  "days": [
+    {
+      "id": "saturday",
+      "label": "Sábado 7",
+      "date": "2026-11-07",
+      "events": [
+        {
+          "name": "WOD 1",
+          "briefing": "09:15",
+          "warmup": "09:35",
+          "corrals": "09:50",
+          "arena": "09:53",
+          "start": "09:55",
+          "end": "10:09"
+        },
+        {
+          "name": "WOD 2",
+          "briefing": "13:58",
+          "warmup": "14:18",
+          "corrals": "14:33",
+          "arena": "14:36",
+          "start": "14:38",
+          "end": "14:48"
+        },
+        {
+          "name": "WOD 3",
+          "briefing": "17:24",
+          "warmup": "17:44",
+          "corrals": "17:59",
+          "arena": "18:02",
+          "start": "18:04",
+          "end": "18:16"
+        }
+      ]
+    },
+    {
+      "id": "sunday",
+      "label": "Domingo 8",
+      "date": "2026-11-08",
+      "events": []
+    }
+  ]
+}
