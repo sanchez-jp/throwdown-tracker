@@ -17,30 +17,68 @@
       "events": [
         {
           "name": "WOD 1",
+          "title": "Doble o Nada",
           "briefing": "09:15",
           "warmup": "09:35",
           "corrals": "09:50",
           "arena": "09:53",
           "start": "09:55",
-          "end": "10:09"
+          "end": "10:09",
+          "workout": {
+            "format": "AMRAP 12 minutos",
+            "timeCap": "12 min",
+            "score": ["Score 1: máximo de repeticiones de gimnasia", "Score 2: metros de remo"],
+            "blocks": [
+              "Atletas 1 y 2: relevos por rondas completas",
+              "4 Wall Walk",
+              "10 C2B (Chest-to-Bar)",
+              "Atleta 3: 4 minutos de máximo de metros de remo",
+              "Cada 4 minutos cambia el atleta en el remo"
+            ]
+          }
         },
         {
           "name": "WOD 2",
+          "title": "Corre, Isabel",
           "briefing": "13:58",
           "warmup": "14:18",
           "corrals": "14:33",
           "arena": "14:36",
           "start": "14:38",
-          "end": "14:48"
+          "end": "14:48",
+          "workout": {
+            "format": "For Time · 4 RFT por atleta",
+            "timeCap": "10 min",
+            "score": ["Tiempo"],
+            "blocks": [
+              "Atleta 1: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch",
+              "Después, atleta 2: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch",
+              "Después, atleta 3: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch"
+            ],
+            "loads": ["Tríos MMF: 55 kg / 35 kg", "Tríos MMM: 55 kg"]
+          }
         },
         {
           "name": "WOD 3",
+          "title": "McChipper",
           "briefing": "17:24",
           "warmup": "17:44",
           "corrals": "17:59",
           "arena": "18:02",
           "start": "18:04",
-          "end": "18:16"
+          "end": "18:16",
+          "workout": {
+            "format": "For Time · 2 RFT",
+            "timeCap": "12 min",
+            "score": ["Tiempo"],
+            "blocks": [
+              "Cash-in: 44 Worm Squat — 2 atletas, cambios libres",
+              "33 Pull-Up — 2 atletas sincronizados",
+              "22 HSPU — 1 atleta hace HSPU y los otros 2 mantienen Worm Hold",
+              "11 Worm Clean & Jerk — 2 atletas, cambios libres",
+              "5 m Worm Walking Lunge — 2 atletas, cambios libres"
+            ]
+          }
         }
       ]
     },
@@ -48,7 +86,26 @@
       "id": "sunday",
       "label": "Domingo 8",
       "date": "2026-11-08",
-      "events": []
+      "events": [
+        {
+          "name": "WOD 4",
+          "title": "ACME & Co",
+          "workout": {
+            "format": "3 sets · AMRAP 2 min 30 s",
+            "timeCap": "3 sets de 2:30",
+            "score": ["Repeticiones totales"],
+            "blocks": [
+              "15 T2B — atletas 1 y 2 sincronizados",
+              "15 T2B — atleta 3",
+              "10 Front Squat — atletas 1 y 2 sincronizados",
+              "10 Front Squat — atleta 3",
+              "Máximos Burpees Over the Worm — 3 atletas sincronizados",
+              "Descanso: 1 minuto entre sets"
+            ],
+            "loads": ["Tríos MMF: 70 kg / 45 kg; Front Squat sincronizado entre atleta masculino y femenino (MF)", "Tríos MMM: 70 kg"]
+          }
+        }
+      ]
     }
   ]
 }
