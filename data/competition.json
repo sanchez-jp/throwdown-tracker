@@ -103,6 +103,12 @@
         {
           "name": "WOD 4",
           "title": "ACME & Co",
+          "briefing": "08:57",
+          "warmup": "09:17",
+          "corrals": "09:32",
+          "arena": "09:35",
+          "start": "09:37",
+          "end": "09:46",
           "workout": {
             "format": "3 sets · AMRAP 2 min 30 s",
             "timeCap": "9 min 30 s",
