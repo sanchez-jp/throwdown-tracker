@@ -105,7 +105,7 @@
           "title": "ACME & Co",
           "workout": {
             "format": "3 sets · AMRAP 2 min 30 s",
-            "timeCap": "3 sets de 2:30",
+            "timeCap": "9 min 30 s",
             "score": [
               "Repeticiones totales"
             ],
@@ -122,7 +122,13 @@
               "Tríos MMM: 70 kg"
             ]
           },
-          "flowUrl": "https://drive.google.com/file/d/16_pOi5nRsdX1wm6SqMA8MYBkWqH5fqPf/view?usp=drivesdk"
+          "flowUrl": "https://drive.google.com/file/d/16_pOi5nRsdX1wm6SqMA8MYBkWqH5fqPf/view?usp=drivesdk",
+          "briefing": "08:57",
+          "warmup": "09:17",
+          "corrals": "09:32",
+          "arena": "09:35",
+          "start": "09:37",
+          "end": "09:46"
         }
       ]
     }
