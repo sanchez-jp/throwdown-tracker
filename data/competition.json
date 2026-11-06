@@ -128,13 +128,18 @@
               "Tríos MMM: 70 kg"
             ]
           },
-          "flowUrl": "https://drive.google.com/file/d/16_pOi5nRsdX1wm6SqMA8MYBkWqH5fqPf/view?usp=drivesdk",
-          "briefing": "08:57",
-          "warmup": "09:17",
-          "corrals": "09:32",
-          "arena": "09:35",
-          "start": "09:37",
-          "end": "09:46"
+          "flowUrl": "https://drive.google.com/file/d/16_pOi5nRsdX1wm6SqMA8MYBkWqH5fqPf/view?usp=drivesdk"
+        },
+        {
+          "name": "WOD 5",
+          "title": "Final · Tríos MMM",
+          "heat": "3",
+          "briefing": "11:49",
+          "warmup": "12:09",
+          "corrals": "12:24",
+          "arena": "12:27",
+          "start": "12:29",
+          "end": "12:35"
         }
       ]
     }
