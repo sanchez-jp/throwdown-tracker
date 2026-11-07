@@ -189,7 +189,7 @@ async function refreshOfficialResults(){
     const payload=await response.json();
     if(!payload.results)throw Error("Respuesta de clasificaciones no válida");
     for(const key of resultKeys){if(payload.results[key])officialResults[key]=payload.results[key]}
-    if(payload.updatedAt)resultsLastUpdated=payload.updatedAt;
+    if(payload.updatedAt&&Object.keys(payload.results).length)resultsLastUpdated=payload.updatedAt;
     renderOfficialResults();
     if(cfg)updateVisibleWorkoutClassification();
     const errors=Object.keys(payload.errors||{});
