@@ -5,6 +5,7 @@ self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(keys=>Promise
 self.addEventListener("fetch",e=>{
   if(e.request.method!=="GET")return;
   const url=new URL(e.request.url);
+  if(url.origin!==self.location.origin)return;
   if(e.request.mode==="navigate"||url.pathname.endsWith("/index.html")||url.pathname.endsWith("/")){
     e.respondWith(fetch(e.request,{cache:"no-store"}).then(res=>{
       const copy=res.clone();
