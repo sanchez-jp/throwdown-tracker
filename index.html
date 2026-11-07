@@ -23,13 +23,13 @@
 /* Official WodBuster classifications */
 .official-overall{display:grid;grid-template-columns:1fr auto;gap:5px 12px;align-items:center;background:linear-gradient(135deg,#1b3038,#141f2b);border:1px solid #486071;border-radius:15px;padding:14px;margin-bottom:9px}
 .official-overall .label,.result-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-.official-overall .position{font-size:25px;font-weight:950;font-variant-numeric:tabular-nums}
+.official-overall .position{grid-column:1;grid-row:2;font-size:25px;font-weight:950;font-variant-numeric:tabular-nums}
 .official-overall .points{grid-column:2;grid-row:1 / span 2;text-align:right;font-size:20px;font-weight:900;color:var(--lime)}
 .official-overall .points small,.result-points small{display:block;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase}
 .result-row{display:grid;grid-template-columns:1fr auto;gap:3px 10px;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:11px 13px}
 .result-row strong{font-size:12px}
-.result-row .position{font-size:16px;font-weight:900;font-variant-numeric:tabular-nums;text-align:right}
-.result-row .result-points{grid-column:2;grid-row:1 / span 2;text-align:right;font-size:15px;font-weight:900;color:var(--cyan)}
+.result-row .position{grid-column:1;grid-row:2;font-size:16px;font-weight:900;font-variant-numeric:tabular-nums;text-align:left}
+.result-row .result-points{grid-column:2;grid-row:1 / span 3;text-align:right;font-size:15px;font-weight:900;color:var(--cyan)}
 .result-row .result-points small{display:block}
 .result-row .detail{font-size:10px;color:var(--muted)}
 .result-list{display:grid;gap:7px}
@@ -162,7 +162,7 @@ function renderOfficialResults(){
     createResultRow("WOD 2",officialResults.wod2),
     createResultRow("WOD 3",officialResults.wod3),
     createResultRow("WOD 4",officialResults.wod4),
-    createResultRow("WOD 5","".length?null:null,"Pendiente de incorporar el enlace oficial")
+    createResultRow("WOD 5",null,"Pendiente de incorporar el enlace oficial")
   );
   const updated=$("resultsUpdated");
   updated.textContent=resultsLastUpdated?"Actualizado "+new Date(resultsLastUpdated).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"Esperando datos oficiales";
@@ -191,7 +191,7 @@ async function refreshOfficialResults(){
     for(const key of resultKeys){if(payload.results[key])officialResults[key]=payload.results[key]}
     if(payload.updatedAt)resultsLastUpdated=payload.updatedAt;
     renderOfficialResults();
-    if(cfg)renderWorkout(cfg.days[dayIndex]?.events[eventIndex]);
+    if(cfg)updateVisibleWorkoutClassification();
     const errors=Object.keys(payload.errors||{});
     $("resultsFootnote").textContent=errors.length
       ?"Fuente: WodBuster · Algunos resultados no se han podido actualizar; se conserva el último dato válido."
@@ -207,6 +207,11 @@ function startResultsPolling(){
   refreshOfficialResults();
   resultsPoll=setInterval(refreshOfficialResults,60000);
   document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshOfficialResults()});
+}
+function updateVisibleWorkoutClassification(){
+  const w=cfg?.days[dayIndex]?.events[eventIndex],old=document.querySelector("#workout .workout-classification"),next=renderWorkoutClassification(w);
+  if(old&&next)old.replaceWith(next);
+  else if(!old&&next){const card=$("#workout .workout");if(card)card.insertBefore(next,card.firstChild)}
 }
 function renderWorkout(w){
 let x=w&&w.workout;
