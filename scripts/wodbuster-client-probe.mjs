@@ -30,9 +30,9 @@ async function inspect(page) {
     signal: AbortSignal.timeout(25000)
   });
   const html = await response.text();
-  const dir = `wodbuster-html/${page.key}`;
+  const dir = "wodbuster-html/" + page.key;
   await mkdir(dir, { recursive: true });
-  await writeFile(`${dir}/page.html`, html);
+  await writeFile(dir + "/page.html", html);
 
   const scripts = [...html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)].map((m, i) => {
     const src = (m[1].match(/\bsrc\s*=\s*["']([^"']+)/i) || [])[1];
@@ -66,7 +66,7 @@ async function inspect(page) {
     title: clean((html.match(/<title[^>]*>([\s\S]*?)<\/title>/i) || [, ""])[1] || ""),
     scripts, resources, forms, iframes, dataScripts,
     textMentions: visibleText.match(/.{0,100}(?:clasific|ranking|result|VENI VIDI|WOD|equipo).{0,180}/gi)?.slice(0, 30) || [],
-    htmlFile: `${dir}/page.html`
+    htmlFile: dir + "/page.html"
   };
 }
 
