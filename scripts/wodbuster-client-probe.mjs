@@ -47,7 +47,7 @@ async function inspect(page) {
   const resources = [...html.matchAll(/<(?:script|iframe|link)\b([^>]+)>/gi)].map(m => {
     const tag = m[0].slice(1, m[0].indexOf(" "));
     const attr = tag === "script" || tag === "iframe" ? "src" : "href";
-    const value = (m[1].match(tag === "link" ? /\\bhref\\s*=\\s*["']([^"']+)/i : /\\bsrc\\s*=\\s*["']([^"']+)/i) || [])[1];
+    const value = (m[1].match(tag === "link" ? /\bhref\s*=\s*["']([^"']+)/i : /\bsrc\s*=\s*["']([^"']+)/i) || [])[1];
     return value ? { tag, url: resolve(value, response.url), rel: (m[1].match(/\brel\s*=\s*["']([^"']+)/i) || [])[1] || null } : null;
   }).filter(Boolean);
   const forms = [...html.matchAll(/<form\b([^>]*)>/gi)].map(m => ({
