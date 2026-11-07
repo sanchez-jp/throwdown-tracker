@@ -211,7 +211,7 @@ function startResultsPolling(){
 function updateVisibleWorkoutClassification(){
   const w=cfg?.days[dayIndex]?.events[eventIndex],old=document.querySelector("#workout .workout-classification"),next=renderWorkoutClassification(w);
   if(old&&next)old.replaceWith(next);
-  else if(!old&&next){const card=$("#workout .workout");if(card)card.insertBefore(next,card.firstChild)}
+  else if(!old&&next){const card=document.querySelector("#workout .workout");if(card)card.insertBefore(next,card.firstChild)}
 }
 function renderWorkout(w){
 let x=w&&w.workout;
