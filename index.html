@@ -19,6 +19,26 @@
 .note-meta{color:var(--muted);font-size:10px;margin-top:7px}
 .note-status{color:var(--cyan);font-size:11px;margin-top:7px;min-height:16px}
 .button.danger{border-color:#754a4a;color:#ffb4b4}
+
+/* Official WodBuster classifications */
+.official-overall{display:grid;grid-template-columns:1fr auto;gap:5px 12px;align-items:center;background:linear-gradient(135deg,#1b3038,#141f2b);border:1px solid #486071;border-radius:15px;padding:14px;margin-bottom:9px}
+.official-overall .label,.result-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.official-overall .position{font-size:25px;font-weight:950;font-variant-numeric:tabular-nums}
+.official-overall .points{grid-column:2;grid-row:1 / span 2;text-align:right;font-size:20px;font-weight:900;color:var(--lime)}
+.official-overall .points small,.result-points small{display:block;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase}
+.result-row{display:grid;grid-template-columns:1fr auto;gap:3px 10px;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:11px 13px}
+.result-row strong{font-size:12px}
+.result-row .position{font-size:16px;font-weight:900;font-variant-numeric:tabular-nums;text-align:right}
+.result-row .result-points{grid-column:2;grid-row:1 / span 2;text-align:right;font-size:15px;font-weight:900;color:var(--cyan)}
+.result-row .result-points small{display:block}
+.result-row .detail{font-size:10px;color:var(--muted)}
+.result-list{display:grid;gap:7px}
+.workout-classification{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin:-2px 0 10px}
+.workout-score{border:1px solid #52616b;background:#0c1821;border-radius:9px;padding:6px 9px;text-align:right;min-width:88px}
+.workout-score .label{display:block;color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.08em}
+.workout-score .position{display:block;font-size:14px;font-weight:950;font-variant-numeric:tabular-nums}
+.workout-score .points{display:block;color:var(--lime);font-size:10px;font-weight:800}
+.results-footnote{color:var(--muted);font-size:10px;margin-top:8px}
 </style></head><body><canvas class="particle-bg" id="particleCanvas" aria-hidden="true"></canvas><main class="wrap">
 <header><div><div class="eyebrow">Competition HQ</div><h1>THROWDOWN<br>TRACKER</h1><div class="sub" id="subtitle">Cargando competición…</div></div><img class="brand-mark" src="./header-logo.png" alt="Throwdown Tracker"><span class="pill" id="heat">HEAT —</span></header>
 <section class="hero" aria-live="polite"><div class="heroTop"><span class="live">● DIRECTO</span><span class="pill" id="venue">—</span></div><div class="clock" id="clock">--:--:--</div><div class="date" id="date"></div><div class="timezone" id="timezone">HORA OFICIAL · PORTUGAL</div><div class="status"><div class="statusLabel" id="statusLabel">TU SITUACIÓN</div><h2 id="statusTitle">Cargando…</h2><p id="statusDesc"></p><div class="countrow"><div class="count" id="countdown">--:--:--<small id="countLabel">Cuenta atrás</small></div></div></div><div class="meta"><div><span>Competición</span><b id="compName">—</b></div><div><span>Calle</span><b id="lane">—</b></div><div><span>Equipo</span><b id="team">—</b></div></div></section>
@@ -36,6 +56,7 @@
 <section class="section"><div class="sectionHead"><h3>Eventos del día</h3><span class="hint" id="dayDate"></span></div><div class="wods" id="wods"></div></section>
 <section class="section"><div class="sectionHead"><h3 id="timelineTitle">Cronograma</h3><span class="hint" id="eventMeta"></span></div><div class="timeline" id="timeline"></div></section>
 <section class="section"><div class="sectionHead"><h3 id="workoutHeading">Descripción del WOD</h3><span class="hint">Movimientos y puntuación</span></div><div id="workout"></div></section>
+<section class="section" id="resultsSection" aria-live="polite"><div class="sectionHead"><h3>Clasificación oficial</h3><span class="hint" id="resultsUpdated">Consultando WodBuster…</span></div><div id="overallResult"></div><div class="result-list" id="wodResults"></div><div class="results-footnote" id="resultsFootnote">Fuente: WodBuster · Actualización automática mientras la aplicación está abierta.</div></section>
 <section class="section"><div class="sectionHead"><h3>Resumen de la jornada</h3><span class="hint">Todos los WOD</span></div><div class="cards" id="cards"></div></section>
 <footer>Throwdown Tracker · Horarios editables en data/competition.json<br>Hora oficial de Portugal · Actualización automática cada segundo</footer></main>
 <script>
@@ -95,9 +116,11 @@
 const SUPABASE_URL="https://wovdcffjchshmvcqyand.supabase.co";
 const SUPABASE_KEY="sb_publishable_zMQNt3ncjnX_8AzPU7r29Q_dl8NzPT_";
 const TEAM_NOTES_URL=SUPABASE_URL+"/functions/v1/team-notes";
+const WODBUSTER_RESULTS_URL=SUPABASE_URL+"/functions/v1/wodbuster-results";
 let sb=null;
 async function ensureSupabase(){if(!sb){const {createClient}=await import("https://esm.sh/@supabase/supabase-js@2");sb=createClient(SUPABASE_URL,SUPABASE_KEY)}return sb;}
-let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};const $=id=>document.getElementById(id);
+let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};
+let officialResults={overall:null,wod1a:null,wod1b:null,wod2:null,wod3:null,wod4:null},resultsLastUpdated=null,resultsPoll=null;const $=id=>document.getElementById(id);
 const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
 function zone(){return cfg?.competition?.timezone||"Europe/Lisbon"}
 function at(day,t){let [y,m,d]=day.date.split("-").map(Number),[h,mi]=t.split(":").map(Number),target=Date.UTC(y,m-1,d,h,mi),guess=target,fmt=new Intl.DateTimeFormat("en-GB",{timeZone:zone(),year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});for(let i=0;i<4;i++){let p=Object.fromEntries(fmt.formatToParts(new Date(guess)).filter(x=>x.type!=="literal").map(x=>[x.type,Number(x.value)])),represented=Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second);guess+=target-represented}return new Date(guess)}
@@ -110,12 +133,88 @@ function timer(ms){let n=Math.max(0,Math.floor(ms/1000)),h=Math.floor(n/3600),m=
 function renderDays(){$("days").innerHTML=cfg.days.map((d,i)=>'<button class="day" data-day="'+i+'" aria-pressed="'+(i===dayIndex)+'">'+d.label+'<small>'+d.events.length+' WOD'+(d.events.length?'':' · Pendientes')+'</small></button>').join("");document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>selectDay(+b.dataset.day))}
 function selectDay(i){dayIndex=i;eventIndex=0;renderDays();renderWods();renderEvent();update()}
 function renderWods(){let d=cfg.days[dayIndex];$("dayDate").textContent=d.date;$("wods").innerHTML=d.events.length?d.events.map((w,i)=>'<button class="wod" data-event="'+i+'" aria-pressed="'+(i===eventIndex)+'">'+w.name+(w.title?" · "+w.title:"")+' · '+(w.start||"Horario pendiente")+'</button>').join(""):'<div class="empty">Los horarios de esta jornada todavía no se han publicado.</div>';document.querySelectorAll("[data-event]").forEach(b=>b.onclick=()=>{eventIndex=+b.dataset.event;renderWods();renderEvent();update()});renderCards()}
+
+const resultKeys=["overall","wod1a","wod1b","wod2","wod3","wod4"];
+function resultPosition(result){return (result?.rank??"—")+" / "+(result?.totalTeams??"—")}
+function resultPoints(result){return result?.hasResult&&result?.points!==null&&result?.points!==undefined?result.points+" pts":"— pts"}
+function createResultRow(label,result,detail=""){
+  const row=document.createElement("div");row.className="result-row";
+  const name=document.createElement("strong");name.textContent=label;
+  const position=document.createElement("div");position.className="position";position.textContent=resultPosition(result);
+  const points=document.createElement("div");points.className="result-points";points.textContent=resultPoints(result);
+  const small=document.createElement("small");small.textContent="PUNTOS";points.append(small);
+  const info=document.createElement("div");info.className="detail";info.textContent=detail;
+  row.append(name,position,points,info);return row;
+}
+function renderOfficialResults(){
+  const overall=$("overallResult"),list=$("wodResults");if(!overall||!list)return;
+  overall.replaceChildren();
+  const result=officialResults.overall;
+  const panel=document.createElement("div");panel.className="official-overall";
+  const label=document.createElement("div");label.className="label";label.textContent="Clasificación general";
+  const position=document.createElement("div");position.className="position";position.textContent=resultPosition(result);
+  const points=document.createElement("div");points.className="points";points.textContent=resultPoints(result);
+  const small=document.createElement("small");small.textContent="PUNTOS OFICIALES";points.append(small);
+  panel.append(label,position,points);overall.append(panel);
+  list.replaceChildren(
+    createResultRow("WOD 1A · Gimnasia",officialResults.wod1a),
+    createResultRow("WOD 1B · Remo",officialResults.wod1b),
+    createResultRow("WOD 2",officialResults.wod2),
+    createResultRow("WOD 3",officialResults.wod3),
+    createResultRow("WOD 4",officialResults.wod4),
+    createResultRow("WOD 5","".length?null:null,"Pendiente de incorporar el enlace oficial")
+  );
+  const updated=$("resultsUpdated");
+  updated.textContent=resultsLastUpdated?"Actualizado "+new Date(resultsLastUpdated).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"Esperando datos oficiales";
+}
+function renderWorkoutClassification(w){
+  const name=(w?.name||"").toUpperCase(),box=document.createElement("div");box.className="workout-classification";
+  const keys=name==="WOD 1"?["wod1a","wod1b"]:({ "WOD 2":["wod2"],"WOD 3":["wod3"],"WOD 4":["wod4"] }[name]||[]);
+  if(!keys.length)return null;
+  const labels={wod1a:"1A · GIM",wod1b:"1B · REMO",wod2:"WOD 2",wod3:"WOD 3",wod4:"WOD 4"};
+  keys.forEach(key=>{
+    const score=document.createElement("div");score.className="workout-score";
+    const label=document.createElement("span");label.className="label";label.textContent=labels[key];
+    const pos=document.createElement("span");pos.className="position";pos.textContent=resultPosition(officialResults[key]);
+    const pts=document.createElement("span");pts.className="points";pts.textContent=resultPoints(officialResults[key]);
+    score.append(label,pos,pts);box.append(score);
+  });
+  return box;
+}
+async function refreshOfficialResults(){
+  if(document.hidden)return;
+  try{
+    const response=await fetch(WODBUSTER_RESULTS_URL,{method:"GET",headers:{"apikey":SUPABASE_KEY},cache:"no-store"});
+    if(!response.ok)throw Error("HTTP "+response.status);
+    const payload=await response.json();
+    if(!payload.results)throw Error("Respuesta de clasificaciones no válida");
+    for(const key of resultKeys){if(payload.results[key])officialResults[key]=payload.results[key]}
+    if(payload.updatedAt)resultsLastUpdated=payload.updatedAt;
+    renderOfficialResults();
+    if(cfg)renderWorkout(cfg.days[dayIndex]?.events[eventIndex]);
+    const errors=Object.keys(payload.errors||{});
+    $("resultsFootnote").textContent=errors.length
+      ?"Fuente: WodBuster · Algunos resultados no se han podido actualizar; se conserva el último dato válido."
+      :"Fuente: WodBuster · Actualización automática cada minuto mientras la aplicación está abierta.";
+  }catch(error){
+    console.warn("No se pudieron actualizar las clasificaciones oficiales",error);
+    $("resultsUpdated").textContent=resultsLastUpdated?"Sin conexión · último dato conservado":"Conectando con WodBuster…";
+    $("resultsFootnote").textContent="No se ha podido consultar WodBuster. Se conservarán los últimos resultados válidos.";
+  }
+}
+function startResultsPolling(){
+  if(resultsPoll)clearInterval(resultsPoll);
+  refreshOfficialResults();
+  resultsPoll=setInterval(refreshOfficialResults,60000);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshOfficialResults()});
+}
 function renderWorkout(w){
 let x=w&&w.workout;
 $("workoutHeading").textContent=w?(w.name+" · "+(w.title||"")):"Descripción del WOD";
 const root=$("workout");root.innerHTML="";
 if(!x){root.innerHTML='<div class="empty">La descripción de este WOD todavía no está disponible.</div>';return}
 const card=document.createElement("div");card.className="workout";
+const classification=renderWorkoutClassification(w);if(classification)card.append(classification);
 const eyebrow=document.createElement("div");eyebrow.className="wodtitle";eyebrow.textContent=(w.name||"WOD")+" · "+(w.title||"");
 const title=document.createElement("h4");title.textContent=w.title||w.name;
 const format=document.createElement("div");format.className="format";format.textContent=(x.format||"")+(x.timeCap&&/^For Time/i.test(x.format||"")?" · TC "+x.timeCap:"");
@@ -263,5 +362,5 @@ async function initAccess(){
 }
 
 async function init(){try{let r=await fetch("./data/competition.json",{cache:"no-store"});if(!r.ok)throw Error("No se encuentra data/competition.json");cfg=await r.json();$("subtitle").textContent=cfg.competition.category||"";$("heat").textContent="HEAT "+cfg.competition.heat;$("venue").textContent=cfg.competition.venue;$("compName").textContent=cfg.competition.name;$("lane").textContent=cfg.competition.lane;$("team").textContent=cfg.competition.team;$("dayCount").textContent=cfg.days.length+" jornadas";let iso=dateInZone(new Date()),idx=cfg.days.findIndex(d=>d.date===iso);if(idx>=0)dayIndex=idx;renderDays();renderWods();renderEvent();update();setInterval(update,1000)}catch(e){$("statusTitle").textContent="Error al cargar";$("statusDesc").textContent=e.message}}
-init();initAccess();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+init();initAccess();startResultsPolling();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
 </script></body></html>
