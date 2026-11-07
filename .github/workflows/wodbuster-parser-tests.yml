@@ -1,0 +1,28 @@
+name: WodBuster parser tests
+
+on:
+  pull_request:
+    paths:
+      - "scripts/wodbuster-parser.mjs"
+      - "tests/**"
+      - ".github/workflows/wodbuster-parser-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "scripts/wodbuster-parser.mjs"
+      - "tests/**"
+      - ".github/workflows/wodbuster-parser-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run parser tests
+        run: node --test tests/wodbuster-parser.test.mjs
