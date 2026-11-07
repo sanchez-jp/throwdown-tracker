@@ -1,0 +1,27 @@
+name: WodBuster HTML probe
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Inspect WodBuster classification HTML
+        run: node scripts/wodbuster-probe.mjs
+      - name: Upload diagnostic report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wodbuster-html-probe
+          path: wodbuster-probe.json
+          if-no-files-found: ignore
+          retention-days: 7
