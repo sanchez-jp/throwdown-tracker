@@ -2,6 +2,11 @@ name: WodBuster HTML probe
 
 on:
   workflow_dispatch:
+  pull_request:
+    paths:
+      - "scripts/wodbuster-parser.mjs"
+      - "tests/**"
+      - ".github/workflows/wodbuster-probe.yml"
 
 permissions:
   contents: read
@@ -15,10 +20,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Run WodBuster parser regression tests
+        run: node --test tests/wodbuster-parser.test.mjs
       - name: Inspect WodBuster client-side data sources
+        if: github.event_name == 'workflow_dispatch'
         run: node scripts/wodbuster-client-probe.mjs
       - name: Upload raw HTML and diagnostic report
-        if: always()
+        if: always() && github.event_name == 'workflow_dispatch'
         uses: actions/upload-artifact@v4
         with:
           name: wodbuster-client-probe
