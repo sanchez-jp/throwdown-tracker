@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - "index.html"
+      - "sw.js"
+      - "supabase/functions/wodbuster-results/**"
       - "scripts/wodbuster-parser.mjs"
       - "tests/**"
       - ".github/workflows/wodbuster-probe.yml"
@@ -22,6 +25,12 @@ jobs:
           node-version: 20
       - name: Run WodBuster parser regression tests
         run: node --test tests/wodbuster-parser.test.mjs
+      - name: Check browser module syntax
+        run: |
+          node --input-type=module -e 'import fs from "node:fs"; const html=fs.readFileSync("index.html","utf8"); const tag=`<script type="module">`; const start=html.indexOf(tag); const end=html.indexOf("</script>",start); if(start<0||end<0) throw new Error("Module script not found"); new Function(html.slice(start+tag.length,end));'
+      - name: Check Edge Function TypeScript
+        uses: denoland/setup-deno@v2
+      - run: deno check supabase/functions/wodbuster-results/index.ts
       - name: Inspect WodBuster client-side data sources
         if: github.event_name == 'workflow_dispatch'
         run: node scripts/wodbuster-client-probe.mjs
