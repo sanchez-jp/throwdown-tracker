@@ -7,6 +7,7 @@ const PAGES: Record<string, string> = {
   wod2: "https://arena.wodbuster.com/competition.aspx?id=4282&idd=18412&idw=65398",
   wod3: "https://arena.wodbuster.com/competition.aspx?id=4282&idd=18412&idw=65410",
   wod4: "https://arena.wodbuster.com/competition.aspx?id=4282&idd=18412&idw=65422",
+  wod5: "https://arena.wodbuster.com/competition.aspx?id=4282&idd=18412&idw=65434",
 };
 const CORS = {
   "Access-Control-Allow-Origin": "*",
