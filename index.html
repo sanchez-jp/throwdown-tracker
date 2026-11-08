@@ -120,7 +120,7 @@ const WODBUSTER_RESULTS_URL=SUPABASE_URL+"/functions/v1/wodbuster-results";
 let sb=null;
 async function ensureSupabase(){if(!sb){const {createClient}=await import("https://esm.sh/@supabase/supabase-js@2");sb=createClient(SUPABASE_URL,SUPABASE_KEY)}return sb;}
 let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};
-let officialResults={overall:null,wod1a:null,wod1b:null,wod2:null,wod3:null,wod4:null},resultsLastUpdated=null,resultsPoll=null;const $=id=>document.getElementById(id);
+let officialResults={overall:null,wod1a:null,wod1b:null,wod2:null,wod3:null,wod4:null,wod5:null},resultsLastUpdated=null,resultsPoll=null;const $=id=>document.getElementById(id);
 const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
 function zone(){return cfg?.competition?.timezone||"Europe/Lisbon"}
 function at(day,t){let [y,m,d]=day.date.split("-").map(Number),[h,mi]=t.split(":").map(Number),target=Date.UTC(y,m-1,d,h,mi),guess=target,fmt=new Intl.DateTimeFormat("en-GB",{timeZone:zone(),year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});for(let i=0;i<4;i++){let p=Object.fromEntries(fmt.formatToParts(new Date(guess)).filter(x=>x.type!=="literal").map(x=>[x.type,Number(x.value)])),represented=Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second);guess+=target-represented}return new Date(guess)}
@@ -134,7 +134,7 @@ function renderDays(){$("days").innerHTML=cfg.days.map((d,i)=>'<button class="da
 function selectDay(i){dayIndex=i;eventIndex=0;renderDays();renderWods();renderEvent();update()}
 function renderWods(){let d=cfg.days[dayIndex];$("dayDate").textContent=d.date;$("wods").innerHTML=d.events.length?d.events.map((w,i)=>'<button class="wod" data-event="'+i+'" aria-pressed="'+(i===eventIndex)+'">'+w.name+(w.title?" · "+w.title:"")+' · '+(w.start||"Horario pendiente")+'</button>').join(""):'<div class="empty">Los horarios de esta jornada todavía no se han publicado.</div>';document.querySelectorAll("[data-event]").forEach(b=>b.onclick=()=>{eventIndex=+b.dataset.event;renderWods();renderEvent();update()});renderCards()}
 
-const resultKeys=["overall","wod1a","wod1b","wod2","wod3","wod4"];
+const resultKeys=["overall","wod1a","wod1b","wod2","wod3","wod4","wod5"];
 function resultPosition(result){return (result?.rank??"—")+" / "+(result?.totalTeams??"—")}
 function resultPoints(result){return result?.hasResult&&result?.points!==null&&result?.points!==undefined?result.points+" pts":"— pts"}
 function createResultRow(label,result,detail=""){
@@ -162,16 +162,16 @@ function renderOfficialResults(){
     createResultRow("WOD 2",officialResults.wod2),
     createResultRow("WOD 3",officialResults.wod3),
     createResultRow("WOD 4",officialResults.wod4),
-    createResultRow("WOD 5",null,"Pendiente de incorporar el enlace oficial")
+    createResultRow("WOD 5",officialResults.wod5)
   );
   const updated=$("resultsUpdated");
   updated.textContent=resultsLastUpdated?"Actualizado "+new Date(resultsLastUpdated).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"Esperando datos oficiales";
 }
 function renderWorkoutClassification(w){
   const name=(w?.name||"").toUpperCase(),box=document.createElement("div");box.className="workout-classification";
-  const keys=name==="WOD 1"?["wod1a","wod1b"]:({ "WOD 2":["wod2"],"WOD 3":["wod3"],"WOD 4":["wod4"] }[name]||[]);
+  const keys=name==="WOD 1"?["wod1a","wod1b"]:({ "WOD 2":["wod2"],"WOD 3":["wod3"],"WOD 4":["wod4"],"WOD 5":["wod5"] }[name]||[]);
   if(!keys.length)return null;
-  const labels={wod1a:"1A · GIM",wod1b:"1B · REMO",wod2:"WOD 2",wod3:"WOD 3",wod4:"WOD 4"};
+  const labels={wod1a:"1A · GIM",wod1b:"1B · REMO",wod2:"WOD 2",wod3:"WOD 3",wod4:"WOD 4",wod5:"WOD 5"};
   keys.forEach(key=>{
     const score=document.createElement("div");score.className="workout-score";
     const label=document.createElement("span");label.className="label";label.textContent=labels[key];
