@@ -143,14 +143,20 @@
           "end": "12:35",
           "flowUrl": "https://drive.google.com/file/d/10GuV6F8xMuRBOzjVAHUpBnN5a5zQ2CgQ/view?usp=drivesdk",
           "workout": {
-            "format": "Bloques de thrusters sincronizados + trabajo individual",
+            "format": "FOR TIME",
+            "timeCap": "06:00",
             "blocks": [
-              "18 Thrusters sincronizados: los 3 atletas trabajan a la vez. Se colocan en fila, 2 con barra y 1 con dos mancuernas, mirando al centro de la pista.",
-              "3 Rope Climbs — A1: A1 realiza las trepas mientras A2 y A3 esperan en la zona de barras sin tocarlas. Al terminar, A1 corre al centro de la pista y toca el cono.",
-              "15 Thrusters sincronizados: los 3 atletas trabajan a la vez.",
-              "4 × 5 m Handstand Walk — A2: 20 m en total, divididos en 4 tramos unbroken de 5 m (ida hacia el rack, vuelta al centro, ida hacia el rack y vuelta al centro). Cada tramo de 5 m sin caerse cuenta como una repetición. Al completar los metros, A2 toca el cono de su calle en el centro de la pista.",
-              "12 Thrusters sincronizados: los 3 atletas trabajan a la vez.",
-              "10 Bar Muscle-Ups — A3: A3 realiza las repeticiones en la barra. Cuando termina, todo el equipo corre hacia la línea de meta (FINISH LINE)."
+              "18 THRUSTERS SYNCHRO (3)*",
+              "3 ROPE CLIMBS (A1)",
+              "— TOCAR CONO A1 —",
+              "15 THRUSTERS SYNCHRO (3)",
+              "4×5M HSW (A2)",
+              "— TOCAR CONO A2 —",
+              "12 THRUSTERS SYNCHRO (3)",
+              "10 BAR MUSCLE UP (A3)",
+              "* 2 ATLETAS TRABAJANDO CON BARRA",
+              "+",
+              "1 ATLETA TRABAJANDO CON 2 DBs"
             ]
           }
         }
