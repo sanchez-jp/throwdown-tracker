@@ -367,6 +367,29 @@ async function initAccess(){
   }catch(e){console.warn("El acceso de administrador no está disponible sin conexión",e)}
 }
 
-async function init(){try{let r=await fetch("./data/competition.json",{cache:"no-store"});if(!r.ok)throw Error("No se encuentra data/competition.json");cfg=await r.json();$("subtitle").textContent=cfg.competition.category||"";$("heat").textContent="HEAT "+cfg.competition.heat;$("venue").textContent=cfg.competition.venue;$("compName").textContent=cfg.competition.name;$("lane").textContent=cfg.competition.lane;$("team").textContent=cfg.competition.team;$("dayCount").textContent=cfg.days.length+" jornadas";let iso=dateInZone(new Date()),idx=cfg.days.findIndex(d=>d.date===iso);if(idx>=0)dayIndex=idx;renderDays();renderWods();renderEvent();update();setInterval(update,1000)}catch(e){$("statusTitle").textContent="Error al cargar";$("statusDesc").textContent=e.message}}
-init();initAccess();startResultsPolling();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+async function init(){
+ try{
+   const requested=new URLSearchParams(location.search).get("competition")||"badajoz-elvas-2026";
+   if(!/^[a-z0-9-]+$/.test(requested))throw Error("Identificador de competición no válido");
+   const r=await fetch("./data/competitions/"+requested+".json",{cache:"no-store"});
+   if(!r.ok)throw Error("No se encuentra la configuración de la competición: "+requested);
+   cfg=await r.json();
+   if(cfg.id!==requested)throw Error("La configuración cargada no coincide con el identificador solicitado");
+   document.title=(cfg.competition?.name||"Throwdown Tracker")+" · Throwdown Tracker";
+   $("subtitle").textContent=cfg.competition.category||"";
+   $("heat").textContent=cfg.competition.heat?"HEAT "+cfg.competition.heat:"HEAT —";
+   $("venue").textContent=cfg.competition.venue||"Sede pendiente";
+   $("compName").textContent=cfg.competition.name||"—";
+   $("lane").textContent=cfg.competition.lane||"—";
+   $("team").textContent=cfg.competition.team||"—";
+   $("dayCount").textContent=cfg.days.length+" jornadas";
+   const iso=dateInZone(new Date()),idx=cfg.days.findIndex(d=>d.date===iso);
+   if(idx>=0)dayIndex=idx;
+   renderDays();renderWods();renderEvent();update();setInterval(update,1000);
+   const hasSupportedResults=cfg.results?.provider==="wodbuster"&&cfg.results?.sourceId==="badajoz-elvas-2026";
+   $("resultsSection").hidden=!hasSupportedResults;
+   if(hasSupportedResults)startResultsPolling();
+ }catch(e){$("statusTitle").textContent="Error al cargar";$("statusDesc").textContent=e.message}
+}
+init();initAccess();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
 </script></body></html>
