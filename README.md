@@ -3,7 +3,7 @@
 Aplicación estática para horarios de competiciones CrossFit.
 
 ## Actualizar horarios
-Edita únicamente `data/competition.json`. No necesitas modificar el HTML ni el JavaScript.
+Edita el archivo de la competición correspondiente en `data/competitions/`. No necesitas modificar el HTML ni el JavaScript para cambiar horarios, WODs o enlaces.
 
 Cada competición contiene:
 - `competition`: nombre, categoría, equipo, sede, calle, heat y zona horaria.
