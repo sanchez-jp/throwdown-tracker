@@ -250,7 +250,9 @@ function renderOfficialResults(){
     const small=document.createElement("small");small.textContent="PUNTOS OFICIALES";points.append(small);
     panel.append(label,position,points);overall.append(panel);
   }
-  pages.filter(page=>page!==overallPage).forEach(page=>list.append(createResultRow(page.label||page.key,officialResults[page.key],officialResults[page.key]?.mark||"")));\n  renderOverallNeighbors(overallPage);\n  renderClassificationEvolution(overallPage);
+  pages.filter(page=>page!==overallPage).forEach(page=>list.append(createResultRow(page.label||page.key,officialResults[page.key],officialResults[page.key]?.mark||"")));
+  renderOverallNeighbors(overallPage);
+  renderClassificationEvolution(overallPage);
   const updated=$("resultsUpdated");
   updated.textContent=resultsLastUpdated?(navigator.onLine?"Actualizado ":"Sin conexión · último dato ")+new Date(resultsLastUpdated).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"Esperando datos oficiales";
 }
