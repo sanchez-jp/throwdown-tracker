@@ -114,11 +114,7 @@ function dueBriefings(config: any, now: Date) {
 async function dispatch(request: Request) {
   const config = await settings();
   const supplied = request.headers.get("x-cron-secret") || "";
-  if (!supplied || supplied.length !== config.cron_secret.length ||
-      !crypto.subtle.timingSafeEqual) {
-    // The runtime does not expose a constant-time string helper; compare fixed-length bytes below.
-    if (!supplied || supplied.length !== config.cron_secret.length) return reply({ error: "Unauthorized" }, 401);
-  }
+  if (!supplied || supplied.length !== config.cron_secret.length) return reply({ error: "Unauthorized" }, 401);
   const a = new TextEncoder().encode(supplied), b = new TextEncoder().encode(config.cron_secret);
   let mismatch = a.length ^ b.length;
   for (let i = 0; i < Math.min(a.length, b.length); i++) mismatch |= a[i] ^ b[i];
