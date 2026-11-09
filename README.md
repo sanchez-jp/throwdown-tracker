@@ -28,6 +28,12 @@ La primera apertura de cada competición debe hacerse con conexión para descarg
 
 La copia local depende del almacenamiento del navegador y puede desaparecer si se borran sus datos. Antes de una competición, abre la app con conexión y comprueba que aparece el estado «EN LÍNEA» para que se descarguen los datos.
 
+## Avisos del briefing
+
+La aplicación permite activar notificaciones push por dispositivo. Cada dispositivo suscrito recibe un único aviso 15 minutos antes de cada briefing de la competición seleccionada. Supabase Cron revisa los horarios cada minuto y la función `briefing-notifications` envía los avisos mediante Web Push. Las suscripciones, las claves VAPID y el registro de entregas quedan protegidos en tablas con RLS y sin acceso para los roles públicos.
+
+En iPhone o iPad se requiere iOS/iPadOS 16.4 o posterior, añadir Throwdown Tracker a la pantalla de inicio y abrirla desde su icono. El permiso se solicita al pulsar «Activar aviso del briefing». Cada dispositivo puede activar o desactivar sus propios avisos.
+
 ## iPhone
 Abre la URL con Safari → Compartir → Añadir a pantalla de inicio.
 

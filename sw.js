@@ -1,4 +1,4 @@
-const CACHE="throwdown-tracker-v25";
+const CACHE="throwdown-tracker-v26";
 const FILES=[
   "./",
   "./index.html",
@@ -24,6 +24,38 @@ self.addEventListener("activate",event=>{
       .then(keys=>Promise.all(keys.filter(key=>key.startsWith("throwdown-tracker-")&&key!==CACHE).map(key=>caches.delete(key))))
       .then(()=>self.clients.claim())
   );
+});
+
+
+self.addEventListener("push",event=>{
+  let payload={};
+  try{payload=event.data?event.data.json():{}}catch(_){payload={body:event.data?.text()||""}}
+  const title=payload.title||"Briefing en 15 minutos";
+  const options={
+    body:payload.body||"El briefing está a punto de comenzar.",
+    icon:"./apple-touch-icon.png",
+    badge:"./apple-touch-icon.png",
+    tag:payload.tag||"throwdown-briefing",
+    renotify:false,
+    data:{url:payload.url||"./"}
+  };
+  event.waitUntil(self.registration.showNotification(title,options));
+});
+
+self.addEventListener("notificationclick",event=>{
+  event.notification.close();
+  const target=new URL(event.notification.data?.url||"./",self.registration.scope).href;
+  event.waitUntil((async()=>{
+    const windows=await self.clients.matchAll({type:"window",includeUncontrolled:true});
+    for(const client of windows){
+      if("focus"in client){
+        await client.focus();
+        if("navigate"in client)await client.navigate(target);
+        return;
+      }
+    }
+    if(self.clients.openWindow)await self.clients.openWindow(target);
+  })());
 });
 
 self.addEventListener("fetch",event=>{
