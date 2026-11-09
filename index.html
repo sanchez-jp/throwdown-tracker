@@ -323,7 +323,6 @@ function renderNotes(w){
   save.dataset.offlineAction="true";del.dataset.offlineAction="true";updateConnectionStatus();
   if(navigator.onLine)loadNote(id);else if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";
 }
-function cacheNote(note){}
 function updateNoteMeta(note){
   const meta=$("noteMeta");if(!meta)return;
   meta.textContent=note?.updated_at?"Última actualización: "+new Date(note.updated_at).toLocaleString("es-ES")+(note.updated_by?" · "+note.updated_by:""):"Todavía no hay notas guardadas.";
