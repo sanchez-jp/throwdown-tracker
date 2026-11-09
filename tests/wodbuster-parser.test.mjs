@@ -25,7 +25,12 @@ const expected = {
 for (const [key, page] of Object.entries(fixtures.pages)) {
   test("parses captured WodBuster result: " + key, () => {
     const result = parseCompetitionHtml(pageHtml(page), fixtures.team);
-    assert.deepEqual(result, { team: fixtures.team, ...expected[key] });
+    assert.deepEqual(
+      { team: result.team, rank: result.rank, totalTeams: result.totalTeams, mark: result.mark, points: result.points, hasResult: result.hasResult },
+      { team: fixtures.team, ...expected[key] }
+    );
+    assert.equal(result.standings.length, page.expectedTotalTeams);
+    assert.ok(result.standings.some(row => row.team === fixtures.team));
   });
 }
 
@@ -46,4 +51,39 @@ test("matches team names case-insensitively and with normalized whitespace", () 
   const result = parseCompetitionHtml(pageHtml(page), "  veni vidi regulinchi  ");
   assert.equal(result.rank, 12);
   assert.equal(result.points, 56);
+});
+
+
+test("returns complete standings ordered by official rank", () => {
+  const card = (rank, team, mark, points) =>
+    '<div class="athleteresult"><div class="score">' + rank +
+    '</div><div class="athlete"><div class="name" title="' + team + '">' + team +
+    '</div></div><div class="result">' + mark +
+    '<div class="points">' + points + 'pts</div></div></div>';
+  const html = [
+    card(6, "Team Below", "90reps", 18),
+    card(4, "Team Above", "110reps", 20),
+    card(5, fixtures.team, "100reps", 19)
+  ].join("");
+
+  const result = parseCompetitionHtml(html, fixtures.team);
+  assert.deepEqual(
+    result.standings.map(({ team, rank }) => ({ team, rank })),
+    [
+      { team: "Team Above", rank: 4 },
+      { team: fixtures.team, rank: 5 },
+      { team: "Team Below", rank: 6 }
+    ]
+  );
+  assert.equal(result.standings[1].points, 19);
+});
+
+test("keeps unranked teams after ranked teams", () => {
+  const html = [
+    '<div class="athleteresult"><div class="score">-</div><div class="athlete"><div class="name" title="Pending Team">Pending Team</div></div><div class="result">-</div></div>',
+    '<div class="athleteresult"><div class="score">2</div><div class="athlete"><div class="name" title="' + fixtures.team + '">' + fixtures.team + '</div></div><div class="result">80reps</div></div>'
+  ].join("");
+  const result = parseCompetitionHtml(html, fixtures.team);
+  assert.deepEqual(result.standings.map(row => row.team), [fixtures.team, "Pending Team"]);
+  assert.equal(result.standings[1].rank, null);
 });

@@ -1,4 +1,4 @@
-const CACHE="throwdown-tracker-v24";
+const CACHE="throwdown-tracker-v25";
 const FILES=[
   "./",
   "./index.html",

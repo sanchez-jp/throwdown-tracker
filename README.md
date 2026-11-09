@@ -42,6 +42,14 @@ La configuración incluye:
 - Las páginas se consultan mediante el proxy de resultados de Supabase. La URL de consulta queda restringida al dominio oficial de WodBuster; la configuración no admite URLs arbitrarias.
 
 Para crear otra competición, duplica un JSON existente con un nuevo identificador y sustituye sus datos. Si utiliza WodBuster, introduce los identificadores de competición, categoría y cada tabla de resultados. Si utiliza otro proveedor, habrá que añadir su adaptador en la función de resultados; la interfaz ya consume páginas de resultados de forma dinámica.
+## Clasificación y evolución
+
+El adaptador WodBuster devuelve la clasificación completa de cada tabla, además del resultado del equipo. La interfaz muestra los equipos inmediatamente anterior y posterior en la clasificación general y conserva el puesto y los puntos oficiales por WOD.
+
+Los cambios en la clasificación general se guardan como snapshots compartidos en Supabase. La evolución muestra la variación de puesto desde el primer snapshot y los últimos registros disponibles. El historial se sincroniza entre dispositivos y su última copia también se conserva localmente para consulta sin conexión.
+
+La tabla `public.competition_result_snapshots` tiene RLS activado y no concede acceso directo a los roles públicos; únicamente la función `wodbuster-results` utiliza credenciales de servidor para insertar y leer snapshots. Para habilitar el historial de otra competición, añade su combinación `competitionId:divisionId:teamName` a `HISTORY_SCOPES` en esa función.
+
 ## Notas estratégicas por competición
 
 Las notas se guardan con una clave compuesta por el identificador de la competición y el WOD, por ejemplo `badajoz-elvas-2026:wod1`. El acceso de equipo solo consulta las notas de la competición abierta; el acceso de administrador utiliza la misma clave en `public.wod_notes`.
