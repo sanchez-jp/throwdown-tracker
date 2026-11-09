@@ -183,9 +183,8 @@ function renderWorkoutClassification(w){
   return box;
 }
 async function refreshOfficialResults(){
-  if(document.hidden||!cfg?.results)return;
+  if(document.hidden||!cfg?.results||!navigator.onLine)return;
   try{
-    if(!navigator.onLine)throw Error("Sin conexión");
     const response=await fetch(WODBUSTER_RESULTS_URL,{method:"POST",headers:{"apikey":SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify(cfg.results),cache:"no-store"});
     if(!response.ok)throw Error("HTTP "+response.status);
     const payload=await response.json();
@@ -208,13 +207,33 @@ async function refreshOfficialResults(){
   }
 }
 function loadCachedResults(){
-  try{const saved=JSON.parse(storageGet(competitionStorageKey("results","official"))||"null");if(!saved?.results)return;officialResults=saved.results;resultsLastUpdated=saved.updatedAt||null;resultsCachedAt=saved.cachedAt||null;renderOfficialResults();updateVisibleWorkoutClassification();$("resultsFootnote").textContent="Copia local de la última consulta correcta. Se actualizará al recuperar la conexión.";}catch(error){console.warn("No se pudo recuperar la clasificación guardada",error)}
+  try{
+    const saved=JSON.parse(storageGet(competitionStorageKey("results","official"))||"null");
+    if(!saved||!saved.results||typeof saved.results!=="object"||!Object.keys(saved.results).length){
+      if(!navigator.onLine)$("resultsFootnote").textContent="No hay una clasificación guardada en este dispositivo. Conéctate para sincronizarla.";
+      return false;
+    }
+    officialResults=saved.results;
+    resultsLastUpdated=saved.updatedAt||null;
+    resultsCachedAt=saved.cachedAt||null;
+    $("resultsSection").hidden=false;
+    renderOfficialResults();
+    updateVisibleWorkoutClassification();
+    $("resultsFootnote").textContent=navigator.onLine
+      ?"Última clasificación sincronizada disponible en este dispositivo."
+      :"Sin conexión · se muestra la última clasificación sincronizada.";
+    return true;
+  }catch(error){
+    console.warn("No se pudo recuperar la clasificación guardada",error);
+    if(!navigator.onLine)$("resultsFootnote").textContent="No se pudo recuperar la clasificación guardada en este dispositivo.";
+    return false;
+  }
 }
 function startResultsPolling(){
   if(resultsPoll)clearInterval(resultsPoll);
   loadCachedResults();
-  refreshOfficialResults();
-  resultsPoll=setInterval(refreshOfficialResults,60000);
+  if(navigator.onLine)refreshOfficialResults();
+  resultsPoll=setInterval(()=>{if(navigator.onLine)refreshOfficialResults()},60000);
   document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshOfficialResults()});
 }
 function updateVisibleWorkoutClassification(){
