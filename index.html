@@ -177,8 +177,6 @@ function renderWorkoutClassification(w){
   return box;
 }
 async function refreshOfficialResults(){
-  if(document.hidden)return;
-  tryasync function refreshOfficialResults(){
   if(document.hidden||!cfg?.results)return;
   try{
     const response=await fetch(WODBUSTER_RESULTS_URL,{method:"POST",headers:{"apikey":SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify(cfg.results),cache:"no-store"});
