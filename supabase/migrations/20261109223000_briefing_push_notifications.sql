@@ -69,6 +69,7 @@ begin
         url := 'https://wovdcffjchshmvcqyand.supabase.co/functions/v1/briefing-notifications',
         headers := jsonb_build_object(
           'Content-Type', 'application/json',
+          'apikey', 'sb_publishable_zMQNt3ncjnX_8AzPU7r29Q_dl8NzPT_',
           'x-cron-secret', (select cron_secret from public.briefing_push_settings where id = true)
         ),
         body := '{"action":"dispatch"}'::jsonb,
