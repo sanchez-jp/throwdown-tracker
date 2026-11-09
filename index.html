@@ -124,7 +124,7 @@ let officialResults={},resultsLastUpdated=null,resultsPoll=null,resultsCachedAt=
 const storageGet=key=>{try{return localStorage.getItem(key)}catch(_){return null}};
 const storageSet=(key,value)=>{try{localStorage.setItem(key,value);return true}catch(_){return false}};
 const competitionStorageKey=(kind,id)=>"throwdown:"+kind+":"+cfg?.id+":"+id;
-function updateConnectionStatus(){const online=navigator.onLine,status=$("connectionStatus");if(!status)return;status.textContent=online?"EN LÍNEA":"SIN CONEXIÓN · DATOS GUARDADOS";status.classList.toggle("offline",!online);const editor=$("noteEditor");if(editor)editor.readOnly=!online;document.querySelectorAll("[data-offline-action]").forEach(button=>button.disabled=!online);if(!online&&$("noteStatus")&&accessMode!=="guest")$("noteStatus").textContent="Sin conexión. Consulta de solo lectura con la última copia guardada."}
+function updateConnectionStatus(){const online=navigator.onLine,status=$("connectionStatus");if(!status)return;status.textContent=online?"EN LÍNEA":"SIN CONEXIÓN · DATOS GUARDADOS";status.classList.toggle("offline",!online);const editor=$("noteEditor");if(editor)editor.readOnly=!online;document.querySelectorAll("[data-offline-action]").forEach(button=>button.disabled=!online);if(!online&&$("noteStatus")&&accessMode!=="guest")$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas."}
 window.addEventListener("online",()=>{updateConnectionStatus();if(cfg?.results)refreshOfficialResults();if(accessMode!=="guest"&&currentNoteWodId)refreshCurrentNote()});
 window.addEventListener("offline",updateConnectionStatus);
 const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
@@ -183,12 +183,13 @@ function renderWorkoutClassification(w){
   return box;
 }
 async function refreshOfficialResults(){
-  if(document.hidden||!cfg?.results)return;
+  if(document.hidden||!cfg?.results||!navigator.onLine)return;
   try{
     const response=await fetch(WODBUSTER_RESULTS_URL,{method:"POST",headers:{"apikey":SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify(cfg.results),cache:"no-store"});
     if(!response.ok)throw Error("HTTP "+response.status);
     const payload=await response.json();
     if(!payload.results)throw Error("Respuesta de clasificaciones no válida");
+    if(!Object.keys(payload.results).length)throw Error(Object.values(payload.errors||{}).join(" · ")||"WodBuster no ha devuelto resultados");
     for(const page of resultPages()){if(payload.results[page.key])officialResults[page.key]=payload.results[page.key]}
     if(payload.updatedAt&&Object.keys(payload.results).length)resultsLastUpdated=payload.updatedAt;
     resultsCachedAt=new Date().toISOString();
@@ -202,17 +203,37 @@ async function refreshOfficialResults(){
   }catch(error){
     console.warn("No se pudieron actualizar las clasificaciones oficiales",error);
     $("resultsUpdated").textContent=resultsLastUpdated?"Sin actualizar · último dato guardado":"Conectando con el proveedor…";
-    $("resultsFootnote").textContent=Object.keys(officialResults).length?"No se han podido consultar los resultados. Se muestran los últimos datos guardados en este dispositivo.":"No se han podido consultar los resultados; todavía no hay una copia guardada.";
+    $("resultsFootnote").textContent=Object.keys(officialResults).length?"No se han podido consultar los resultados. Se muestran los últimos datos guardados en este dispositivo.":"No se han podido consultar los resultados; todavía no hay una copia guardada. "+(error.message||"");
   }
 }
 function loadCachedResults(){
-  try{const saved=JSON.parse(storageGet(competitionStorageKey("results","official"))||"null");if(!saved?.results)return;officialResults=saved.results;resultsLastUpdated=saved.updatedAt||null;resultsCachedAt=saved.cachedAt||null;renderOfficialResults();updateVisibleWorkoutClassification();$("resultsFootnote").textContent="Copia local de la última consulta correcta. Se actualizará al recuperar la conexión.";}catch(error){console.warn("No se pudo recuperar la clasificación guardada",error)}
+  try{
+    const saved=JSON.parse(storageGet(competitionStorageKey("results","official"))||"null");
+    if(!saved||!saved.results||typeof saved.results!=="object"||!Object.keys(saved.results).length){
+      if(!navigator.onLine)$("resultsFootnote").textContent="No hay una clasificación guardada en este dispositivo. Conéctate para sincronizarla.";
+      return false;
+    }
+    officialResults=saved.results;
+    resultsLastUpdated=saved.updatedAt||null;
+    resultsCachedAt=saved.cachedAt||null;
+    $("resultsSection").hidden=false;
+    renderOfficialResults();
+    updateVisibleWorkoutClassification();
+    $("resultsFootnote").textContent=navigator.onLine
+      ?"Última clasificación sincronizada disponible en este dispositivo."
+      :"Sin conexión · se muestra la última clasificación sincronizada.";
+    return true;
+  }catch(error){
+    console.warn("No se pudo recuperar la clasificación guardada",error);
+    if(!navigator.onLine)$("resultsFootnote").textContent="No se pudo recuperar la clasificación guardada en este dispositivo.";
+    return false;
+  }
 }
 function startResultsPolling(){
   if(resultsPoll)clearInterval(resultsPoll);
   loadCachedResults();
-  refreshOfficialResults();
-  resultsPoll=setInterval(refreshOfficialResults,60000);
+  if(navigator.onLine)refreshOfficialResults();
+  resultsPoll=setInterval(()=>{if(navigator.onLine)refreshOfficialResults()},60000);
   document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshOfficialResults()});
 }
 function updateVisibleWorkoutClassification(){
@@ -317,12 +338,10 @@ function renderNotes(w){
   save.onclick=()=>saveNote(id,editor.value);
   del.onclick=()=>deleteNote(id);
   actions.append(save,del);box.append(head,editor,actions,status,meta);$("workout").append(box);
-  const cached=notesCache[id]||readCachedNote(id);editor.value=cached?.content||"";updateNoteMeta(cached);
+  editor.value="";updateNoteMeta(null);
   save.dataset.offlineAction="true";del.dataset.offlineAction="true";updateConnectionStatus();
-  loadNote(id);
+  if(navigator.onLine)loadNote(id);else if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";
 }
-function readCachedNote(id){try{return JSON.parse(storageGet(competitionStorageKey("note",id))||"null")}catch(_){return null}}
-function cacheNote(note){if(note?.wod_id)storageSet(competitionStorageKey("note",note.wod_id),JSON.stringify(note))}
 function updateNoteMeta(note){
   const meta=$("noteMeta");if(!meta)return;
   meta.textContent=note?.updated_at?"Última actualización: "+new Date(note.updated_at).toLocaleString("es-ES")+(note.updated_by?" · "+note.updated_by:""):"Todavía no hay notas guardadas.";
@@ -330,7 +349,7 @@ function updateNoteMeta(note){
 async function fetchNote(id){
   if(accessMode==="team"){
     const r=await teamCall("get");
-    (r.notes||[]).forEach(note=>{notesCache[note.wod_id]=note;cacheNote(note)});
+    (r.notes||[]).forEach(note=>{notesCache[note.wod_id]=note});
     return (r.notes||[]).find(n=>n.wod_id===id)||null;
   }
   if(accessMode==="admin"){
@@ -340,12 +359,12 @@ async function fetchNote(id){
   return null;
 }
 async function loadNote(id){
-  try{const note=await fetchNote(id),stored=note||{wod_id:id,content:""};notesCache[id]=stored;cacheNote(stored);if(currentNoteWodId!==id)return;
+  try{const note=await fetchNote(id),stored=note||{wod_id:id,content:""};notesCache[id]=stored;if(currentNoteWodId!==id)return;
     const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=stored.content||"";updateNoteMeta(stored);
     const status=$("noteStatus");if(status)status.textContent="Notas sincronizadas.";
-  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const cached=notesCache[id]||readCachedNote(id);if(cached&&accessMode!=="guest"){notesCache[id]=cached;const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=cached.content||"";updateNoteMeta(cached);const status=$("noteStatus");if(status)status.textContent="Sin conexión: se muestran las últimas notas sincronizadas (solo lectura)."}else{const status=$("noteStatus");if(status)status.textContent=e.message||"No se pudieron cargar las notas"}}
+  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);const status=$("noteStatus");if(status)status.textContent=!navigator.onLine?"Conéctate a internet para consultar las notas estratégicas.":(e.message||"No se pudieron cargar las notas")}
 }
-async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId||!navigator.onLine)return;await loadNote(currentNoteWodId)}
+async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId)return;if(!navigator.onLine){const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";return}await loadNote(currentNoteWodId)}
 async function saveNote(id,content){
   const status=$("noteStatus");if(status)status.textContent="Guardando…";
   try{
@@ -355,7 +374,7 @@ async function saveNote(id,content){
       const {data,error}=await sb.from("wod_notes").upsert({wod_id:id,content,updated_at:new Date().toISOString(),updated_by:"Administrador"},{onConflict:"wod_id"}).select("wod_id,content,updated_at,updated_by").single();
       if(error)throw error;note=data;
     }else throw Error("Inicia sesión para guardar notas");
-    notesCache[id]=note;cacheNote(note);if(status)status.textContent="Notas guardadas y compartidas.";updateNoteMeta(note);
+    notesCache[id]=note;if(status)status.textContent="Notas guardadas y compartidas.";updateNoteMeta(note);
   }catch(e){if(status)status.textContent=e.message||"No se pudieron guardar las notas"}
 }
 async function deleteNote(id){
@@ -364,7 +383,7 @@ async function deleteNote(id){
   try{
     if(accessMode==="team")await teamCall("delete",{wod_id:id});
     else if(accessMode==="admin"){const {error}=await sb.from("wod_notes").delete().eq("wod_id",id);if(error)throw error}
-    notesCache[id]={wod_id:id,content:""};cacheNote(notesCache[id]);const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if(status)status.textContent="Notas borradas para todos.";
+    notesCache[id]={wod_id:id,content:""};const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if(status)status.textContent="Notas borradas para todos.";
   }catch(e){if(status)status.textContent=e.message||"No se pudieron borrar las notas"}
 }
 async function initAccess(){
