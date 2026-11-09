@@ -178,9 +178,11 @@ async function syncHistory(cfg: ResultsConfig, payload: { results: Record<string
   if (!HISTORY_SCOPES.has(scope)) return { history: [], historyEnabled: false };
   const credentials = adminCredentials();
   if (!credentials) return { history: [], historyEnabled: true, historyError: "History storage is not configured" };
+  const hasOverallPage = cfg.pages.some(page => page.key === "overall" && page.idw === "");
   const overall = payload.results.overall;
-  if (overall?.standings?.length) {
-    const snapshotHash = await sha256(JSON.stringify(payload.results));
+  if (hasOverallPage && overall?.standings?.length) {
+    const snapshotResults = { overall };
+    const snapshotHash = await sha256(JSON.stringify(snapshotResults));
     const params = new URLSearchParams({ on_conflict: "competition_id,division_id,team_name,snapshot_hash" });
     const insertResponse = await fetch(credentials.url + "/rest/v1/" + HISTORY_TABLE + "?" + params.toString(), {
       method: "POST",
@@ -196,7 +198,7 @@ async function syncHistory(cfg: ResultsConfig, payload: { results: Record<string
         team_name: cfg.teamName,
         snapshot_hash: snapshotHash,
         snapshot_at: payload.updatedAt,
-        results: payload.results
+        results: snapshotResults
       })
     });
     if (!insertResponse.ok) throw new Error("History insert failed: HTTP " + insertResponse.status + " " + (await insertResponse.text()).slice(0, 300));
