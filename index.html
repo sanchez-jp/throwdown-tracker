@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1018"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/svg+xml" href="icon.svg?v=15" sizes="any"><link rel="icon" type="image/png" href="apple-touch-icon.png?v=15" sizes="180x180"><link rel="apple-touch-icon" href="apple-touch-icon.png"><title>Throwdown Tracker</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1018;--panel:#151d28;--line:#2b3a4d;--muted:#9aa9ba;--white:#eef4fb;--lime:#c9f23d;--cyan:#55dfc7}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#173a36 0,transparent 48%),var(--bg);color:var(--white);font:15px/1.45 system-ui,sans-serif}.particle-bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.72}.wrap{position:relative;z-index:1;max-width:760px;margin:auto;padding:env(safe-area-inset-top) 16px 32px}header{padding:22px 2px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand-mark{width:54px;height:54px;object-fit:contain;flex:none}.eyebrow{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(26px,6vw,38px);line-height:1;margin:6px 0;letter-spacing:-.04em}.sub,.hint{color:var(--muted);font-size:12px}.pill{border:1px solid #486071;background:#192a36;border-radius:99px;padding:7px 11px;font-size:11px;font-weight:800}.hero{background:linear-gradient(135deg,#1b3038,#141f2b);border:1px solid #354b5b;border-radius:22px;padding:20px;box-shadow:0 18px 50px #0005}.heroTop{display:flex;justify-content:space-between;align-items:center}.live{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:.12em}.clock{font-size:clamp(44px,12vw,68px);font-weight:950;letter-spacing:-.05em;font-variant-numeric:tabular-nums;margin:12px 0 0}.date{font-size:12px;color:#b8c8d3}.timezone{display:inline-flex;margin-top:7px;padding:5px 9px;border:1px solid #52616b;border-radius:8px;background:#202b32;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.06em}.status{margin-top:15px;background:#0c1821aa;border:1px solid #466173;border-radius:15px;padding:14px}.statusLabel{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:.13em}.status h2{font-size:21px;margin:4px 0}.status p{color:#b9c8d1;font-size:13px;margin:0}.countrow{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-top:12px}.count{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums}.count small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}.meta div{background:#0c1821aa;border-radius:12px;padding:10px}.meta span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.meta b{display:block;font-size:clamp(11px,2.5vw,15px);line-height:1.25;white-space:normal;overflow-wrap:break-word}.section{margin-top:22px}.sectionHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section h3{font-size:15px;margin:0}.days,.wods{display:flex;gap:8px;overflow:auto}.day,.wod,.button{border:1px solid var(--line);border-radius:13px;padding:10px 14px;background:var(--panel);color:var(--white);cursor:pointer;font-weight:800}.day[aria-pressed=true],.wod[aria-pressed=true]{border-color:var(--lime);background:#26333a}.day small{display:block;color:var(--muted);font-size:10px;font-weight:500}.timeline,.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:8px 14px}.event{display:grid;grid-template-columns:60px 18px 1fr;gap:10px;min-height:64px;padding:10px 0;border-bottom:1px solid #293b47}.event:last-child{border:0}.time{font-weight:900;font-variant-numeric:tabular-nums}.dot{width:10px;height:10px;border-radius:50%;background:#718493;margin-top:5px}.event.current .dot{background:var(--lime);box-shadow:0 0 0 4px #c5f34430}.event.current .time,.event.current .name{color:var(--lime)}.event.done{opacity:.48}.name{font-weight:800;font-size:13px}.desc{color:var(--muted);font-size:11px}.tag{color:var(--lime);font-size:9px;margin-left:5px}.cards{display:grid;gap:8px}.workout{background:linear-gradient(145deg,#1a2633,#121a25);border:1px solid #35465a;border-radius:17px;padding:16px}.workout h4{font-size:20px;margin:2px 0 8px}.workout .wodtitle{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.workout .format{color:var(--cyan);font-weight:800;font-size:13px;margin-bottom:12px}.flow-link{display:inline-flex;margin:0 0 12px;padding:7px 10px;border:1px solid #52616b;border-radius:9px;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.08em;text-decoration:none}.flow-link:focus,.flow-link:hover{background:#263627;outline:2px solid transparent}.workout ul{padding-left:20px;margin:8px 0}.workout li{margin:7px 0;color:#e2eaf0}.workout .scores,.workout .loads{border-top:1px solid var(--line);margin-top:12px;padding-top:10px;color:var(--muted);font-size:12px}.workout .scores b,.workout .loads b{color:var(--white)}.card{display:grid;grid-template-columns:1fr auto;gap:4px 10px}.card strong{font-size:13px}.card .range{font-size:18px;font-weight:900}.card small{color:var(--muted);font-size:11px}.button{font-size:11px;padding:8px 11px}.empty{border:1px dashed #425665;border-radius:15px;padding:20px;text-align:center;color:var(--muted)}footer{text-align:center;color:#718391;font-size:10px;margin:22px 0}
+:root{color-scheme:dark;--bg:#0b1018;--panel:#151d28;--line:#2b3a4d;--muted:#9aa9ba;--white:#eef4fb;--lime:#c9f23d;--cyan:#55dfc7}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#173a36 0,transparent 48%),var(--bg);color:var(--white);font:15px/1.45 system-ui,sans-serif}.particle-bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.72}.wrap{position:relative;z-index:1;max-width:760px;margin:auto;padding:env(safe-area-inset-top) 16px 32px}header{padding:22px 2px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand-mark{width:54px;height:54px;object-fit:contain;flex:none}.eyebrow{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(26px,6vw,38px);line-height:1;margin:6px 0;letter-spacing:-.04em}.sub,.hint{color:var(--muted);font-size:12px}.pill{border:1px solid #486071;background:#192a36;border-radius:99px;padding:7px 11px;font-size:11px;font-weight:800}.connection-pill{border:1px solid #3d765e;background:#102a25;color:#8df0c0;border-radius:99px;padding:5px 8px;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center}.connection-pill.offline{border-color:#956d39;background:#332719;color:#ffd28a}.hero{background:linear-gradient(135deg,#1b3038,#141f2b);border:1px solid #354b5b;border-radius:22px;padding:20px;box-shadow:0 18px 50px #0005}.heroTop{display:flex;justify-content:space-between;align-items:center}.live{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:.12em}.clock{font-size:clamp(44px,12vw,68px);font-weight:950;letter-spacing:-.05em;font-variant-numeric:tabular-nums;margin:12px 0 0}.date{font-size:12px;color:#b8c8d3}.timezone{display:inline-flex;margin-top:7px;padding:5px 9px;border:1px solid #52616b;border-radius:8px;background:#202b32;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.06em}.status{margin-top:15px;background:#0c1821aa;border:1px solid #466173;border-radius:15px;padding:14px}.statusLabel{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:.13em}.status h2{font-size:21px;margin:4px 0}.status p{color:#b9c8d1;font-size:13px;margin:0}.countrow{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-top:12px}.count{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums}.count small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}.meta div{background:#0c1821aa;border-radius:12px;padding:10px}.meta span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.meta b{display:block;font-size:clamp(11px,2.5vw,15px);line-height:1.25;white-space:normal;overflow-wrap:break-word}.section{margin-top:22px}.sectionHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section h3{font-size:15px;margin:0}.days,.wods{display:flex;gap:8px;overflow:auto}.day,.wod,.button{border:1px solid var(--line);border-radius:13px;padding:10px 14px;background:var(--panel);color:var(--white);cursor:pointer;font-weight:800}.day[aria-pressed=true],.wod[aria-pressed=true]{border-color:var(--lime);background:#26333a}.day small{display:block;color:var(--muted);font-size:10px;font-weight:500}.timeline,.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:8px 14px}.event{display:grid;grid-template-columns:60px 18px 1fr;gap:10px;min-height:64px;padding:10px 0;border-bottom:1px solid #293b47}.event:last-child{border:0}.time{font-weight:900;font-variant-numeric:tabular-nums}.dot{width:10px;height:10px;border-radius:50%;background:#718493;margin-top:5px}.event.current .dot{background:var(--lime);box-shadow:0 0 0 4px #c5f34430}.event.current .time,.event.current .name{color:var(--lime)}.event.done{opacity:.48}.name{font-weight:800;font-size:13px}.desc{color:var(--muted);font-size:11px}.tag{color:var(--lime);font-size:9px;margin-left:5px}.cards{display:grid;gap:8px}.workout{background:linear-gradient(145deg,#1a2633,#121a25);border:1px solid #35465a;border-radius:17px;padding:16px}.workout h4{font-size:20px;margin:2px 0 8px}.workout .wodtitle{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.workout .format{color:var(--cyan);font-weight:800;font-size:13px;margin-bottom:12px}.flow-link{display:inline-flex;margin:0 0 12px;padding:7px 10px;border:1px solid #52616b;border-radius:9px;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.08em;text-decoration:none}.flow-link:focus,.flow-link:hover{background:#263627;outline:2px solid transparent}.workout ul{padding-left:20px;margin:8px 0}.workout li{margin:7px 0;color:#e2eaf0}.workout .scores,.workout .loads{border-top:1px solid var(--line);margin-top:12px;padding-top:10px;color:var(--muted);font-size:12px}.workout .scores b,.workout .loads b{color:var(--white)}.card{display:grid;grid-template-columns:1fr auto;gap:4px 10px}.card strong{font-size:13px}.card .range{font-size:18px;font-weight:900}.card small{color:var(--muted);font-size:11px}.button{font-size:11px;padding:8px 11px}.empty{border:1px dashed #425665;border-radius:15px;padding:20px;text-align:center;color:var(--muted)}footer{text-align:center;color:#718391;font-size:10px;margin:22px 0}
 
 .access-actions{display:flex;gap:8px;flex-wrap:wrap}
 .access-box{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px;margin-top:9px}
@@ -40,7 +40,7 @@
 .workout-score .points{display:block;color:var(--lime);font-size:10px;font-weight:800}
 .results-footnote{color:var(--muted);font-size:10px;margin-top:8px}
 </style></head><body><canvas class="particle-bg" id="particleCanvas" aria-hidden="true"></canvas><main class="wrap">
-<header><div><div class="eyebrow">Competition HQ</div><h1>THROWDOWN<br>TRACKER</h1><div class="sub" id="subtitle">Cargando competición…</div></div><img class="brand-mark" src="./header-logo.png" alt="Throwdown Tracker"><span class="pill" id="heat">HEAT —</span></header>
+<header><div><div class="eyebrow">Competition HQ</div><h1>THROWDOWN<br>TRACKER</h1><div class="sub" id="subtitle">Cargando competición…</div></div><img class="brand-mark" src="./header-logo.png" alt="Throwdown Tracker"><div style="display:grid;justify-items:end;gap:6px"><span class="pill" id="heat">HEAT —</span><span class="connection-pill" id="connectionStatus" role="status">COMPROBANDO CONEXIÓN</span></div></header>
 <section class="hero" aria-live="polite"><div class="heroTop"><span class="live">● DIRECTO</span><span class="pill" id="venue">—</span></div><div class="clock" id="clock">--:--:--</div><div class="date" id="date"></div><div class="timezone" id="timezone">HORA OFICIAL · PORTUGAL</div><div class="status"><div class="statusLabel" id="statusLabel">TU SITUACIÓN</div><h2 id="statusTitle">Cargando…</h2><p id="statusDesc"></p><div class="countrow"><div class="count" id="countdown">--:--:--<small id="countLabel">Cuenta atrás</small></div></div></div><div class="meta"><div><span>Competición</span><b id="compName">—</b></div><div><span>Calle</span><b id="lane">—</b></div><div><span>Equipo</span><b id="team">—</b></div></div></section>
 
 <section class="section" id="accessSection">
@@ -120,7 +120,13 @@ const WODBUSTER_RESULTS_URL=SUPABASE_URL+"/functions/v1/wodbuster-results";
 let sb=null;
 async function ensureSupabase(){if(!sb){const {createClient}=await import("https://esm.sh/@supabase/supabase-js@2");sb=createClient(SUPABASE_URL,SUPABASE_KEY)}return sb;}
 let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};
-let officialResults={},resultsLastUpdated=null,resultsPoll=null;const $=id=>document.getElementById(id);
+let officialResults={},resultsLastUpdated=null,resultsPoll=null,resultsCachedAt=null;const $=id=>document.getElementById(id);
+const storageGet=key=>{try{return localStorage.getItem(key)}catch(_){return null}};
+const storageSet=(key,value)=>{try{localStorage.setItem(key,value);return true}catch(_){return false}};
+const competitionStorageKey=(kind,id)=>"throwdown:"+kind+":"+cfg?.id+":"+id;
+function updateConnectionStatus(){const online=navigator.onLine,status=$("connectionStatus");if(!status)return;status.textContent=online?"EN LÍNEA":"SIN CONEXIÓN · DATOS GUARDADOS";status.classList.toggle("offline",!online);const editor=$("noteEditor");if(editor)editor.readOnly=!online;document.querySelectorAll("[data-offline-action]").forEach(button=>button.disabled=!online);if(!online&&$("noteStatus")&&accessMode!=="guest")$("noteStatus").textContent="Sin conexión. Consulta de solo lectura con la última copia guardada."}
+window.addEventListener("online",()=>{updateConnectionStatus();if(cfg?.results)refreshOfficialResults();if(accessMode!=="guest"&&currentNoteWodId)refreshCurrentNote()});
+window.addEventListener("offline",updateConnectionStatus);
 const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
 function zone(){return cfg?.competition?.timezone||"Europe/Lisbon"}
 function at(day,t){let [y,m,d]=day.date.split("-").map(Number),[h,mi]=t.split(":").map(Number),target=Date.UTC(y,m-1,d,h,mi),guess=target,fmt=new Intl.DateTimeFormat("en-GB",{timeZone:zone(),year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});for(let i=0;i<4;i++){let p=Object.fromEntries(fmt.formatToParts(new Date(guess)).filter(x=>x.type!=="literal").map(x=>[x.type,Number(x.value)])),represented=Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second);guess+=target-represented}return new Date(guess)}
@@ -161,7 +167,7 @@ function renderOfficialResults(){
   }
   pages.filter(page=>page!==overallPage).forEach(page=>list.append(createResultRow(page.label||page.key,officialResults[page.key],officialResults[page.key]?.mark||"")));
   const updated=$("resultsUpdated");
-  updated.textContent=resultsLastUpdated?"Actualizado "+new Date(resultsLastUpdated).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"Esperando datos oficiales";
+  updated.textContent=resultsLastUpdated?(navigator.onLine?"Actualizado ":"Sin conexión · último dato ")+new Date(resultsLastUpdated).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"Esperando datos oficiales";
 }
 function renderWorkoutClassification(w){
   const name=(w?.name||"").trim().toUpperCase(),box=document.createElement("div");box.className="workout-classification";
@@ -185,6 +191,8 @@ async function refreshOfficialResults(){
     if(!payload.results)throw Error("Respuesta de clasificaciones no válida");
     for(const page of resultPages()){if(payload.results[page.key])officialResults[page.key]=payload.results[page.key]}
     if(payload.updatedAt&&Object.keys(payload.results).length)resultsLastUpdated=payload.updatedAt;
+    resultsCachedAt=new Date().toISOString();
+    storageSet(competitionStorageKey("results","official"),JSON.stringify({results:officialResults,updatedAt:resultsLastUpdated,cachedAt:resultsCachedAt}));
     renderOfficialResults();
     updateVisibleWorkoutClassification();
     const errors=Object.keys(payload.errors||{});
@@ -193,12 +201,16 @@ async function refreshOfficialResults(){
       :"Fuente: "+(payload.source||cfg.results.provider)+" · Actualización automática cada minuto mientras la aplicación está abierta.";
   }catch(error){
     console.warn("No se pudieron actualizar las clasificaciones oficiales",error);
-    $("resultsUpdated").textContent=resultsLastUpdated?"Sin conexión · último dato conservado":"Conectando con el proveedor…";
-    $("resultsFootnote").textContent="No se han podido consultar los resultados. Se conservarán los últimos datos válidos.";
+    $("resultsUpdated").textContent=resultsLastUpdated?"Sin actualizar · último dato guardado":"Conectando con el proveedor…";
+    $("resultsFootnote").textContent=Object.keys(officialResults).length?"No se han podido consultar los resultados. Se muestran los últimos datos guardados en este dispositivo.":"No se han podido consultar los resultados; todavía no hay una copia guardada.";
   }
+}
+function loadCachedResults(){
+  try{const saved=JSON.parse(storageGet(competitionStorageKey("results","official"))||"null");if(!saved?.results)return;officialResults=saved.results;resultsLastUpdated=saved.updatedAt||null;resultsCachedAt=saved.cachedAt||null;renderOfficialResults();updateVisibleWorkoutClassification();$("resultsFootnote").textContent="Copia local de la última consulta correcta. Se actualizará al recuperar la conexión.";}catch(error){console.warn("No se pudo recuperar la clasificación guardada",error)}
 }
 function startResultsPolling(){
   if(resultsPoll)clearInterval(resultsPoll);
+  loadCachedResults();
   refreshOfficialResults();
   resultsPoll=setInterval(refreshOfficialResults,60000);
   document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshOfficialResults()});
@@ -305,16 +317,21 @@ function renderNotes(w){
   save.onclick=()=>saveNote(id,editor.value);
   del.onclick=()=>deleteNote(id);
   actions.append(save,del);box.append(head,editor,actions,status,meta);$("workout").append(box);
-  const cached=notesCache[id];editor.value=cached?.content||"";updateNoteMeta(cached);
+  const cached=notesCache[id]||readCachedNote(id);editor.value=cached?.content||"";updateNoteMeta(cached);
+  save.dataset.offlineAction="true";del.dataset.offlineAction="true";updateConnectionStatus();
   loadNote(id);
 }
+function readCachedNote(id){try{return JSON.parse(storageGet(competitionStorageKey("note",id))||"null")}catch(_){return null}}
+function cacheNote(note){if(note?.wod_id)storageSet(competitionStorageKey("note",note.wod_id),JSON.stringify(note))}
 function updateNoteMeta(note){
   const meta=$("noteMeta");if(!meta)return;
   meta.textContent=note?.updated_at?"Última actualización: "+new Date(note.updated_at).toLocaleString("es-ES")+(note.updated_by?" · "+note.updated_by:""):"Todavía no hay notas guardadas.";
 }
 async function fetchNote(id){
   if(accessMode==="team"){
-    const r=await teamCall("get");return (r.notes||[]).find(n=>n.wod_id===id)||null;
+    const r=await teamCall("get");
+    (r.notes||[]).forEach(note=>{notesCache[note.wod_id]=note;cacheNote(note)});
+    return (r.notes||[]).find(n=>n.wod_id===id)||null;
   }
   if(accessMode==="admin"){
     const {data,error}=await sb.from("wod_notes").select("wod_id,content,updated_at,updated_by").eq("wod_id",id).maybeSingle();
@@ -323,11 +340,12 @@ async function fetchNote(id){
   return null;
 }
 async function loadNote(id){
-  try{const note=await fetchNote(id);notesCache[id]=note||{wod_id:id,content:""};if(currentNoteWodId!==id)return;
-    const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=note?.content||"";updateNoteMeta(note);
-  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const status=$("noteStatus");if(status)status.textContent=e.message||"No se pudieron cargar las notas"}
+  try{const note=await fetchNote(id),stored=note||{wod_id:id,content:""};notesCache[id]=stored;cacheNote(stored);if(currentNoteWodId!==id)return;
+    const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=stored.content||"";updateNoteMeta(stored);
+    const status=$("noteStatus");if(status)status.textContent="Notas sincronizadas.";
+  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const cached=notesCache[id]||readCachedNote(id);if(cached&&accessMode!=="guest"){notesCache[id]=cached;const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=cached.content||"";updateNoteMeta(cached);const status=$("noteStatus");if(status)status.textContent="Sin conexión: se muestran las últimas notas sincronizadas (solo lectura)."}else{const status=$("noteStatus");if(status)status.textContent=e.message||"No se pudieron cargar las notas"}}
 }
-async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId)return;await loadNote(currentNoteWodId)}
+async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId||!navigator.onLine)return;await loadNote(currentNoteWodId)}
 async function saveNote(id,content){
   const status=$("noteStatus");if(status)status.textContent="Guardando…";
   try{
@@ -337,7 +355,7 @@ async function saveNote(id,content){
       const {data,error}=await sb.from("wod_notes").upsert({wod_id:id,content,updated_at:new Date().toISOString(),updated_by:"Administrador"},{onConflict:"wod_id"}).select("wod_id,content,updated_at,updated_by").single();
       if(error)throw error;note=data;
     }else throw Error("Inicia sesión para guardar notas");
-    notesCache[id]=note;if(status)status.textContent="Notas guardadas y compartidas.";updateNoteMeta(note);
+    notesCache[id]=note;cacheNote(note);if(status)status.textContent="Notas guardadas y compartidas.";updateNoteMeta(note);
   }catch(e){if(status)status.textContent=e.message||"No se pudieron guardar las notas"}
 }
 async function deleteNote(id){
@@ -346,7 +364,7 @@ async function deleteNote(id){
   try{
     if(accessMode==="team")await teamCall("delete",{wod_id:id});
     else if(accessMode==="admin"){const {error}=await sb.from("wod_notes").delete().eq("wod_id",id);if(error)throw error}
-    notesCache[id]={wod_id:id,content:""};const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if(status)status.textContent="Notas borradas para todos.";
+    notesCache[id]={wod_id:id,content:""};cacheNote(notesCache[id]);const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if(status)status.textContent="Notas borradas para todos.";
   }catch(e){if(status)status.textContent=e.message||"No se pudieron borrar las notas"}
 }
 async function initAccess(){
@@ -367,9 +385,10 @@ async function init(){
  try{
    const requested=new URLSearchParams(location.search).get("competition")||"badajoz-elvas-2026";
    if(!/^[a-z0-9-]+$/.test(requested))throw Error("Identificador de competición no válido");
-   const r=await fetch("./data/competitions/"+requested+".json",{cache:"no-store"});
-   if(!r.ok)throw Error("No se encuentra la configuración de la competición: "+requested);
-   cfg=await r.json();
+   let configResponse;
+   try{const r=await fetch("./data/competitions/"+requested+".json",{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);configResponse=await r.json();storageSet("throwdown:competition:"+requested,JSON.stringify(configResponse));}
+   catch(networkError){const cached=storageGet("throwdown:competition:"+requested);if(!cached)throw Error("No se encuentra una copia local de la competición. Abre la app con conexión al menos una vez.");configResponse=JSON.parse(cached)}
+   cfg=configResponse;
    if(cfg.id!==requested)throw Error("La configuración cargada no coincide con el identificador solicitado");
    document.title=(cfg.competition?.name||"Throwdown Tracker")+" · Throwdown Tracker";
    $("subtitle").textContent=cfg.competition.category||"";
@@ -385,7 +404,8 @@ async function init(){
    const hasSupportedResults=cfg.results?.provider==="wodbuster"&&typeof cfg.results.teamName==="string"&&cfg.results.teamName.trim()&&/^\d+$/.test(String(cfg.results.competitionId))&&/^\d+$/.test(String(cfg.results.divisionId))&&Array.isArray(cfg.results.pages)&&cfg.results.pages.length>0;
    $("resultsSection").hidden=!hasSupportedResults;
    if(hasSupportedResults)startResultsPolling();
+   updateConnectionStatus();
  }catch(e){$("statusTitle").textContent="Error al cargar";$("statusDesc").textContent=e.message}
 }
-init();initAccess();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+init();initAccess();updateConnectionStatus();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
 </script></body></html>
