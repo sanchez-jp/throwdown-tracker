@@ -201,7 +201,7 @@ async function refreshOfficialResults(){
       :"Fuente: "+(payload.source||cfg.results.provider)+" · Actualización automática cada minuto mientras la aplicación está abierta.";
   }catch(error){
     console.warn("No se pudieron actualizar las clasificaciones oficiales",error);
-    $("resultsUpdated").textContent=resultsLastUpdated?"Sin conexión · último dato conservado":"Conectando con el proveedor…";
+    $("resultsUpdated").textContent=resultsLastUpdated?"Sin actualizar · último dato guardado":"Conectando con el proveedor…";
     $("resultsFootnote").textContent=Object.keys(officialResults).length?"No se han podido consultar los resultados. Se muestran los últimos datos guardados en este dispositivo.":"No se han podido consultar los resultados; todavía no hay una copia guardada.";
   }
 }
@@ -329,7 +329,9 @@ function updateNoteMeta(note){
 }
 async function fetchNote(id){
   if(accessMode==="team"){
-    const r=await teamCall("get");return (r.notes||[]).find(n=>n.wod_id===id)||null;
+    const r=await teamCall("get");
+    (r.notes||[]).forEach(note=>{notesCache[note.wod_id]=note;cacheNote(note)});
+    return (r.notes||[]).find(n=>n.wod_id===id)||null;
   }
   if(accessMode==="admin"){
     const {data,error}=await sb.from("wod_notes").select("wod_id,content,updated_at,updated_by").eq("wod_id",id).maybeSingle();
