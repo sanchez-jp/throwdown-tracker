@@ -22,6 +22,7 @@ const CORS = {
 type ResultPage = { key: string; label?: string; idw: string };
 type ResultsConfig = { provider: string; teamName: string; competitionId: string; divisionId: string; pages: ResultPage[] };
 type CacheEntry = { expires: number; payload: unknown };
+type ResultsPayload = { results: Record<string, any>; errors: Record<string, string>; updatedAt: string; source: string };
 const cache = new Map<string, CacheEntry>();
 const HISTORY_SCOPES = new Set(["4282:18412:VENI VIDI REGULINCHI"]);
 const HISTORY_TABLE = "competition_result_snapshots";
@@ -141,14 +142,14 @@ async function getResult(url: string, teamName: string) {
   if (!response.ok) throw new Error("WodBuster returned HTTP " + response.status);
   return parseCompetitionHtml(await response.text(), teamName);
 }
-async function loadResults(cfg: ResultsConfig) {
+async function loadResults(cfg: ResultsConfig): Promise<ResultsPayload> {
   const cacheKey = JSON.stringify(cfg), cached = cache.get(cacheKey);
-  if (cached && cached.expires > Date.now()) return cached.payload;
+  if (cached && cached.expires > Date.now()) return cached.payload as ResultsPayload;
   const entries = await Promise.all(cfg.pages.map(async page => {
     try { return [page.key, await getResult(pageUrl(cfg, page), cfg.teamName)] as const; }
     catch (error) { return [page.key, null, error instanceof Error ? error.message : "Unknown fetch error"] as const; }
   }));
-  const results: Record<string, unknown> = {}, errors: Record<string, string> = {};
+  const results: Record<string, any> = {}, errors: Record<string, string> = {};
   for (const [key, result, error] of entries) {
     if (result) results[key] = result;
     else errors[key] = error || "Result unavailable";
