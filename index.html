@@ -169,6 +169,8 @@ async function initBriefingNotifications(){
  button.onclick=async()=>{
    button.disabled=true;
    try{
+     const permission=Notification.permission==="granted"?"granted":await Notification.requestPermission();
+     if(permission!=="granted"){briefingNotificationMessage("No se ha concedido permiso para enviar notificaciones.");return}
      const registration=await navigator.serviceWorker.ready;
      let subscription=await registration.pushManager.getSubscription();
      if(subscription){
@@ -177,8 +179,6 @@ async function initBriefingNotifications(){
        briefingNotificationMessage("Avisos desactivados en este dispositivo.");
        button.textContent="Activar aviso del briefing";
      }else{
-       const permission=Notification.permission==="granted"?"granted":await Notification.requestPermission();
-       if(permission!=="granted"){briefingNotificationMessage("No se ha concedido permiso para enviar notificaciones.");return}
        const config=await briefingNotificationCall("config");
        if(!config.publicKey)throw Error("No se ha podido obtener la clave pública de notificaciones");
        subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:base64UrlToBytes(config.publicKey)});
