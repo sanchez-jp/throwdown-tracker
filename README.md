@@ -46,7 +46,7 @@ Para crear otra competición, duplica un JSON existente con un nuevo identificad
 
 El adaptador WodBuster devuelve la clasificación completa de cada tabla, además del resultado del equipo. La interfaz muestra los equipos inmediatamente anterior y posterior en la clasificación general y conserva el puesto y los puntos oficiales por WOD.
 
-Los cambios en los resultados oficiales se guardan como snapshots compartidos en Supabase. La evolución muestra la variación de puesto desde el primer snapshot y los últimos registros disponibles. El historial se sincroniza entre dispositivos y su última copia también se conserva localmente para consulta sin conexión.
+Los cambios en la clasificación general se guardan como snapshots compartidos en Supabase. La evolución muestra la variación de puesto desde el primer snapshot y los últimos registros disponibles. El historial se sincroniza entre dispositivos y su última copia también se conserva localmente para consulta sin conexión.
 
 La tabla `public.competition_result_snapshots` tiene RLS activado y no concede acceso directo a los roles públicos; únicamente la función `wodbuster-results` utiliza credenciales de servidor para insertar y leer snapshots. Para habilitar el historial de otra competición, añade su combinación `competitionId:divisionId:teamName` a `HISTORY_SCOPES` en esa función.
 
