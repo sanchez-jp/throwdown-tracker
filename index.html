@@ -277,8 +277,10 @@ async function refreshOfficialResults(){
     if(!Object.keys(payload.results).length)throw Error(Object.values(payload.errors||{}).join(" · ")||"WodBuster no ha devuelto resultados");
     for(const page of resultPages()){if(payload.results[page.key])officialResults[page.key]=payload.results[page.key]}
     if(payload.updatedAt&&Object.keys(payload.results).length)resultsLastUpdated=payload.updatedAt;
+    if(Array.isArray(payload.history)&&!payload.historyError)resultsHistory=payload.history;
+    resultsHistoryEnabled=payload.historyEnabled===true;resultsHistoryError=payload.historyError||null;
     resultsCachedAt=new Date().toISOString();
-    storageSet(competitionStorageKey("results","official"),JSON.stringify({results:officialResults,updatedAt:resultsLastUpdated,cachedAt:resultsCachedAt}));
+    storageSet(competitionStorageKey("results","official"),JSON.stringify({results:officialResults,updatedAt:resultsLastUpdated,cachedAt:resultsCachedAt,history:resultsHistory,historyEnabled:resultsHistoryEnabled,historyError:resultsHistoryError}));
     renderOfficialResults();
     updateVisibleWorkoutClassification();
     const errors=Object.keys(payload.errors||{});
@@ -301,6 +303,7 @@ function loadCachedResults(){
     officialResults=saved.results;
     resultsLastUpdated=saved.updatedAt||null;
     resultsCachedAt=saved.cachedAt||null;
+    resultsHistory=Array.isArray(saved.history)?saved.history:[];resultsHistoryEnabled=saved.historyEnabled===true;resultsHistoryError=saved.historyError||null;
     $("resultsSection").hidden=false;
     renderOfficialResults();
     updateVisibleWorkoutClassification();
