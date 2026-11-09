@@ -240,7 +240,7 @@ $("countdown").firstChild.textContent=target?timer(target.date-now):"00:00:00";$
 document.querySelectorAll(".event").forEach(el=>{let e=events(cfg.days[dayIndex],cfg.days[dayIndex].events[eventIndex]||{})[+el.dataset.step];if(!e)return;el.classList.toggle("done",now>=e.date&&e.label!=="Fin del WOD");el.classList.toggle("current",!!active&&active.date.getTime()===e.date.getTime())})}
 
 
-function wodIdFor(w){const n=Number((w?.name||"").match(/\d+/)?.[0]||0);return n>=1&&n<=4?"wod"+n:null}
+function wodIdFor(w){const match=(w?.name||"").match(/^WOD\s*(\d+)$/i);if(!match||!cfg?.id)return null;const n=Number(match[1]);return n>=1&&n<=30?cfg.id+":wod"+n:null}
 function accessMessage(message){const p=$("accessPanel");if(p)p.innerHTML="<p>"+message+"</p>"}
 function setAccessMode(mode,details={}){
   accessMode=mode;
@@ -283,7 +283,7 @@ function showAdminForm(){
   };
 }
 async function teamCall(action,extra={}){
-  const response=await fetch(TEAM_NOTES_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({action,username:"adobo",password:extra.password??teamPassword,...extra})});
+  const response=await fetch(TEAM_NOTES_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({action,username:"adobo",password:extra.password??teamPassword,competition_id:cfg?.id,...extra})});
   const result=await response.json().catch(()=>({}));
   if(!response.ok)throw Error(result.error||"Error al conectar con las notas");
   return result;
