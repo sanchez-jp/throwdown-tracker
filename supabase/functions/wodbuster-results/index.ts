@@ -23,6 +23,8 @@ type ResultPage = { key: string; label?: string; idw: string };
 type ResultsConfig = { provider: string; teamName: string; competitionId: string; divisionId: string; pages: ResultPage[] };
 type CacheEntry = { expires: number; payload: unknown };
 const cache = new Map<string, CacheEntry>();
+const HISTORY_SCOPES = new Set(["4282:18412:VENI VIDI REGULINCHI"]);
+const HISTORY_TABLE = "competition_result_snapshots";
 
 function json(payload: unknown, status = 200) {
   return new Response(JSON.stringify(payload), {
@@ -71,21 +73,12 @@ function parseInteger(value: string): number | null {
 function normalizeName(value: string): string {
   return String(value ?? "").normalize("NFKC").replace(/\s+/g, " ").trim().toLocaleLowerCase("en");
 }
-function parseCompetitionHtml(html: string, teamName: string) {
-  const elements = findDivElements(html);
-  const cards = elements.filter(element => element.classes.includes("athleteresult"));
-  if (!cards.length) throw new Error("No WodBuster result cards found");
-  const target = cards.find(card => {
-    const athlete = classElement(elements, card, "athlete");
-    const name = athlete && classElement(elements, athlete, "name");
-    if (!name) return false;
-    const visible = textContent(innerHtml(html, name));
-    const title = attribute(html.slice(name.start, name.innerStart), "title");
-    return normalizeName(title || visible) === normalizeName(teamName);
-  });
-  if (!target) throw new Error("Team not found in WodBuster results");
-  const score = classElement(elements, target, "score");
-  const result = classElement(elements, target, "result");
+function parseCard(html: string, elements: DivElement[], card: DivElement) {
+  const athlete = classElement(elements, card, "athlete");
+  const name = athlete && classElement(elements, athlete, "name");
+  const team = name ? (attribute(html.slice(name.start, name.innerStart), "title") || textContent(innerHtml(html, name))) : null;
+  const score = classElement(elements, card, "score");
+  const result = classElement(elements, card, "result");
   const pointsElement = result && classElement(elements, result, "points");
   const rank = score ? parseInteger(textContent(innerHtml(html, score))) : null;
   let resultText = result ? innerHtml(html, result) : "";
@@ -97,7 +90,17 @@ function parseCompetitionHtml(html: string, teamName: string) {
     const pointsMatch = rawResult.match(/^(\d+)\s*pts$/i);
     if (pointsMatch) points = Number(pointsMatch[1]);
   }
-  return { team: teamName, rank, totalTeams: cards.length, mark, points, hasResult: rank !== null || mark !== null || (points !== null && points > 0) };
+  return { team: team?.trim() || null, rank, mark, points, hasResult: rank !== null || mark !== null || (points !== null && points > 0) };
+}
+function parseCompetitionHtml(html: string, teamName: string) {
+  const elements = findDivElements(html);
+  const cards = elements.filter(element => element.classes.includes("athleteresult"));
+  if (!cards.length) throw new Error("No WodBuster result cards found");
+  const standings = cards.map(card => parseCard(html, elements, card)).filter(row => row.team)
+    .sort((a, b) => a.rank === null ? (b.rank === null ? 0 : 1) : b.rank === null ? -1 : a.rank - b.rank);
+  const target = standings.find(row => normalizeName(row.team || "") === normalizeName(teamName));
+  if (!target) throw new Error("Team not found in WodBuster results");
+  return { ...target, team: target.team || teamName, totalTeams: cards.length, standings };
 }
 function validateConfig(value: unknown): ResultsConfig {
   if (!value || typeof value !== "object") throw new Error("Missing results configuration");
@@ -157,6 +160,65 @@ async function loadResults(cfg: ResultsConfig) {
   }
   return payload;
 }
+function adminCredentials(): { url: string; key: string } | null {
+  const url = Deno.env.get("SUPABASE_URL");
+  let key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+  try {
+    const secrets = JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS") || "{}");
+    if (typeof secrets.default === "string" && secrets.default) key = secrets.default;
+  } catch (_) { /* Use the legacy service-role secret when present. */ }
+  return url && key ? { url: url.replace(/\/$/, ""), key } : null;
+}
+async function sha256(value: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
+  return Array.from(new Uint8Array(digest)).map(byte => byte.toString(16).padStart(2, "0")).join("");
+}
+async function syncHistory(cfg: ResultsConfig, payload: { results: Record<string, any>; updatedAt: string }) {
+  const scope = cfg.competitionId + ":" + cfg.divisionId + ":" + cfg.teamName;
+  if (!HISTORY_SCOPES.has(scope)) return { history: [], historyEnabled: false };
+  const credentials = adminCredentials();
+  if (!credentials) return { history: [], historyEnabled: true, historyError: "History storage is not configured" };
+  const overall = payload.results.overall;
+  if (overall?.standings?.length) {
+    const snapshotHash = await sha256(JSON.stringify(payload.results));
+    const params = new URLSearchParams({ on_conflict: "competition_id,division_id,team_name,snapshot_hash" });
+    const insertResponse = await fetch(credentials.url + "/rest/v1/" + HISTORY_TABLE + "?" + params.toString(), {
+      method: "POST",
+      headers: {
+        "apikey": credentials.key,
+        "Authorization": "Bearer " + credentials.key,
+        "Content-Type": "application/json",
+        "Prefer": "resolution=ignore-duplicates,return=minimal"
+      },
+      body: JSON.stringify({
+        competition_id: cfg.competitionId,
+        division_id: cfg.divisionId,
+        team_name: cfg.teamName,
+        snapshot_hash: snapshotHash,
+        snapshot_at: payload.updatedAt,
+        results: payload.results
+      })
+    });
+    if (!insertResponse.ok) throw new Error("History insert failed: HTTP " + insertResponse.status + " " + (await insertResponse.text()).slice(0, 300));
+  }
+  const query = new URLSearchParams({
+    select: "snapshot_at,results",
+    competition_id: "eq." + cfg.competitionId,
+    division_id: "eq." + cfg.divisionId,
+    team_name: "eq." + cfg.teamName,
+    order: "snapshot_at.desc",
+    limit: "120"
+  });
+  const response = await fetch(credentials.url + "/rest/v1/" + HISTORY_TABLE + "?" + query.toString(), {
+    headers: { "apikey": credentials.key, "Authorization": "Bearer " + credentials.key }
+  });
+  if (!response.ok) throw new Error("History read failed: HTTP " + response.status);
+  const rows = await response.json();
+  return {
+    history: Array.isArray(rows) ? rows.reverse().map((row: any) => ({ snapshotAt: row.snapshot_at, results: row.results })) : [],
+    historyEnabled: true
+  };
+}
 Deno.serve(async (request: Request) => {
   if (request.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (request.method !== "GET" && request.method !== "POST") return json({ error: "Method not allowed" }, 405);
@@ -164,7 +226,14 @@ Deno.serve(async (request: Request) => {
     let raw: unknown = LEGACY_CONFIG;
     if (request.method === "POST") raw = await request.json();
     const cfg = validateConfig(raw);
-    return json(await loadResults(cfg));
+    const payload = await loadResults(cfg);
+    try {
+      const history = await syncHistory(cfg, payload);
+      return json({ ...payload, ...history });
+    } catch (historyError) {
+      console.error("Could not synchronize official result history", historyError);
+      return json({ ...payload, history: [], historyEnabled: HISTORY_SCOPES.has(cfg.competitionId + ":" + cfg.divisionId + ":" + cfg.teamName), historyError: "No se ha podido sincronizar el historial." });
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : "Invalid results request";
     const status = /Unsupported results provider|Invalid|Missing/.test(message) ? 400 : 500;
