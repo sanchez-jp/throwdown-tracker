@@ -169,7 +169,7 @@ function createResultRow(label,result,detail=""){
   const info=document.createElement("div");info.className="detail";info.textContent=detail||"";
   row.append(name,position,points,info);return row;
 }
-function normalizedTeamName(value){return String(value||"").normalize("NFKC").replace(/\\s+/g," ").trim().toLocaleLowerCase("es")}
+function normalizedTeamName(value){return String(value||"").normalize("NFKC").replace(/\s+/g," ").trim().toLocaleLowerCase("es")}
 function renderOverallNeighbors(overallPage){
   const root=$("overallNeighbors");if(!root)return;root.replaceChildren();
   const result=overallPage&&officialResults[overallPage.key],standings=result?.standings;
