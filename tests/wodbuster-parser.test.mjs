@@ -28,7 +28,9 @@ for (const [key, page] of Object.entries(fixtures.pages)) {
     assert.deepEqual(
       { team: result.team, rank: result.rank, totalTeams: result.totalTeams, mark: result.mark, points: result.points, hasResult: result.hasResult },
       { team: fixtures.team, ...expected[key] }
-    );\n    assert.equal(result.standings.length, page.expectedTotalTeams);\n    assert.ok(result.standings.some(row => row.team === fixtures.team));
+    );
+    assert.equal(result.standings.length, page.expectedTotalTeams);
+    assert.ok(result.standings.some(row => row.team === fixtures.team));
   });
 }
 
