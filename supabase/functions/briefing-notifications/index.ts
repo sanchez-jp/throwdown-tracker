@@ -242,6 +242,15 @@ Deno.serve(async (request: Request) => {
       if (error) throw error;
       return reply({ ok: true });
     }
+    if (body.action === "status") {
+      if (typeof body.endpoint !== "string" || body.endpoint.length > 4096 || !body.endpoint.startsWith("https://")) {
+        return reply({ error: "Invalid endpoint" }, 400);
+      }
+      const { data, error } = await db.from("briefing_push_subscriptions")
+        .select("id").eq("competition_id", body.competition_id).eq("endpoint", body.endpoint).maybeSingle();
+      if (error) throw error;
+      return reply({ subscribed: !!data });
+    }
     if (body.action === "unsubscribe") {
       if (typeof body.endpoint !== "string" || body.endpoint.length > 4096) return reply({ error: "Invalid endpoint" }, 400);
       const { error } = await db.from("briefing_push_subscriptions")
