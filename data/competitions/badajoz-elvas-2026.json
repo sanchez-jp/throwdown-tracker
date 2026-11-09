@@ -167,8 +167,58 @@
   "id": "badajoz-elvas-2026",
   "results": {
     "provider": "wodbuster",
-    "sourceId": "badajoz-elvas-2026",
     "teamName": "VENI VIDI REGULINCHI",
-    "category": "Trios Intermedio (MMM)"
+    "competitionId": "4282",
+    "divisionId": "18412",
+    "pages": [
+      {
+        "key": "overall",
+        "label": "Clasificación general",
+        "idw": "",
+        "overall": true
+      },
+      {
+        "key": "wod1a",
+        "label": "WOD 1A · Gimnasia",
+        "shortLabel": "1A · GIM",
+        "idw": "-66076",
+        "event": "WOD 1"
+      },
+      {
+        "key": "wod1b",
+        "label": "WOD 1B · Remo",
+        "shortLabel": "1B · REMO",
+        "idw": "-66077",
+        "event": "WOD 1"
+      },
+      {
+        "key": "wod2",
+        "label": "WOD 2",
+        "shortLabel": "WOD 2",
+        "idw": "65398",
+        "event": "WOD 2"
+      },
+      {
+        "key": "wod3",
+        "label": "WOD 3",
+        "shortLabel": "WOD 3",
+        "idw": "65410",
+        "event": "WOD 3"
+      },
+      {
+        "key": "wod4",
+        "label": "WOD 4",
+        "shortLabel": "WOD 4",
+        "idw": "65422",
+        "event": "WOD 4"
+      },
+      {
+        "key": "wod5",
+        "label": "WOD 5",
+        "shortLabel": "WOD 5",
+        "idw": "65434",
+        "event": "WOD 5"
+      }
+    ]
   }
 }

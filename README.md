@@ -25,6 +25,7 @@ La configuración incluye:
 - `id`: identificador único de la competición.
 - `competition`: datos generales (nombre, categoría, equipo, sede, carril, heat y zona horaria).
 - `days`: jornadas, eventos, horarios, WODs y enlaces a flows.
-- `results`: configuración del proveedor de resultados. La integración actual de WodBuster sigue limitada a Badajoz Elvas 2026; otras competiciones no mostrarán clasificaciones hasta configurar su fuente.
+- `results` (opcional): proveedor de clasificaciones. Para WodBuster se configuran `provider: "wodbuster"`, `teamName`, `competitionId`, `divisionId` y `pages`. Cada página define una clave única (`key`), su etiqueta (`label`), el identificador WodBuster de la prueba (`idw`) y, opcionalmente, el WOD al que pertenece (`event`) para mostrar su puesto junto a la descripción. La clasificación general usa `idw: ""` y `overall: true`.
+- Las páginas se consultan mediante el proxy de resultados de Supabase. La URL de consulta queda restringida al dominio oficial de WodBuster; la configuración no admite URLs arbitrarias.
 
-Para crear otra competición, duplica un JSON existente con un nuevo identificador y sustituye sus datos. No reutilices la configuración `results` de otra competición.
+Para crear otra competición, duplica un JSON existente con un nuevo identificador y sustituye sus datos. Si utiliza WodBuster, introduce los identificadores de competición, categoría y cada tabla de resultados. Si utiliza otro proveedor, habrá que añadir su adaptador en la función de resultados; la interfaz ya consume páginas de resultados de forma dinámica.
