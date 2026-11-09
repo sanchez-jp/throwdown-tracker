@@ -56,11 +56,11 @@
 .evolution-entry{display:flex;justify-content:space-between;gap:8px;padding-top:6px;border-top:1px solid var(--line);font-size:10px}
 .evolution-entry span:first-child{color:var(--muted)}
 @media(max-width:380px){.neighbor-list{grid-template-columns:1fr}}
+.notification-button{width:38px;height:38px;display:grid;place-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted);cursor:pointer}.notification-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.notification-button.enabled{border-color:var(--lime);background:#26333a;color:var(--lime)}.notification-button:disabled{opacity:.45;cursor:not-allowed}.notification-button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 </style></head><body><canvas class="particle-bg" id="particleCanvas" aria-hidden="true"></canvas><main class="wrap">
-<header><div><div class="eyebrow">Competition HQ</div><h1>THROWDOWN<br>TRACKER</h1><div class="sub" id="subtitle">Cargando competición…</div></div><img class="brand-mark" src="./header-logo.png" alt="Throwdown Tracker"><div style="display:grid;justify-items:end;gap:6px"><span class="pill" id="heat">HEAT —</span><span class="connection-pill" id="connectionStatus" role="status">COMPROBANDO CONEXIÓN</span></div></header>
+<header><div><div class="eyebrow">Competition HQ</div><h1>THROWDOWN<br>TRACKER</h1><div class="sub" id="subtitle">Cargando competición…</div></div><img class="brand-mark" src="./header-logo.png" alt="Throwdown Tracker"><div style="display:grid;justify-items:end;gap:6px"><button class="notification-button" id="briefingNotificationsButton" type="button" aria-label="Activar avisos del briefing" aria-pressed="false" title="Activar avisos del briefing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></svg></button><span class="pill" id="heat">HEAT —</span><span class="connection-pill" id="connectionStatus" role="status">COMPROBANDO CONEXIÓN</span></div></header>
 <section class="hero" aria-live="polite"><div class="heroTop"><span class="live">● DIRECTO</span><span class="pill" id="venue">—</span></div><div class="clock" id="clock">--:--:--</div><div class="date" id="date"></div><div class="timezone" id="timezone">HORA OFICIAL · PORTUGAL</div><div class="status"><div class="statusLabel" id="statusLabel">TU SITUACIÓN</div><h2 id="statusTitle">Cargando…</h2><p id="statusDesc"></p><div class="countrow"><div class="count" id="countdown">--:--:--<small id="countLabel">Cuenta atrás</small></div></div></div><div class="meta"><div><span>Competición</span><b id="compName">—</b></div><div><span>Calle</span><b id="lane">—</b></div><div><span>Equipo</span><b id="team">—</b></div></div></section>
 
-<section class="section" id="briefingNotificationsSection"><div class="sectionHead"><h3>Avisos del briefing</h3><span class="hint">15 minutos antes</span></div><div class="access-box"><p id="briefingNotificationsStatus">Activa los avisos para recibir un recordatorio antes del briefing.</p><button class="button" id="briefingNotificationsButton" type="button">Activar aviso del briefing</button></div></section>
 <section class="section" id="accessSection">
 <div class="sectionHead"><h3>Acceso a notas estratégicas</h3><span class="hint" id="accessStatus">Modo invitado</span></div>
 <div class="access-actions">
@@ -149,7 +149,8 @@ window.addEventListener("offline",updateConnectionStatus);
 
 function base64UrlToBytes(value){const padding="=".repeat((4-value.length%4)%4),base64=(value+padding).replace(/-/g,"+").replace(/_/g,"/");return Uint8Array.from(atob(base64),c=>c.charCodeAt(0))}
 async function briefingNotificationCall(action,extra={}){const response=await fetch(BRIEFING_NOTIFICATIONS_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({action,competition_id:cfg?.id,...extra})});const payload=await response.json().catch(()=>({}));if(!response.ok)throw Error(payload.error||"No se ha podido configurar el aviso");return payload}
-function briefingNotificationMessage(message){const status=$("briefingNotificationsStatus");if(status)status.textContent=message}
+function briefingNotificationMessage(message){const button=$("briefingNotificationsButton");if(button){button.title=message;button.setAttribute("aria-label","Avisos del briefing. "+message)}}
+function setBriefingNotificationState(button,active){button.classList.toggle("enabled",active);button.setAttribute("aria-pressed",String(active));button.setAttribute("aria-label",active?"Desactivar avisos del briefing":"Activar avisos del briefing");}
 async function initBriefingNotifications(){
  const button=$("briefingNotificationsButton");if(!button)return;
  if(!("serviceWorker"in navigator)||!("PushManager"in window)||!("Notification"in window)){
@@ -158,14 +159,16 @@ async function initBriefingNotifications(){
  }
  if(Notification.permission==="denied"){
    briefingNotificationMessage("Los avisos están bloqueados. Puedes permitirlos desde los ajustes de notificaciones del navegador o del dispositivo.");
-   button.textContent="Avisos bloqueados";button.disabled=true;return;
+   button.disabled=true;return;
  }
  try{
    const registration=await navigator.serviceWorker.ready;
    const subscription=await registration.pushManager.getSubscription();
    const state=subscription?await briefingNotificationCall("status",{endpoint:subscription.endpoint}):{subscribed:false};
-   if(state.subscribed){briefingNotificationMessage("Aviso del briefing activado en este dispositivo para esta competición.");button.textContent="Desactivar avisos";}
-   else{briefingNotificationMessage("Recibirás un único aviso 15 minutos antes de cada briefing de esta competición.");button.textContent="Activar aviso del briefing";}
+   setBriefingNotificationState(button,!!state.subscribed);
+   briefingNotificationMessage(state.subscribed
+     ?"Aviso del briefing activado en este dispositivo para esta competición."
+     :"Recibirás un único aviso 15 minutos antes de cada briefing de esta competición.");
  }catch(error){briefingNotificationMessage("No se ha podido comprobar el estado de los avisos.");console.warn("Briefing notifications unavailable",error)}
  button.onclick=async()=>{
    button.disabled=true;
@@ -178,20 +181,20 @@ async function initBriefingNotifications(){
        const state=await briefingNotificationCall("status",{endpoint:subscription.endpoint});
        if(state.subscribed){
          await briefingNotificationCall("unsubscribe",{endpoint:subscription.endpoint});
+         setBriefingNotificationState(button,false);
          briefingNotificationMessage("Avisos desactivados para esta competición en este dispositivo.");
-         button.textContent="Activar aviso del briefing";
        }else{
          await briefingNotificationCall("subscribe",{subscription:subscription.toJSON()});
+         setBriefingNotificationState(button,true);
          briefingNotificationMessage("Aviso del briefing activado en este dispositivo.");
-         button.textContent="Desactivar avisos";
        }
      }else{
        const config=await briefingNotificationCall("config");
        if(!config.publicKey)throw Error("No se ha podido obtener la clave pública de notificaciones");
        subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:base64UrlToBytes(config.publicKey)});
        await briefingNotificationCall("subscribe",{subscription:subscription.toJSON()});
+       setBriefingNotificationState(button,true);
        briefingNotificationMessage("Aviso del briefing activado en este dispositivo.");
-       button.textContent="Desactivar avisos";
      }
    }catch(error){
      console.error("Could not update briefing push subscription",error);
