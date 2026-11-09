@@ -1,0 +1,174 @@
+{
+  "appName": "Throwdown Tracker",
+  "competition": {
+    "name": "Badajoz Elvas Throwdown 2026",
+    "category": "Trios Intermedio (MMM)",
+    "team": "VENI VIDI REGULINCHI",
+    "venue": "Coliseo",
+    "lane": "19",
+    "heat": "5",
+    "timezone": "Europe/Lisbon"
+  },
+  "days": [
+    {
+      "id": "saturday",
+      "label": "Sábado 7",
+      "date": "2026-11-07",
+      "events": [
+        {
+          "name": "WOD 1",
+          "title": "Doble o Nada",
+          "briefing": "09:15",
+          "warmup": "09:35",
+          "corrals": "09:50",
+          "arena": "09:53",
+          "start": "09:55",
+          "end": "10:09",
+          "workout": {
+            "format": "AMRAP 12 minutos",
+            "timeCap": "12 min",
+            "score": [
+              "Score 1: máximo de repeticiones de gimnasia",
+              "Score 2: metros de remo"
+            ],
+            "blocks": [
+              "Atletas 1 y 2: relevos por rondas completas",
+              "4 Wall Walk",
+              "10 C2B (Chest-to-Bar)",
+              "Atleta 3: 4 minutos de máximo de metros de remo",
+              "Cada 4 minutos cambia el atleta en el remo"
+            ]
+          },
+          "flowUrl": "https://drive.google.com/file/d/1CoQzoYVRCRqQwd7ewMCHJzmlyoZqOOrS/view?usp=drivesdk"
+        },
+        {
+          "name": "WOD 2",
+          "title": "Corre, Isabel",
+          "briefing": "13:58",
+          "warmup": "14:18",
+          "corrals": "14:33",
+          "arena": "14:36",
+          "start": "14:38",
+          "end": "14:48",
+          "workout": {
+            "format": "For Time · 4 RFT por atleta",
+            "timeCap": "10 min",
+            "score": [
+              "Tiempo"
+            ],
+            "blocks": [
+              "Atleta 1: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch",
+              "Después, atleta 2: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch",
+              "Después, atleta 3: 4 rondas de 40 m Shuttle Run (10 m) + 6 Power Snatch"
+            ],
+            "loads": [
+              "Tríos MMF: 55 kg / 35 kg",
+              "Tríos MMM: 55 kg"
+            ]
+          },
+          "flowUrl": "https://drive.google.com/file/d/1oNoS5KZ9DveTgwcbiR8-af9tlUQHtkEg/view?usp=drivesdk"
+        },
+        {
+          "name": "WOD 3",
+          "title": "McChipper",
+          "briefing": "17:24",
+          "warmup": "17:44",
+          "corrals": "17:59",
+          "arena": "18:02",
+          "start": "18:04",
+          "end": "18:16",
+          "workout": {
+            "format": "For Time · 2 RFT",
+            "timeCap": "12 min",
+            "score": [
+              "Tiempo"
+            ],
+            "blocks": [
+              "Cash-in: 44 Worm Squat — 2 atletas, cambios libres",
+              "33 Pull-Up — 2 atletas sincronizados",
+              "22 HSPU — 1 atleta hace HSPU y los otros 2 mantienen Worm Hold",
+              "11 Worm Clean & Jerk — 2 atletas, cambios libres",
+              "5 m Worm Walking Lunge — 2 atletas, cambios libres"
+            ]
+          },
+          "flowUrl": "https://drive.google.com/file/d/1xd9_fbT08sB9vI2VKQRyEYwvIIuSJr3W/view?usp=drivesdk"
+        }
+      ]
+    },
+    {
+      "id": "sunday",
+      "label": "Domingo 8",
+      "date": "2026-11-08",
+      "events": [
+        {
+          "name": "WOD 4",
+          "title": "ACME & Co",
+          "briefing": "08:57",
+          "warmup": "09:17",
+          "corrals": "09:32",
+          "arena": "09:35",
+          "start": "09:37",
+          "end": "09:46",
+          "workout": {
+            "format": "3 sets · AMRAP 2 min 30 s",
+            "timeCap": "9 min 30 s",
+            "score": [
+              "Repeticiones totales"
+            ],
+            "blocks": [
+              "15 T2B — atletas 1 y 2 sincronizados",
+              "15 T2B — atleta 3",
+              "10 Front Squat — atletas 1 y 2 sincronizados",
+              "10 Front Squat — atleta 3",
+              "Máximos Burpees Over the Worm — 3 atletas sincronizados",
+              "Descanso: 1 minuto entre sets"
+            ],
+            "loads": [
+              "Tríos MMF: 70 kg / 45 kg; Front Squat sincronizado entre atleta masculino y femenino (MF)",
+              "Tríos MMM: 70 kg"
+            ]
+          },
+          "flowUrl": "https://drive.google.com/file/d/16_pOi5nRsdX1wm6SqMA8MYBkWqH5fqPf/view?usp=drivesdk",
+          "lane": "2"
+        },
+        {
+          "name": "WOD 5",
+          "title": "Final · Tríos MMM",
+          "heat": "3",
+          "briefing": "11:49",
+          "warmup": "12:09",
+          "corrals": "12:24",
+          "arena": "12:27",
+          "start": "12:29",
+          "end": "12:35",
+          "flowUrl": "https://drive.google.com/file/d/10GuV6F8xMuRBOzjVAHUpBnN5a5zQ2CgQ/view?usp=drivesdk",
+          "workout": {
+            "format": "FOR TIME",
+            "timeCap": "06:00",
+            "blocks": [
+              "18 THRUSTERS SYNCHRO (3)*",
+              "3 ROPE CLIMBS (A1)",
+              "— TOCAR CONO A1 —",
+              "15 THRUSTERS SYNCHRO (3)",
+              "4×5M HSW (A2)",
+              "— TOCAR CONO A2 —",
+              "12 THRUSTERS SYNCHRO (3)",
+              "10 BAR MUSCLE UP (A3)",
+              "* 2 ATLETAS TRABAJANDO CON BARRA",
+              "+",
+              "1 ATLETA TRABAJANDO CON 2 DBs"
+            ]
+          },
+          "lane": "2"
+        }
+      ]
+    }
+  ],
+  "id": "badajoz-elvas-2026",
+  "results": {
+    "provider": "wodbuster",
+    "sourceId": "badajoz-elvas-2026",
+    "teamName": "VENI VIDI REGULINCHI",
+    "category": "Trios Intermedio (MMM)"
+  }
+}
