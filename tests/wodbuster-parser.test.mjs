@@ -25,7 +25,10 @@ const expected = {
 for (const [key, page] of Object.entries(fixtures.pages)) {
   test("parses captured WodBuster result: " + key, () => {
     const result = parseCompetitionHtml(pageHtml(page), fixtures.team);
-    assert.deepEqual(\n      { team: result.team, rank: result.rank, totalTeams: result.totalTeams, mark: result.mark, points: result.points, hasResult: result.hasResult },\n      { team: fixtures.team, ...expected[key] }\n    );\n    assert.equal(result.standings.length, page.expectedTotalTeams);\n    assert.ok(result.standings.some(row => row.team === fixtures.team));
+    assert.deepEqual(
+      { team: result.team, rank: result.rank, totalTeams: result.totalTeams, mark: result.mark, points: result.points, hasResult: result.hasResult },
+      { team: fixtures.team, ...expected[key] }
+    );\n    assert.equal(result.standings.length, page.expectedTotalTeams);\n    assert.ok(result.standings.some(row => row.team === fixtures.team));
   });
 }
 
