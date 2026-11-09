@@ -2,7 +2,16 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 import webpush from "npm:web-push@3.6.7";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const SERVICE_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+function serviceKey() {
+  let key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+  try {
+    const secrets = JSON.parse(Deno.env.get("SUPABASE_SECRET_KEYS") || "{}");
+    if (typeof secrets.default === "string" && secrets.default) key = secrets.default;
+  } catch (_) { /* Fall back to the legacy service-role secret. */ }
+  if (!key) throw new Error("Supabase server key is not configured");
+  return key;
+}
+const SERVICE_KEY = serviceKey();
 const APP_BASE_URL = "https://sanchez-jp.github.io/throwdown-tracker";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "https://sanchez-jp.github.io",
