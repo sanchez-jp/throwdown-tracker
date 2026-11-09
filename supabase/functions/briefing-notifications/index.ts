@@ -1,5 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
-import webpush from "npm:web-push@3.6.7";
+import { buildPushPayload } from "npm:@block65/webcrypto-web-push@2.0.0";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 function serviceKey() {
@@ -49,10 +49,26 @@ async function settings() {
   if (error || !data) throw new Error("Push settings are not configured");
   return data;
 }
+function base64Url(bytes: Uint8Array) {
+  let binary = "";
+  for (const byte of bytes) binary += String.fromCharCode(byte);
+  return btoa(binary).replace(/\\+/g, "-").replace(/\\//g, "_").replace(/=+$/g, "");
+}
+async function generateVapidKeys() {
+  const pair = await crypto.subtle.generateKey(
+    { name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"],
+  );
+  const [publicBytes, privateJwk] = await Promise.all([
+    crypto.subtle.exportKey("raw", pair.publicKey),
+    crypto.subtle.exportKey("jwk", pair.privateKey),
+  ]);
+  if (!privateJwk.d) throw new Error("Could not export VAPID private key");
+  return { publicKey: base64Url(new Uint8Array(publicBytes)), privateKey: privateJwk.d };
+}
 async function vapidKeys() {
   let current = await settings();
   if (current.vapid_public_key && current.vapid_private_key) return current;
-  const generated = webpush.generateVAPIDKeys();
+  const generated = await generateVapidKeys();
   const { data, error } = await db.from("briefing_push_settings")
     .update({ vapid_public_key: generated.publicKey, vapid_private_key: generated.privateKey })
     .eq("id", true).is("vapid_public_key", null)
@@ -135,7 +151,6 @@ async function dispatch(request: Request) {
   if (!subscriptions?.length) return reply({ ok: true, sent: 0, checked: 0 });
 
   const keys = await vapidKeys();
-  webpush.setVapidDetails(APP_BASE_URL, keys.vapid_public_key, keys.vapid_private_key);
   const configCache = new Map<string, any>();
   const now = new Date();
   let sent = 0, checked = 0, failed = 0;
@@ -174,7 +189,17 @@ async function dispatch(request: Request) {
         tag: "briefing-" + event.key,
       });
       try {
-        await webpush.sendNotification(item.subscription, payload, { TTL: 1800, urgency: "high" });
+        const requestOptions = await buildPushPayload(
+          { data: payload, options: { ttl: 1800 } },
+          item.subscription,
+          { subject: APP_BASE_URL, publicKey: keys.vapid_public_key, privateKey: keys.vapid_private_key },
+        );
+        const pushResponse = await fetch(item.endpoint, requestOptions);
+        if (!pushResponse.ok) {
+          const pushError: any = new Error("Push service returned HTTP " + pushResponse.status + " " + (await pushResponse.text()).slice(0, 300));
+          pushError.statusCode = pushResponse.status;
+          throw pushError;
+        }
         await db.from("briefing_push_deliveries")
           .update({ status: "sent", sent_at: new Date().toISOString(), last_error: null })
           .eq("subscription_id", item.id).eq("event_key", event.key);
