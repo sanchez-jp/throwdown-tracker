@@ -133,7 +133,7 @@ async function getResult(url: string, teamName: string) {
   const response = await fetch(url, {
     headers: { "Accept": "text/html,application/xhtml+xml", "User-Agent": "Mozilla/5.0 (compatible; ThrowdownTracker/1.0)" },
     signal: AbortSignal.timeout(12000),
-    redirect: "follow",
+    redirect: "error",
   });
   if (!response.ok) throw new Error("WodBuster returned HTTP " + response.status);
   return parseCompetitionHtml(await response.text(), teamName);
