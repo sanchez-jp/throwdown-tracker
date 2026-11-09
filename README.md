@@ -29,3 +29,8 @@ La configuración incluye:
 - Las páginas se consultan mediante el proxy de resultados de Supabase. La URL de consulta queda restringida al dominio oficial de WodBuster; la configuración no admite URLs arbitrarias.
 
 Para crear otra competición, duplica un JSON existente con un nuevo identificador y sustituye sus datos. Si utiliza WodBuster, introduce los identificadores de competición, categoría y cada tabla de resultados. Si utiliza otro proveedor, habrá que añadir su adaptador en la función de resultados; la interfaz ya consume páginas de resultados de forma dinámica.
+## Notas estratégicas por competición
+
+Las notas se guardan con una clave compuesta por el identificador de la competición y el WOD, por ejemplo `badajoz-elvas-2026:wod1`. El acceso de equipo solo consulta las notas de la competición abierta; el acceso de administrador utiliza la misma clave en `public.wod_notes`.
+
+La función `team-notes` debe desplegarse desde `supabase/functions/team-notes/index.ts` junto con esta versión de la aplicación. Antes de activar la nueva función, ejecuta una vez el SQL de `supabase/operations/migrate-badajoz-elvas-notes.sql` para conservar las notas existentes de Badajoz-Elvas. El script se detiene si detecta claves nuevas que pudieran provocar una sobrescritura.
