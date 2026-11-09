@@ -21,10 +21,10 @@ La aplicación incorpora una caché local para consultar la información ya desc
 
 - La interfaz, los iconos y la configuración de cada competición visitada se guardan en la caché del navegador.
 - La clasificación conserva la última consulta correcta en el dispositivo y muestra que se trata de datos guardados cuando no hay conexión.
-- Las notas estratégicas se guardan localmente después de una consulta autenticada correcta. Si se pierde la conexión durante una sesión de equipo o administrador, se puede seguir consultando esa última copia en modo de solo lectura.
-- Al recuperar la conexión, la clasificación y las notas vuelven a sincronizarse automáticamente.
+- Las notas estratégicas requieren conexión para iniciar sesión, consultarse y modificarse. No se guardan copias locales de las notas.
+- Al recuperar la conexión, la clasificación vuelve a sincronizarse automáticamente.
 
-La primera apertura de cada competición debe hacerse con conexión para descargar su configuración. Los enlaces externos (por ejemplo, flows alojados en Google Drive) y las operaciones que modifican notas compartidas siguen necesitando conexión. El acceso compartido del equipo también requiere validar las credenciales en línea; no se guardan contraseñas para habilitar un inicio de sesión sin conexión.
+La primera apertura de cada competición debe hacerse con conexión para descargar su configuración. Los enlaces externos (por ejemplo, flows alojados en Google Drive) y todo el acceso a las notas estratégicas requieren conexión. El acceso compartido del equipo valida las credenciales en línea; no se guardan contraseñas ni notas para habilitar el acceso sin conexión.
 
 La copia local depende del almacenamiento del navegador y puede desaparecer si se borran sus datos. Antes de una competición, abre la app con conexión y comprueba que aparece el estado «EN LÍNEA» para que se descarguen los datos.
 
