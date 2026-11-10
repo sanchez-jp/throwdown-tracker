@@ -1,4 +1,4 @@
-const CACHE="throwdown-tracker-v26";
+const CACHE="throwdown-tracker-v27";
 const FILES=[
   "./",
   "./index.html",
@@ -7,7 +7,8 @@ const FILES=[
   "./brand-mark.svg",
   "./header-logo.png",
   "./apple-touch-icon.png",
-  "./data/competitions/badajoz-elvas-2026.json"
+  "./data/competitions/badajoz-elvas-2026.json",
+  "./data/competitions/wod-games-la-carlota-2026.json"
 ];
 
 self.addEventListener("install",event=>{

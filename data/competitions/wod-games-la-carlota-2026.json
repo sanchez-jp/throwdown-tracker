@@ -1,0 +1,140 @@
+{
+  "appName": "Throwdown Tracker",
+  "id": "wod-games-la-carlota-2026",
+  "competition": {
+    "name": "WOD Games La Carlota",
+    "category": "Escalado MF",
+    "team": "ESCUCHO BORROSO",
+    "teamMembers": [
+      "Juampe",
+      "Paula"
+    ],
+    "venue": "CDMC",
+    "location": "La Carlota, Córdoba, España",
+    "city": "La Carlota",
+    "province": "Córdoba",
+    "country": "España",
+    "timezone": "Europe/Madrid",
+    "lane": null,
+    "heat": null
+  },
+  "days": [
+    {
+      "id": "saturday",
+      "label": "Sábado 14",
+      "date": "2026-11-14",
+      "events": [
+        {
+          "name": "WOD 1",
+          "title": "FULL THROTTLE",
+          "lane": "9",
+          "heat": "6",
+          "briefing": "08:30",
+          "warmup": "08:50",
+          "corrals": "09:07",
+          "arena": "09:08",
+          "start": "09:10",
+          "end": "09:21",
+          "workout": null
+        },
+        {
+          "name": "WOD 2",
+          "title": "IRON LENGUAJE",
+          "lane": "9",
+          "heat": "6",
+          "scheduleStatus": "provisional",
+          "briefing": "13:28",
+          "warmup": "13:48",
+          "corrals": "14:04",
+          "arena": "14:06",
+          "start": "14:08",
+          "end": "14:17",
+          "workout": {
+            "format": "Clean Complex · 3 sets cada 1'30'' (4'30'' por atleta)",
+            "blocks": [
+              "Athlete A: 3 sets de Clean Complex sin soltar la barra (No Drop): 1 Power Clean + 1 Hang Squat Clean + 1 Front Squat + 1 Shoulder to Overhead.",
+              "Athlete B: 3 sets del mismo Clean Complex sin soltar la barra (No Drop).",
+              "Alternancia de ventanas: atleta A en las ventanas 1, 3 y 5; atleta B en las ventanas 2, 4 y 6."
+            ],
+            "scores": [
+              "Team Score: suma del mejor levantamiento válido de cada atleta."
+            ]
+          },
+          "notes": "En la lista inicial de nombres figuraba IRON LANGUAGE; en el encabezado de la descripción posterior aparece IRON LENGUAJE. Se conserva IRON LENGUAJE hasta confirmar la grafía oficial."
+        },
+        {
+          "name": "WOD 3",
+          "title": "RELENTLESS",
+          "lane": "9",
+          "heat": "6",
+          "scheduleStatus": "provisional",
+          "briefing": "17:51",
+          "warmup": "18:11",
+          "corrals": "18:28",
+          "arena": "18:29",
+          "start": "18:31",
+          "end": "18:41",
+          "workout": {
+            "format": "For Time · TC 10' · Categoría Scaled",
+            "blocks": [
+              "21-15-12-9 repeticiones de cada uno de los siguientes movimientos:",
+              "Alt Box Jumps alternos: 50 cm para MF/FF (60 cm para MM).",
+              "Knees to Chest sincronizados.",
+              "Shoulder to Overhead sincronizados."
+            ],
+            "loads": [
+              "Atleta 1: 1 KB de 16/12 kg.",
+              "Atleta 2: 1 DB de 15/10 kg."
+            ],
+            "scores": [
+              "Tiempo total de finalización."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sunday",
+      "label": "Domingo 15",
+      "date": "2026-11-15",
+      "events": [
+        {
+          "name": "WOD 4",
+          "title": "THE LAST STAND",
+          "workout": {
+            "format": "For Time · TC 9' · Categoría Scaled",
+            "blocks": [
+              "Athlete A: 50 Single Unders (SU).",
+              "Athlete B: 50 Single Unders (SU).",
+              "30 Deadlifts sincronizados.",
+              "20 Pull-ups sincronizadas.",
+              "30 Wall Balls alternativos, un atleta y después el otro.",
+              "6 Rope Climbs alternativos, un atleta y después el otro.",
+              "Athlete A: 50 Single Unders (SU).",
+              "Athlete B: 50 Single Unders (SU)."
+            ],
+            "loads": [
+              "Deadlift MF: 60 kg. Cargas y especificaciones de Wall Balls pendientes."
+            ],
+            "scores": [
+              "Team Score: tiempo total de finalización."
+            ]
+          },
+          "notes": "En otra publicación aparece THE LAST SAND. Se mantiene THE LAST STAND hasta aclaración de la organización."
+        },
+        {
+          "name": "WOD 5",
+          "title": "UNBROKEN",
+          "workout": {
+            "format": "Descripción parcial · Partes A y B",
+            "blocks": [
+              "El WOD consta de una parte A y una parte B.",
+              "Una de las dos partes incluye remo; todavía no se ha confirmado cuál.",
+              "Movimientos, repeticiones, cargas, formato y Time Cap pendientes de publicación."
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
