@@ -1,8 +1,10 @@
-const CACHE="throwdown-tracker-v29";
+const CACHE="throwdown-tracker-v30";
 const FILES=[
   "./",
   "./index.html",
   "./install-la-carlota.html",
+  "./la-carlota/",
+  "./la-carlota/index.html",
   "./manifest.webmanifest",
   "./manifests/wod-games-la-carlota-2026.webmanifest",
   "./icon.svg",

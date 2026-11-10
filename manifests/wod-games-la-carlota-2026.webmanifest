@@ -1,8 +1,8 @@
 {
   "name": "Throwdown Tracker · WOD Games La Carlota",
   "short_name": "La Carlota",
-  "id": "../?competition=wod-games-la-carlota-2026",
-  "start_url": "../?competition=wod-games-la-carlota-2026",
+  "id": "../la-carlota/",
+  "start_url": "../la-carlota/",
   "scope": "../",
   "display": "standalone",
   "background_color": "#061b19",
