@@ -142,5 +142,54 @@
         }
       ]
     }
-  ]
+  ],
+  "results": {
+    "provider": "wodbuster",
+    "teamName": "ESCUCHO BORROSO",
+    "competitionId": "3829",
+    "divisionId": "16625",
+    "pages": [
+      {
+        "key": "overall",
+        "label": "Clasificación general",
+        "idw": "",
+        "overall": true
+      },
+      {
+        "key": "wod2",
+        "label": "WOD 2",
+        "shortLabel": "WOD 2",
+        "idw": "65506",
+        "event": "WOD 2"
+      },
+      {
+        "key": "wod3",
+        "label": "WOD 3",
+        "shortLabel": "WOD 3",
+        "idw": "65514",
+        "event": "WOD 3"
+      },
+      {
+        "key": "wod4",
+        "label": "WOD 4",
+        "shortLabel": "WOD 4",
+        "idw": "65522",
+        "event": "WOD 4"
+      },
+      {
+        "key": "wod5a",
+        "label": "WOD 5 · Parte A",
+        "shortLabel": "5A",
+        "idw": "-66502",
+        "event": "WOD 5"
+      },
+      {
+        "key": "wod5b",
+        "label": "WOD 5 · Parte B",
+        "shortLabel": "5B",
+        "idw": "-66503",
+        "event": "WOD 5"
+      }
+    ]
+  }
 }
