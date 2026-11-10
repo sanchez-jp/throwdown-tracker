@@ -1,7 +1,8 @@
-const CACHE="throwdown-tracker-v28";
+const CACHE="throwdown-tracker-v29";
 const FILES=[
   "./",
   "./index.html",
+  "./install-la-carlota.html",
   "./manifest.webmanifest",
   "./manifests/wod-games-la-carlota-2026.webmanifest",
   "./icon.svg",
@@ -75,11 +76,16 @@ self.addEventListener("fetch",event=>{
         .then(response=>{
           if(response.ok){
             const copy=response.clone();
-            caches.open(CACHE).then(cache=>cache.put("./index.html",copy));
+            caches.open(CACHE).then(cache=>{
+              cache.put(request,copy);
+              if(url.pathname.endsWith("/")||url.pathname.endsWith("/index.html")){
+                cache.put("./index.html",response.clone());
+              }
+            });
           }
           return response;
         })
-        .catch(()=>caches.match("./index.html"))
+        .catch(()=>caches.match(request).then(cached=>cached||caches.match("./index.html")))
     );
     return;
   }
