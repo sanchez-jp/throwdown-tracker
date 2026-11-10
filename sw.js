@@ -1,12 +1,17 @@
-const CACHE="throwdown-tracker-v31";
+const CACHE="throwdown-tracker-v32";
 const FILES=[
   "./",
   "./index.html",
   "./install-la-carlota.html",
   "./la-carlota/",
+  "./la-carlota-2026/",
+  "./la-carlota-2026/index.html",
+  "./elvas-2026/",
+  "./elvas-2026/index.html",
   "./la-carlota/index.html",
   "./manifest.webmanifest",
   "./manifests/wod-games-la-carlota-2026.webmanifest",
+  "./manifests/badajoz-elvas-2026.webmanifest",
   "./icon.svg",
   "./brand-mark.svg",
   "./header-logo.png",
