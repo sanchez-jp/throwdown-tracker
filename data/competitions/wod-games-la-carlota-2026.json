@@ -126,11 +126,20 @@
           "name": "WOD 5",
           "title": "UNBROKEN",
           "workout": {
-            "format": "Descripción parcial · Partes A y B",
+            "format": "6 RFT · I go, you go · TC 7' · Categoría Scaled",
             "blocks": [
-              "El WOD consta de una parte A y una parte B.",
-              "Una de las dos partes incluye remo; todavía no se ha confirmado cuál.",
-              "Movimientos, repeticiones, cargas, formato y Time Cap pendientes de publicación."
+              "Los atletas completan 6 rondas en formato I go, you go: un atleta realiza la ronda mientras el compañero acumula metros en el remo.",
+              "10 Ring Pull-ups.",
+              "10 m Bearhug Sandbag Walking Lunges (2 tramos de 5 m).",
+              "Al terminar la ronda, los atletas se relevan obligatoriamente: quien estaba en el remo pasa a realizar la siguiente ronda y su compañero pasa al remo.",
+              "El atleta que no está realizando la ronda debe seguir sumando metros de remo hasta que se cumplan los 7 minutos."
+            ],
+            "loads": [
+              "Bearhug Sandbag: 45/30 kg."
+            ],
+            "scores": [
+              "Team Score 1: tiempo empleado en completar las 6 rondas. Este resultado tiene prioridad en caso de empate.",
+              "Team Score 2: metros totales acumulados en el remo al finalizar los 7 minutos."
             ]
           }
         }
