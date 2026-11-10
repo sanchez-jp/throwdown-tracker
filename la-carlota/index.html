@@ -1,17 +1,585 @@
 <!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#073b32">
-  <meta http-equiv="refresh" content="0;url=../?competition=wod-games-la-carlota-2026">
-  <title>WOD Games La Carlota · Throwdown Tracker</title>
-  <script>
-    window.location.replace("../?competition=wod-games-la-carlota-2026");
-  </script>
-</head>
-<body>
-  <p>Abriendo WOD Games La Carlota…</p>
-  <p><a href="../?competition=wod-games-la-carlota-2026">Abrir la competición</a></p>
-</body>
-</html>
+<html lang="es"><head><meta charset="utf-8"><base href="../"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0b1018"><link rel="manifest" href="manifests/wod-games-la-carlota-2026.webmanifest">
+<script>(()=>{const id=new URLSearchParams(location.search).get("competition");if(id==="wod-games-la-carlota-2026"){document.querySelector('link[rel="manifest"]').href="manifests/wod-games-la-carlota-2026.webmanifest";}})();</script><link rel="icon" type="image/svg+xml" href="icon.svg?v=15" sizes="any"><link rel="icon" type="image/png" href="apple-touch-icon.png?v=15" sizes="180x180"><link rel="apple-touch-icon" href="apple-touch-icon.png"><title>Throwdown Tracker</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1018;--panel:#151d28;--line:#2b3a4d;--muted:#9aa9ba;--white:#eef4fb;--lime:#c9f23d;--cyan:#55dfc7}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#173a36 0,transparent 48%),var(--bg);color:var(--white);font:15px/1.45 system-ui,sans-serif}.particle-bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.72}.wrap{position:relative;z-index:1;max-width:760px;margin:auto;padding:env(safe-area-inset-top) 16px 32px}header{padding:22px 2px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand-mark{width:54px;height:54px;object-fit:contain;flex:none}.eyebrow{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(26px,6vw,38px);line-height:1;margin:6px 0;letter-spacing:-.04em}.sub,.hint{color:var(--muted);font-size:12px}.pill{border:1px solid #486071;background:#192a36;border-radius:99px;padding:7px 11px;font-size:11px;font-weight:800}.connection-pill{border:1px solid #3d765e;background:#102a25;color:#8df0c0;border-radius:99px;padding:5px 8px;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center}.connection-pill.offline{border-color:#956d39;background:#332719;color:#ffd28a}.hero{background:linear-gradient(135deg,#1b3038,#141f2b);border:1px solid #354b5b;border-radius:22px;padding:20px;box-shadow:0 18px 50px #0005}.heroTop{display:flex;justify-content:space-between;align-items:center}.live{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:.12em}.clock{font-size:clamp(44px,12vw,68px);font-weight:950;letter-spacing:-.05em;font-variant-numeric:tabular-nums;margin:12px 0 0}.date{font-size:12px;color:#b8c8d3}.timezone{display:inline-flex;margin-top:7px;padding:5px 9px;border:1px solid #52616b;border-radius:8px;background:#202b32;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.06em}.status{margin-top:15px;background:#0c1821aa;border:1px solid #466173;border-radius:15px;padding:14px}.statusLabel{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:.13em}.status h2{font-size:21px;margin:4px 0}.status p{color:#b9c8d1;font-size:13px;margin:0}.countrow{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-top:12px}.count{font-size:25px;font-weight:900;font-variant-numeric:tabular-nums}.count small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:13px}.team-members{margin-top:8px;color:var(--muted);font-size:11px}.meta div{background:#0c1821aa;border-radius:12px;padding:10px}.meta span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase}.meta b{display:block;font-size:clamp(11px,2.5vw,15px);line-height:1.25;white-space:normal;overflow-wrap:break-word}.section{margin-top:22px}.sectionHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section h3{font-size:15px;margin:0}.days,.wods{display:flex;gap:8px;overflow:auto}.day,.wod,.button{border:1px solid var(--line);border-radius:13px;padding:10px 14px;background:var(--panel);color:var(--white);cursor:pointer;font-weight:800}.day[aria-pressed=true],.wod[aria-pressed=true]{border-color:var(--lime);background:#26333a}.day small{display:block;color:var(--muted);font-size:10px;font-weight:500}.timeline,.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:8px 14px}.event{display:grid;grid-template-columns:60px 18px 1fr;gap:10px;min-height:64px;padding:10px 0;border-bottom:1px solid #293b47}.event:last-child{border:0}.time{font-weight:900;font-variant-numeric:tabular-nums}.dot{width:10px;height:10px;border-radius:50%;background:#718493;margin-top:5px}.event.current .dot{background:var(--lime);box-shadow:0 0 0 4px #c5f34430}.event.current .time,.event.current .name{color:var(--lime)}.event.done{opacity:.48}.name{font-weight:800;font-size:13px}.desc{color:var(--muted);font-size:11px}.tag{color:var(--lime);font-size:9px;margin-left:5px}.cards{display:grid;gap:8px}.workout{background:linear-gradient(145deg,#1a2633,#121a25);border:1px solid #35465a;border-radius:17px;padding:16px}.workout h4{font-size:20px;margin:2px 0 8px}.workout .wodtitle{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}.workout .format{color:var(--cyan);font-weight:800;font-size:13px;margin-bottom:12px}.flow-link{display:inline-flex;margin:0 0 12px;padding:7px 10px;border:1px solid #52616b;border-radius:9px;color:var(--lime);font-size:10px;font-weight:900;letter-spacing:.08em;text-decoration:none}.flow-link:focus,.flow-link:hover{background:#263627;outline:2px solid transparent}.workout ul{padding-left:20px;margin:8px 0}.workout li{margin:7px 0;color:#e2eaf0}.workout .scores,.workout .loads{border-top:1px solid var(--line);margin-top:12px;padding-top:10px;color:var(--muted);font-size:12px}.workout .scores b,.workout .loads b{color:var(--white)}.workout-note{border-top:1px solid var(--line);margin-top:12px;padding-top:10px;color:var(--muted);font-size:11px}.card{display:grid;grid-template-columns:1fr auto;gap:4px 10px}.card strong{font-size:13px}.card .range{font-size:18px;font-weight:900}.card small{color:var(--muted);font-size:11px}.button{font-size:11px;padding:8px 11px}.empty{border:1px dashed #425665;border-radius:15px;padding:20px;text-align:center;color:var(--muted)}footer{text-align:center;color:#718391;font-size:10px;margin:22px 0}
+
+.access-actions{display:flex;gap:8px;flex-wrap:wrap}
+.access-box{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px;margin-top:9px}
+.access-box p{margin:0 0 10px;color:var(--muted);font-size:12px}
+.access-fields{display:grid;gap:9px}
+.access-fields label{display:grid;gap:4px;color:var(--muted);font-size:11px;font-weight:700}
+.access-fields input,.note-editor{width:100%;background:#0c1821;color:var(--white);border:1px solid #405766;border-radius:10px;padding:11px;font:inherit}
+.access-fields input:focus,.note-editor:focus{outline:2px solid var(--cyan);outline-offset:1px}
+.access-fields .button,.note-actions .button{justify-self:start}
+.note-box{margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
+.note-heading{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:8px}
+.note-heading strong{font-size:12px;color:var(--lime);letter-spacing:.08em}
+.note-editor{min-height:120px;resize:vertical;font-size:13px;line-height:1.5}
+.note-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.note-meta{color:var(--muted);font-size:10px;margin-top:7px}
+.note-status{color:var(--cyan);font-size:11px;margin-top:7px;min-height:16px}
+.button.danger{border-color:#754a4a;color:#ffb4b4}
+
+/* Official WodBuster classifications */
+.official-overall{display:grid;grid-template-columns:1fr auto;gap:5px 12px;align-items:center;background:linear-gradient(135deg,#1b3038,#141f2b);border:1px solid #486071;border-radius:15px;padding:14px;margin-bottom:9px}
+.official-overall .label,.result-label{color:var(--muted);font-size:10px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.official-overall .position{grid-column:1;grid-row:2;font-size:25px;font-weight:950;font-variant-numeric:tabular-nums}
+.official-overall .points{grid-column:2;grid-row:1 / span 2;text-align:right;font-size:20px;font-weight:900;color:var(--lime)}
+.official-overall .points small,.result-points small{display:block;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase}
+.result-row{display:grid;grid-template-columns:1fr auto;gap:3px 10px;background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:11px 13px}
+.result-row strong{font-size:12px}
+.result-row .position{grid-column:1;grid-row:2;font-size:16px;font-weight:900;font-variant-numeric:tabular-nums;text-align:left}
+.result-row .result-points{grid-column:2;grid-row:1 / span 3;text-align:right;font-size:15px;font-weight:900;color:var(--cyan)}
+.result-row .result-points small{display:block}
+.result-row .detail{font-size:10px;color:var(--muted)}
+.result-list{display:grid;gap:7px}
+.workout-classification{display:flex;justify-content:flex-end;gap:7px;flex-wrap:wrap;margin:-2px 0 10px}
+.workout-score{border:1px solid #52616b;background:#0c1821;border-radius:9px;padding:6px 9px;text-align:right;min-width:88px}
+.workout-score .label{display:block;color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.08em}
+.workout-score .position{display:block;font-size:14px;font-weight:950;font-variant-numeric:tabular-nums}
+.workout-score .points{display:block;color:var(--lime);font-size:10px;font-weight:800}
+.results-footnote{color:var(--muted);font-size:10px;margin-top:8px}
+
+/* Classification context and evolution */
+.neighbor-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0}
+.neighbor-card,.evolution-panel{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:12px}
+.neighbor-card .neighbor-label,.evolution-kicker{display:block;color:var(--muted);font-size:9px;font-weight:900;letter-spacing:.09em;text-transform:uppercase}
+.neighbor-card strong{display:block;font-size:12px;margin:4px 0}
+.neighbor-card small{display:block;color:var(--muted);font-size:10px}
+.evolution-panel{margin:10px 0}
+.evolution-panel h4{font-size:13px;margin:0 0 5px}
+.evolution-summary{color:var(--cyan);font-size:11px;margin:5px 0 10px}
+.evolution-chart{display:block;width:100%;height:auto;max-height:110px;overflow:visible}
+.evolution-chart polyline{fill:none;stroke:var(--lime);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.evolution-chart circle{fill:var(--cyan);stroke:var(--panel);stroke-width:2}
+.evolution-history{display:grid;gap:5px;margin-top:9px}
+.evolution-entry{display:flex;justify-content:space-between;gap:8px;padding-top:6px;border-top:1px solid var(--line);font-size:10px}
+.evolution-entry span:first-child{color:var(--muted)}
+@media(max-width:380px){.neighbor-list{grid-template-columns:1fr}}
+.notification-button{width:38px;height:38px;display:grid;place-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted);cursor:pointer}.notification-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.notification-button.enabled{border-color:var(--lime);background:#26333a;color:var(--lime)}.notification-button:disabled{opacity:.45;cursor:not-allowed}.notification-button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+</style></head><body><canvas class="particle-bg" id="particleCanvas" aria-hidden="true"></canvas><main class="wrap">
+<header><div><div class="eyebrow">Competition HQ</div><h1>THROWDOWN<br>TRACKER</h1><div class="sub" id="subtitle">Cargando competición…</div></div><img class="brand-mark" src="./header-logo.png" alt="Throwdown Tracker"><div style="display:grid;justify-items:end;gap:6px"><button class="notification-button" id="briefingNotificationsButton" type="button" aria-label="Activar avisos del briefing" aria-pressed="false" title="Activar avisos del briefing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></svg></button><span class="pill" id="heat">HEAT —</span><span class="connection-pill" id="connectionStatus" role="status">COMPROBANDO CONEXIÓN</span></div></header>
+<section class="hero" aria-live="polite"><div class="heroTop"><span class="live">● DIRECTO</span><span class="pill" id="venue">—</span></div><div class="clock" id="clock">--:--:--</div><div class="date" id="date"></div><div class="timezone" id="timezone">HORA OFICIAL · ZONA DE COMPETICIÓN</div><div class="status"><div class="statusLabel" id="statusLabel">TU SITUACIÓN</div><h2 id="statusTitle">Cargando…</h2><p id="statusDesc"></p><div class="countrow"><div class="count" id="countdown">--:--:--<small id="countLabel">Cuenta atrás</small></div></div></div><div class="meta"><div><span>Competición</span><b id="compName">—</b></div><div><span>Calle</span><b id="lane">—</b></div><div><span>Equipo</span><b id="team">—</b></div></div><div class="team-members" id="teamMembers"></div></section>
+
+<section class="section" id="accessSection">
+<div class="sectionHead"><h3>Acceso a notas estratégicas</h3><span class="hint" id="accessStatus">Modo invitado</span></div>
+<div class="access-actions">
+<button class="button" id="guestModeBtn" type="button">Invitado</button>
+<button class="button" id="teamModeBtn" type="button">Acceso equipo</button>
+<button class="button" id="adminModeBtn" type="button" hidden>Administrador</button>
+</div>
+<div class="access-box" id="accessPanel"><p>Estás como invitado. Las notas estratégicas permanecen ocultas.</p></div>
+</section>
+<section class="section"><div class="sectionHead"><h3>Jornadas</h3><span class="hint" id="dayCount"></span></div><div class="days" id="days"></div></section>
+<section class="section"><div class="sectionHead"><h3>Eventos del día</h3><span class="hint" id="dayDate"></span></div><div class="wods" id="wods"></div></section>
+<section class="section"><div class="sectionHead"><h3 id="timelineTitle">Cronograma</h3><span class="hint" id="eventMeta"></span></div><div class="timeline" id="timeline"></div></section>
+<section class="section"><div class="sectionHead"><h3 id="workoutHeading">Descripción del WOD</h3><span class="hint">Movimientos y puntuación</span></div><div id="workout"></div></section>
+<section class="section"><div class="sectionHead"><h3>Resumen de la jornada</h3><span class="hint">Todos los WOD</span></div><div class="cards" id="cards"></div></section>
+<section class="section" id="resultsSection" aria-live="polite"><div class="sectionHead"><h3>Clasificación oficial</h3><span class="hint" id="resultsUpdated">Consultando WodBuster…</span></div><div id="overallResult"></div><div id="overallNeighbors" class="neighbor-list"></div><div class="result-list" id="wodResults"></div><div id="classificationEvolution"></div><div class="results-footnote" id="resultsFootnote">Fuente: WodBuster · Actualización automática mientras la aplicación está abierta.</div></section>
+<footer>Throwdown Tracker · Horarios editables en data/competitions/<br>Hora oficial según la zona de cada competición · Actualización automática cada segundo</footer></main>
+<script>
+(()=>{
+  const canvas=document.getElementById("particleCanvas");
+  if(!canvas)return;
+  const ctx=canvas.getContext("2d",{alpha:true});
+  if(!ctx)return;
+  const reduceMotion=window.matchMedia("(prefers-reduced-motion: reduce)");
+  let width=0,height=0,particles=[],raf=0,last=0;
+  const rand=(min,max)=>Math.random()*(max-min)+min;
+  function resize(){
+    const dpr=Math.min(window.devicePixelRatio||1,1.5);
+    width=window.innerWidth;height=window.innerHeight;
+    canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    const count=Math.min(72,Math.max(28,Math.round(width*height/18000)));
+    particles=Array.from({length:count},()=>({x:rand(0,width),y:rand(0,height),r:rand(.7,1.8),vx:rand(-.12,.12),vy:rand(-.18,-.035),a:rand(.16,.48),phase:rand(0,Math.PI*2)}));
+    draw(0);
+  }
+  function draw(time){
+    ctx.clearRect(0,0,width,height);
+    for(let i=0;i<particles.length;i++){
+      const p=particles[i];
+      if(!reduceMotion.matches&&time){
+        p.x+=p.vx;p.y+=p.vy;
+        if(p.y<-8){p.y=height+8;p.x=rand(0,width)}
+        if(p.x<-8)p.x=width+8;if(p.x>width+8)p.x=-8;
+      }
+      const pulse=.78+.22*Math.sin(time*.0007+p.phase);
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=i%7===0?"rgba(201,242,61,"+(p.a*pulse)+")":"rgba(85,223,199,"+(p.a*pulse)+")";
+      ctx.fill();
+      for(let j=i+1;j<particles.length;j++){
+        const q=particles[j],dx=p.x-q.x,dy=p.y-q.y,dist=Math.hypot(dx,dy);
+        if(dist<105){
+          ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);
+          ctx.strokeStyle="rgba(85,223,199,"+((1-dist/105)*.075)+")";ctx.lineWidth=.65;ctx.stroke();
+        }
+      }
+    }
+  }
+  function frame(time){
+    if(document.hidden||reduceMotion.matches){raf=0;return}
+    if(time-last>28){draw(time);last=time}
+    raf=requestAnimationFrame(frame);
+  }
+  function start(){if(!reduceMotion.matches&&!document.hidden&&!raf)raf=requestAnimationFrame(frame);else if(reduceMotion.matches)draw(0)}
+  function stop(){if(raf)cancelAnimationFrame(raf);raf=0}
+  resize();start();
+  window.addEventListener("resize",resize,{passive:true});
+  document.addEventListener("visibilitychange",()=>document.hidden?stop():start());
+  reduceMotion.addEventListener?.("change",()=>{stop();start()});
+})();
+</script>
+<script type="module">
+const SUPABASE_URL="https://wovdcffjchshmvcqyand.supabase.co";
+const SUPABASE_KEY="sb_publishable_zMQNt3ncjnX_8AzPU7r29Q_dl8NzPT_";
+const TEAM_NOTES_URL=SUPABASE_URL+"/functions/v1/team-notes";
+const WODBUSTER_RESULTS_URL=SUPABASE_URL+"/functions/v1/wodbuster-results";
+const BRIEFING_NOTIFICATIONS_URL=SUPABASE_URL+"/functions/v1/briefing-notifications";
+let sb=null;
+async function ensureSupabase(){if(!sb){const {createClient}=await import("https://esm.sh/@supabase/supabase-js@2");sb=createClient(SUPABASE_URL,SUPABASE_KEY)}return sb;}
+let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};
+let officialResults={},resultsLastUpdated=null,resultsPoll=null,resultsCachedAt=null,resultsHistory=[],resultsHistoryEnabled=false,resultsHistoryError=null;const $=id=>document.getElementById(id);
+const storageGet=key=>{try{return localStorage.getItem(key)}catch(_){return null}};
+const storageSet=(key,value)=>{try{localStorage.setItem(key,value);return true}catch(_){return false}};
+const competitionStorageKey=(kind,id)=>"throwdown:"+kind+":"+cfg?.id+":"+id;
+function updateConnectionStatus(){const online=navigator.onLine,status=$("connectionStatus");if(!status)return;status.textContent=online?"EN LÍNEA":"SIN CONEXIÓN · DATOS GUARDADOS";status.classList.toggle("offline",!online);const editor=$("noteEditor");if(editor)editor.readOnly=!online;document.querySelectorAll("[data-offline-action]").forEach(button=>button.disabled=!online);if(!online&&$("noteStatus")&&accessMode!=="guest")$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas."}
+window.addEventListener("online",()=>{updateConnectionStatus();if(cfg?.results)refreshOfficialResults();if(accessMode!=="guest"&&currentNoteWodId)refreshCurrentNote()});
+window.addEventListener("offline",updateConnectionStatus);
+
+function base64UrlToBytes(value){const padding="=".repeat((4-value.length%4)%4),base64=(value+padding).replace(/-/g,"+").replace(/_/g,"/");return Uint8Array.from(atob(base64),c=>c.charCodeAt(0))}
+async function briefingNotificationCall(action,extra={}){const response=await fetch(BRIEFING_NOTIFICATIONS_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({action,competition_id:cfg?.id,...extra})});const payload=await response.json().catch(()=>({}));if(!response.ok)throw Error(payload.error||"No se ha podido configurar el aviso");return payload}
+function briefingNotificationMessage(message){const button=$("briefingNotificationsButton");if(button){button.title=message;button.setAttribute("aria-label","Avisos del briefing. "+message)}}
+function setBriefingNotificationState(button,active){button.classList.toggle("enabled",active);button.setAttribute("aria-pressed",String(active));button.setAttribute("aria-label",active?"Desactivar avisos del briefing":"Activar avisos del briefing");}
+async function initBriefingNotifications(){
+ const button=$("briefingNotificationsButton");if(!button)return;
+ if(!("serviceWorker"in navigator)||!("PushManager"in window)||!("Notification"in window)){
+   briefingNotificationMessage("Este navegador no admite avisos push. En iPhone, instala Throwdown Tracker en la pantalla de inicio y ábrelo desde su icono.");
+   button.disabled=true;return;
+ }
+ if(Notification.permission==="denied"){
+   briefingNotificationMessage("Los avisos están bloqueados. Puedes permitirlos desde los ajustes de notificaciones del navegador o del dispositivo.");
+   button.disabled=true;return;
+ }
+ try{
+   const registration=await navigator.serviceWorker.ready;
+   const subscription=await registration.pushManager.getSubscription();
+   const state=subscription?await briefingNotificationCall("status",{endpoint:subscription.endpoint}):{subscribed:false};
+   setBriefingNotificationState(button,!!state.subscribed);
+   briefingNotificationMessage(state.subscribed
+     ?"Aviso del briefing activado en este dispositivo para esta competición."
+     :"Recibirás un único aviso 15 minutos antes de cada briefing de esta competición.");
+ }catch(error){briefingNotificationMessage("No se ha podido comprobar el estado de los avisos.");console.warn("Briefing notifications unavailable",error)}
+ button.onclick=async()=>{
+   button.disabled=true;
+   try{
+     const permission=Notification.permission==="granted"?"granted":await Notification.requestPermission();
+     if(permission!=="granted"){briefingNotificationMessage("No se ha concedido permiso para enviar notificaciones.");return}
+     const registration=await navigator.serviceWorker.ready;
+     let subscription=await registration.pushManager.getSubscription();
+     if(subscription){
+       const state=await briefingNotificationCall("status",{endpoint:subscription.endpoint});
+       if(state.subscribed){
+         await briefingNotificationCall("unsubscribe",{endpoint:subscription.endpoint});
+         setBriefingNotificationState(button,false);
+         briefingNotificationMessage("Avisos desactivados para esta competición en este dispositivo.");
+       }else{
+         await briefingNotificationCall("subscribe",{subscription:subscription.toJSON()});
+         setBriefingNotificationState(button,true);
+         briefingNotificationMessage("Aviso del briefing activado en este dispositivo.");
+       }
+     }else{
+       const config=await briefingNotificationCall("config");
+       if(!config.publicKey)throw Error("No se ha podido obtener la clave pública de notificaciones");
+       subscription=await registration.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:base64UrlToBytes(config.publicKey)});
+       await briefingNotificationCall("subscribe",{subscription:subscription.toJSON()});
+       setBriefingNotificationState(button,true);
+       briefingNotificationMessage("Aviso del briefing activado en este dispositivo.");
+     }
+   }catch(error){
+     console.error("Could not update briefing push subscription",error);
+     briefingNotificationMessage(error.message||"No se ha podido configurar el aviso.");
+   }finally{button.disabled=false}
+ };
+}
+
+const steps=[["briefing","Briefing","Reunión e instrucciones"],["warmup","Calentamiento","Preparación física"],["corrals","Corrales","Acceso y preparación previa"],["arena","Pista","Acceso a la zona de competición"],["start","Inicio del WOD","Comienza la competición"],["end","Fin del WOD","Fin previsto del evento"]];
+function zone(){return cfg?.competition?.timezone||"Europe/Lisbon"}
+function at(day,t){let [y,m,d]=day.date.split("-").map(Number),[h,mi]=t.split(":").map(Number),target=Date.UTC(y,m-1,d,h,mi),guess=target,fmt=new Intl.DateTimeFormat("en-GB",{timeZone:zone(),year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hourCycle:"h23"});for(let i=0;i<4;i++){let p=Object.fromEntries(fmt.formatToParts(new Date(guess)).filter(x=>x.type!=="literal").map(x=>[x.type,Number(x.value)])),represented=Date.UTC(p.year,p.month-1,p.day,p.hour,p.minute,p.second);guess+=target-represented}return new Date(guess)}
+function dateInZone(date){let p=Object.fromEntries(new Intl.DateTimeFormat("en-CA",{timeZone:zone(),year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(date).filter(x=>x.type!=="literal").map(x=>[x.type,x.value]));return p.year+"-"+p.month+"-"+p.day}
+function timezoneLabel(date){let name=new Intl.DateTimeFormat("en",{timeZone:zone(),timeZoneName:"short"}).formatToParts(date).find(x=>x.type==="timeZoneName")?.value||zone(),offset=new Intl.DateTimeFormat("en",{timeZone:zone(),timeZoneName:"longOffset"}).formatToParts(date).find(x=>x.type==="timeZoneName")?.value||"GMT";offset=offset==="GMT"?"UTC+00:00":offset.replace(/^GMT/,"UTC");return (cfg?.competition?.country||"HORA OFICIAL").toUpperCase()+" · "+name+" · "+offset}
+function eventHeat(w){return w&&w.heat?w.heat:(cfg.competition.heat||"—")}
+function events(day,w){return steps.filter(s=>w[s[0]]).map(s=>({time:w[s[0]],label:s[1],desc:s[2],date:at(day,w[s[0]])}))}
+function allEvents(){return cfg.days.flatMap((d,di)=>d.events.flatMap((w,wi)=>events(d,w).map((e,si)=>({...e,di,wi,si,wod:w})))) .sort((a,b)=>a.date-b.date)}
+function timer(ms){let n=Math.max(0,Math.floor(ms/1000)),h=Math.floor(n/3600),m=Math.floor(n%3600/60),s=n%60;return [h,m,s].map(v=>String(v).padStart(2,"0")).join(":")}
+function renderDays(){$("days").innerHTML=cfg.days.map((d,i)=>'<button class="day" data-day="'+i+'" aria-pressed="'+(i===dayIndex)+'">'+d.label+'<small>'+d.events.length+' WOD'+(d.events.length?'':' · Pendientes')+'</small></button>').join("");document.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>selectDay(+b.dataset.day))}
+function selectDay(i){dayIndex=i;eventIndex=0;renderDays();renderWods();renderEvent();update()}
+function renderWods(){let d=cfg.days[dayIndex];$("dayDate").textContent=d.date;$("wods").innerHTML=d.events.length?d.events.map((w,i)=>'<button class="wod" data-event="'+i+'" aria-pressed="'+(i===eventIndex)+'">'+w.name+(w.title?" · "+w.title:"")+' · '+(w.start?(w.scheduleStatus==="provisional"?"Horario provisional · ":"")+w.start:"Horario pendiente")+'</button>').join(""):'<div class="empty">Los horarios de esta jornada todavía no se han publicado.</div>';document.querySelectorAll("[data-event]").forEach(b=>b.onclick=()=>{eventIndex=+b.dataset.event;renderWods();renderEvent();update()});renderCards()}
+
+function resultPages(){return Array.isArray(cfg?.results?.pages)?cfg.results.pages:[]}
+function resultPosition(result){return (result?.rank??"—")+" / "+(result?.totalTeams??"—")}
+function resultPoints(result){return result?.hasResult&&result?.points!==null&&result?.points!==undefined?result.points+" pts":"— pts"}
+function createResultRow(label,result,detail=""){
+  const row=document.createElement("div");row.className="result-row";
+  const name=document.createElement("strong");name.textContent=label;
+  const position=document.createElement("div");position.className="position";position.textContent=resultPosition(result);
+  const points=document.createElement("div");points.className="result-points";points.textContent=resultPoints(result);
+  const small=document.createElement("small");small.textContent="PUNTOS";points.append(small);
+  const info=document.createElement("div");info.className="detail";info.textContent=detail||"";
+  row.append(name,position,points,info);return row;
+}
+function normalizedTeamName(value){return String(value||"").normalize("NFKC").replace(/\s+/g," ").trim().toLocaleLowerCase("es")}
+function renderOverallNeighbors(overallPage){
+  const root=$("overallNeighbors");if(!root)return;root.replaceChildren();
+  const result=overallPage&&officialResults[overallPage.key],standings=result?.standings;
+  if(!Array.isArray(standings)||!standings.length)return;
+  const index=standings.findIndex(row=>normalizedTeamName(row.team)===normalizedTeamName(cfg.results.teamName));
+  if(index<0)return;
+  const current=standings[index];
+  [{label:"Equipo por delante",row:standings[index-1]},{label:"Equipo por detrás",row:standings[index+1]}].forEach(item=>{
+    if(!item.row)return;
+    const card=document.createElement("div");card.className="neighbor-card";
+    const label=document.createElement("span");label.className="neighbor-label";label.textContent=item.label;
+    const name=document.createElement("strong");name.textContent=item.row.team||"Equipo";
+    const meta=document.createElement("small");
+    const gap=current.points!==null&&current.points!==undefined&&item.row.points!==null&&item.row.points!==undefined
+      ?" · Diferencia: "+Math.abs(current.points-item.row.points)+" pts":"";
+    meta.textContent="Puesto "+(item.row.rank??"—")+" · "+(item.row.points??"—")+" pts"+gap;
+    card.append(label,name,meta);root.append(card);
+  });
+}
+function renderClassificationEvolution(overallPage){
+  const root=$("classificationEvolution");if(!root)return;root.replaceChildren();
+  const panel=document.createElement("div");panel.className="evolution-panel";
+  const kicker=document.createElement("span");kicker.className="evolution-kicker";kicker.textContent="Seguimiento de resultados";
+  const title=document.createElement("h4");title.textContent="Evolución de la clasificación";
+  panel.append(kicker,title);
+  if(!resultsHistoryEnabled){
+    const note=document.createElement("p");note.className="results-footnote";note.textContent="El historial compartido todavía no está habilitado para esta competición.";
+    panel.append(note);root.append(panel);return;
+  }
+  if(resultsHistoryError){
+    const note=document.createElement("p");note.className="results-footnote";note.textContent="No se ha podido sincronizar el historial. Se conserva la última copia disponible.";
+    panel.append(note);
+  }
+  const key=overallPage?.key||"overall";
+  const entries=resultsHistory.map(snapshot=>{
+    const result=snapshot?.results?.[key];
+    return result?{at:snapshot.snapshotAt,rank:result.rank,points:result.points}:null;
+  }).filter(entry=>entry&&Number.isFinite(entry.rank));
+  if(!entries.length){
+    const note=document.createElement("p");note.className="results-footnote";note.textContent="Aún no hay suficientes registros para mostrar la evolución.";
+    panel.append(note);root.append(panel);return;
+  }
+  const first=entries[0],last=entries[entries.length-1];
+  if(entries.length>1){
+    const movement=first.rank-last.rank;
+    const summary=document.createElement("p");summary.className="evolution-summary";
+    summary.textContent=movement>0?"Has ganado "+movement+" puestos desde el primer registro guardado.":movement<0?"Has perdido "+Math.abs(movement)+" puestos desde el primer registro guardado.":"Mantienes la misma posición desde el primer registro guardado.";
+    panel.append(summary);
+    const width=320,height=88,pad=12,minRank=Math.min(...entries.map(e=>e.rank)),maxRank=Math.max(...entries.map(e=>e.rank)),range=Math.max(1,maxRank-minRank);
+    const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("viewBox","0 0 "+width+" "+height);svg.setAttribute("class","evolution-chart");svg.setAttribute("role","img");svg.setAttribute("aria-label","Evolución de la posición oficial a lo largo de "+entries.length+" registros");
+    const coords=entries.map((entry,i)=>({x:pad+(width-pad*2)*(entries.length===1?0.5:i/(entries.length-1)),y:pad+(entry.rank-minRank)/range*(height-pad*2-10)}));
+    const line=document.createElementNS("http://www.w3.org/2000/svg","polyline");line.setAttribute("points",coords.map(p=>p.x+","+p.y).join(" "));svg.append(line);
+    coords.forEach(point=>{const circle=document.createElementNS("http://www.w3.org/2000/svg","circle");circle.setAttribute("cx",point.x);circle.setAttribute("cy",point.y);circle.setAttribute("r","3.5");svg.append(circle)});
+    panel.append(svg);
+  }else{
+    const summary=document.createElement("p");summary.className="evolution-summary";summary.textContent="Primer registro guardado: puesto "+last.rank+". La evolución aparecerá cuando cambie la clasificación.";
+    panel.append(summary);
+  }
+  const list=document.createElement("div");list.className="evolution-history";
+  entries.slice(-5).reverse().forEach(entry=>{
+    const row=document.createElement("div");row.className="evolution-entry";
+    const date=document.createElement("span");date.textContent=new Date(entry.at).toLocaleString("es-ES",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"});
+    const value=document.createElement("strong");value.textContent="Puesto "+entry.rank+" · "+(entry.points??"—")+" pts";
+    row.append(date,value);list.append(row);
+  });
+  panel.append(list);root.append(panel);
+}
+function renderOfficialResults(){
+  const overall=$("overallResult"),list=$("wodResults");if(!overall||!list)return;
+  overall.replaceChildren();list.replaceChildren();
+  const pages=resultPages(),overallPage=pages.find(page=>page.overall||page.key==="overall");
+  if(overallPage){
+    const result=officialResults[overallPage.key];
+    const panel=document.createElement("div");panel.className="official-overall";
+    const label=document.createElement("div");label.className="label";label.textContent=overallPage.label||"Clasificación general";
+    const position=document.createElement("div");position.className="position";position.textContent=resultPosition(result);
+    const points=document.createElement("div");points.className="points";points.textContent=resultPoints(result);
+    const small=document.createElement("small");small.textContent="PUNTOS OFICIALES";points.append(small);
+    panel.append(label,position,points);overall.append(panel);
+  }
+  pages.filter(page=>page!==overallPage).forEach(page=>list.append(createResultRow(page.label||page.key,officialResults[page.key],officialResults[page.key]?.mark||"")));
+  renderOverallNeighbors(overallPage);
+  renderClassificationEvolution(overallPage);
+  const updated=$("resultsUpdated");
+  updated.textContent=resultsLastUpdated?(navigator.onLine?"Actualizado ":"Sin conexión · último dato ")+new Date(resultsLastUpdated).toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit",second:"2-digit"}):"Esperando datos oficiales";
+}
+function renderWorkoutClassification(w){
+  const name=(w?.name||"").trim().toUpperCase(),box=document.createElement("div");box.className="workout-classification";
+  const pages=resultPages().filter(page=>page.event&&String(page.event).trim().toUpperCase()===name);
+  if(!pages.length)return null;
+  pages.forEach(page=>{
+    const score=document.createElement("div");score.className="workout-score";
+    const label=document.createElement("span");label.className="label";label.textContent=page.shortLabel||page.label||page.key;
+    const pos=document.createElement("span");pos.className="position";pos.textContent=resultPosition(officialResults[page.key]);
+    const pts=document.createElement("span");pts.className="points";pts.textContent=resultPoints(officialResults[page.key]);
+    score.append(label,pos,pts);box.append(score);
+  });
+  return box;
+}
+async function refreshOfficialResults(){
+  if(document.hidden||!cfg?.results||!navigator.onLine)return;
+  try{
+    const response=await fetch(WODBUSTER_RESULTS_URL,{method:"POST",headers:{"apikey":SUPABASE_KEY,"Content-Type":"application/json"},body:JSON.stringify(cfg.results),cache:"no-store"});
+    if(!response.ok)throw Error("HTTP "+response.status);
+    const payload=await response.json();
+    if(!payload.results)throw Error("Respuesta de clasificaciones no válida");
+    if(!Object.keys(payload.results).length)throw Error(Object.values(payload.errors||{}).join(" · ")||"WodBuster no ha devuelto resultados");
+    for(const page of resultPages()){if(payload.results[page.key])officialResults[page.key]=payload.results[page.key]}
+    if(payload.updatedAt&&Object.keys(payload.results).length)resultsLastUpdated=payload.updatedAt;
+    if(Array.isArray(payload.history)&&!payload.historyError)resultsHistory=payload.history;
+    resultsHistoryEnabled=payload.historyEnabled===true;resultsHistoryError=payload.historyError||null;
+    resultsCachedAt=new Date().toISOString();
+    storageSet(competitionStorageKey("results","official"),JSON.stringify({results:officialResults,updatedAt:resultsLastUpdated,cachedAt:resultsCachedAt,history:resultsHistory,historyEnabled:resultsHistoryEnabled,historyError:resultsHistoryError}));
+    renderOfficialResults();
+    updateVisibleWorkoutClassification();
+    const errors=Object.keys(payload.errors||{});
+    $("resultsFootnote").textContent=errors.length
+      ?"Fuente: "+(cfg.results.provider||"Resultados")+" · Algunas clasificaciones no se han podido actualizar; se conserva el último dato válido."
+      :"Fuente: "+(payload.source||cfg.results.provider)+" · Actualización automática cada minuto mientras la aplicación está abierta.";
+  }catch(error){
+    console.warn("No se pudieron actualizar las clasificaciones oficiales",error);
+    $("resultsUpdated").textContent=resultsLastUpdated?"Sin actualizar · último dato guardado":"Conectando con el proveedor…";
+    $("resultsFootnote").textContent=Object.keys(officialResults).length?"No se han podido consultar los resultados. Se muestran los últimos datos guardados en este dispositivo.":"No se han podido consultar los resultados; todavía no hay una copia guardada. "+(error.message||"");
+  }
+}
+function loadCachedResults(){
+  try{
+    const saved=JSON.parse(storageGet(competitionStorageKey("results","official"))||"null");
+    if(!saved||!saved.results||typeof saved.results!=="object"||!Object.keys(saved.results).length){
+      if(!navigator.onLine)$("resultsFootnote").textContent="No hay una clasificación guardada en este dispositivo. Conéctate para sincronizarla.";
+      return false;
+    }
+    officialResults=saved.results;
+    resultsLastUpdated=saved.updatedAt||null;
+    resultsCachedAt=saved.cachedAt||null;
+    resultsHistory=Array.isArray(saved.history)?saved.history:[];resultsHistoryEnabled=saved.historyEnabled===true;resultsHistoryError=saved.historyError||null;
+    $("resultsSection").hidden=false;
+    renderOfficialResults();
+    updateVisibleWorkoutClassification();
+    $("resultsFootnote").textContent=navigator.onLine
+      ?"Última clasificación sincronizada disponible en este dispositivo."
+      :"Sin conexión · se muestra la última clasificación sincronizada.";
+    return true;
+  }catch(error){
+    console.warn("No se pudo recuperar la clasificación guardada",error);
+    if(!navigator.onLine)$("resultsFootnote").textContent="No se pudo recuperar la clasificación guardada en este dispositivo.";
+    return false;
+  }
+}
+function startResultsPolling(){
+  if(resultsPoll)clearInterval(resultsPoll);
+  loadCachedResults();
+  if(navigator.onLine)refreshOfficialResults();
+  resultsPoll=setInterval(()=>{if(navigator.onLine)refreshOfficialResults()},60000);
+  document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshOfficialResults()});
+}
+function updateVisibleWorkoutClassification(){
+  const w=cfg?.days[dayIndex]?.events[eventIndex],old=document.querySelector("#workout .workout-classification"),next=renderWorkoutClassification(w);
+  if(old&&next)old.replaceWith(next);
+  else if(old&&!next)old.remove();
+  else if(!old&&next){const card=document.querySelector("#workout .workout");if(card)card.insertBefore(next,card.firstChild)}
+}
+function renderWorkout(w){
+let x=w&&w.workout;
+$("workoutHeading").textContent=w?(w.name+" · "+(w.title||"")):"Descripción del WOD";
+const root=$("workout");root.innerHTML="";
+if(!x){root.innerHTML='<div class="empty">La descripción de este WOD todavía no está disponible.</div>';return}
+const card=document.createElement("div");card.className="workout";
+const classification=renderWorkoutClassification(w);if(classification)card.append(classification);
+const eyebrow=document.createElement("div");eyebrow.className="wodtitle";eyebrow.textContent=(w.name||"WOD")+" · "+(w.title||"");
+const title=document.createElement("h4");title.textContent=w.title||w.name;
+const format=document.createElement("div");format.className="format";format.textContent=(x.format||"")+(x.timeCap&&/^For Time/i.test(x.format||"")?" · TC "+x.timeCap:"");
+card.append(eyebrow,title,format);
+const addList=(heading,items,cls)=>{if(!items||!items.length)return;const box=document.createElement("div");if(cls)box.className=cls;const b=document.createElement("b");b.textContent=heading;box.append(b);const ul=document.createElement("ul");items.forEach(v=>{const li=document.createElement("li");li.textContent=v;ul.append(li)});box.append(ul);card.append(box)};
+addList("Estructura",x.blocks,"");
+addList("Puntuación",x.scores,"scores");
+addList("Pesos / categorías",x.loads,"loads");
+if(w.notes){const note=document.createElement("div");note.className="workout-note";note.textContent=w.notes;card.append(note)}
+if(w.flowUrl){const flow=document.createElement("a");flow.className="flow-link";flow.href=w.flowUrl;flow.target="_blank";flow.rel="noopener noreferrer";flow.textContent="VER FLOW ↗";card.append(flow)}
+
+root.append(card);
+if(accessMode!=="guest")renderNotes(w)
+}
+function eventLane(w){return w&&w.lane?w.lane:(cfg.competition.lane||"—")}
+function renderEvent(){let d=cfg.days[dayIndex],w=d.events[eventIndex];renderWorkout(w);if(!w){$("timelineTitle").textContent="Sin cronograma";$("eventMeta").textContent="";$("timeline").innerHTML='<div class="empty">No hay horarios para mostrar en esta jornada.</div>';return}let es=events(d,w);$("timelineTitle").textContent=w.name+" · CRONOGRAMA";$("eventMeta").textContent="Calle "+eventLane(w)+" · Heat "+eventHeat(w)+(w.scheduleStatus==="provisional"?" · HORARIO PROVISIONAL":"");$("heat").textContent="HEAT "+eventHeat(w);$("timeline").innerHTML=es.length?es.map((e,i)=>'<div class="event" data-step="'+i+'"><div class="time">'+e.time+'</div><div><div class="dot"></div></div><div><div class="name">'+e.label+'</div><div class="desc">'+e.desc+'</div></div></div>').join(""):'<div class="empty">Horarios oficiales pendientes para este WOD.</div>'}
+function renderCards(){let d=cfg.days[dayIndex];$("cards").innerHTML=d.events.length?d.events.map((w,i)=>'<div class="card"><strong>'+w.name+' · Briefing '+(w.briefing||"—")+'</strong><div class="range">'+(w.start?(w.scheduleStatus==="provisional"?"PROVISIONAL · ":"")+w.start+(w.end?"–"+w.end:""):"HORARIO PENDIENTE") +'</div><small>Calle '+eventLane(w)+' · Calentamiento '+(w.warmup||"—")+' · Corrales '+(w.corrals||"—")+' · Pista '+(w.arena||"—")+'</small><button class="button" data-open="'+i+'" style="grid-column:2;grid-row:1 / span 2">Ver WOD</button></div>').join(""):'<div class="empty">Aún no hay eventos cargados.</div>';document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{eventIndex=+b.dataset.open;renderWods();renderEvent();update()})}
+function update(){if(!cfg)return;$("lane").textContent=eventLane(cfg.days[dayIndex]?.events[eventIndex]);let now=new Date(),tz=zone();$("clock").textContent=now.toLocaleTimeString("es-ES",{timeZone:tz,hour12:false});$("date").textContent=now.toLocaleDateString("es-ES",{timeZone:tz,weekday:"long",day:"numeric",month:"long",year:"numeric"});$("timezone").textContent=timezoneLabel(now);let all=allEvents(),last=[...all].reverse().find(e=>e.date<=now),next=all.find(e=>e.date>now),active=last&&last.label!=="Fin del WOD"?last:null,target=active?next:next;
+if(active){$("statusLabel").textContent="ACTIVIDAD EN CURSO";$("statusTitle").textContent="AHORA: "+active.label.toUpperCase();$("statusDesc").textContent=active.wod.name+" · "+cfg.competition.venue+" · Calle "+eventLane(active.wod)+" · Heat "+eventHeat(active.wod)}
+else if(next){$("statusLabel").textContent="TU SIGUIENTE PUNTO DE CONTROL";$("statusTitle").textContent="PRÓXIMO: "+next.label.toUpperCase();$("statusDesc").textContent=next.wod.name+" · "+cfg.competition.venue+" · Calle "+eventLane(next.wod)+" · Heat "+eventHeat(next.wod)}
+else{$("statusLabel").textContent="ESTADO DE COMPETICIÓN";$("statusTitle").textContent="SIN MÁS ACTIVIDADES";$("statusDesc").textContent="No quedan horarios programados."}
+$("countdown").firstChild.textContent=target?timer(target.date-now):"00:00:00";$("countLabel").textContent=target?"Tiempo hasta "+target.label:"Sin próximas actividades";
+document.querySelectorAll(".event").forEach(el=>{let e=events(cfg.days[dayIndex],cfg.days[dayIndex].events[eventIndex]||{})[+el.dataset.step];if(!e)return;el.classList.toggle("done",now>=e.date&&e.label!=="Fin del WOD");el.classList.toggle("current",!!active&&active.date.getTime()===e.date.getTime())})}
+
+
+function wodIdFor(w){const match=(w?.name||"").match(/^WOD\s*(\d+)$/i);if(!match||!cfg?.id)return null;const n=Number(match[1]);return n>=1&&n<=30?cfg.id+":wod"+n:null}
+function accessMessage(message){const p=$("accessPanel");if(p)p.innerHTML="<p>"+message+"</p>"}
+function setAccessMode(mode,details={}){
+  accessMode=mode;
+  if(mode!=="team")teamPassword=null;
+  if(mode==="admin")currentAdmin=details.email||currentAdmin;
+  const labels={guest:"Modo invitado",team:"Equipo conectado",admin:"Administrador conectado"};
+  $("accessStatus").textContent=labels[mode]||labels.guest;
+  if(mode==="guest"){
+    accessMessage("Estás como invitado. Las notas estratégicas permanecen ocultas.");
+    if(notesPoll){clearInterval(notesPoll);notesPoll=null}
+  }else{
+    const who=mode==="admin"?(currentAdmin||"Administrador"):"Acceso compartido del equipo";
+    accessMessage("Sesión activa: "+who+'. <button class="button" id="logoutBtn" type="button">Cerrar sesión</button>');
+    $("logoutBtn").onclick=async()=>{if(mode==="admin"&&sb)await sb.auth.signOut();setAccessMode("guest")};
+    if(notesPoll)clearInterval(notesPoll);
+    notesPoll=setInterval(refreshCurrentNote,5000);
+  }
+  if(cfg)renderEvent();
+}
+function showTeamForm(){
+  $("accessPanel").innerHTML='<p>Acceso compartido para los tres integrantes. Credenciales provisionales de pruebas.</p><div class="access-fields"><label>Usuario<input id="teamUsername" autocomplete="username" value="adobo"></label><label>Contraseña<input id="teamPassword" type="password" autocomplete="current-password" placeholder="Contraseña"></label><button class="button" id="teamLoginBtn" type="button">Entrar al equipo</button><div class="note-status" id="accessFeedback"></div></div>';
+  $("teamLoginBtn").onclick=async()=>{
+    const username=$("teamUsername").value.trim(),password=$("teamPassword").value;
+    $("accessFeedback").textContent="Comprobando acceso…";
+    try{
+      const result=await teamCall("login",{username,password});
+      if(!result.ok)throw Error("No se pudo validar el acceso");
+      teamPassword=password;setAccessMode("team");
+    }catch(e){$("accessFeedback").textContent=e.message||"No se ha podido iniciar sesión"}
+  };
+}
+function showAdminForm(){
+  $("accessPanel").innerHTML='<p>Te enviaremos un enlace de acceso al correo autorizado de administrador.</p><div class="access-fields"><label>Correo electrónico<input id="adminEmail" type="email" autocomplete="email" placeholder="Correo autorizado"></label><button class="button" id="adminLoginBtn" type="button">Enviar enlace de acceso</button><div class="note-status" id="accessFeedback"></div></div>';
+  $("adminLoginBtn").onclick=async()=>{
+    const email=$("adminEmail").value.trim().toLowerCase();
+    $("accessFeedback").textContent="Enviando enlace…";
+    const client=await ensureSupabase();
+    const {error}=await client.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
+    $("accessFeedback").textContent=error?error.message:"Te hemos enviado un enlace. Ábrelo desde este dispositivo para activar el acceso.";
+  };
+}
+async function teamCall(action,extra={}){
+  const response=await fetch(TEAM_NOTES_URL,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({action,username:"adobo",password:extra.password??teamPassword,competition_id:cfg?.id,...extra})});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok)throw Error(result.error||"Error al conectar con las notas");
+  return result;
+}
+function renderNotes(w){
+  const id=wodIdFor(w);if(!id)return;
+  currentNoteWodId=id;
+  const box=document.createElement("div");box.className="note-box";
+  const head=document.createElement("div");head.className="note-heading";
+  const title=document.createElement("strong");title.textContent="NOTAS SOBRE LA ESTRATEGIA";
+  const visibility=document.createElement("span");visibility.className="hint";visibility.textContent="Compartidas";
+  head.append(title,visibility);
+  const editor=document.createElement("textarea");editor.className="note-editor";editor.id="noteEditor";editor.maxLength=10000;editor.placeholder="Añadid aquí la estrategia, relevos, ritmos, puntos clave…";
+  const actions=document.createElement("div");actions.className="note-actions";
+  const save=document.createElement("button");save.className="button";save.type="button";save.textContent="Guardar notas";
+  const del=document.createElement("button");del.className="button danger";del.type="button";del.textContent="Borrar";
+  const status=document.createElement("div");status.className="note-status";status.id="noteStatus";
+  const meta=document.createElement("div");meta.className="note-meta";meta.id="noteMeta";
+  save.onclick=()=>saveNote(id,editor.value);
+  del.onclick=()=>deleteNote(id);
+  actions.append(save,del);box.append(head,editor,actions,status,meta);$("workout").append(box);
+  editor.value="";updateNoteMeta(null);
+  save.dataset.offlineAction="true";del.dataset.offlineAction="true";updateConnectionStatus();
+  if(navigator.onLine)loadNote(id);else if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";
+}
+function updateNoteMeta(note){
+  const meta=$("noteMeta");if(!meta)return;
+  meta.textContent=note?.updated_at?"Última actualización: "+new Date(note.updated_at).toLocaleString("es-ES")+(note.updated_by?" · "+note.updated_by:""):"Todavía no hay notas guardadas.";
+}
+async function fetchNote(id){
+  if(accessMode==="team"){
+    const r=await teamCall("get");
+    (r.notes||[]).forEach(note=>{notesCache[note.wod_id]=note});
+    return (r.notes||[]).find(n=>n.wod_id===id)||null;
+  }
+  if(accessMode==="admin"){
+    const {data,error}=await sb.from("wod_notes").select("wod_id,content,updated_at,updated_by").eq("wod_id",id).maybeSingle();
+    if(error)throw error;return data;
+  }
+  return null;
+}
+async function loadNote(id){
+  try{const note=await fetchNote(id),stored=note||{wod_id:id,content:""};notesCache[id]=stored;if(currentNoteWodId!==id)return;
+    const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=stored.content||"";updateNoteMeta(stored);
+    const status=$("noteStatus");if(status)status.textContent="Notas sincronizadas.";
+  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);const status=$("noteStatus");if(status)status.textContent=!navigator.onLine?"Conéctate a internet para consultar las notas estratégicas.":(e.message||"No se pudieron cargar las notas")}
+}
+async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId)return;if(!navigator.onLine){const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";return}await loadNote(currentNoteWodId)}
+async function saveNote(id,content){
+  const status=$("noteStatus");if(status)status.textContent="Guardando…";
+  try{
+    let note;
+    if(accessMode==="team"){const r=await teamCall("save",{wod_id:id,content});note=r.note}
+    else if(accessMode==="admin"){
+      const {data,error}=await sb.from("wod_notes").upsert({wod_id:id,content,updated_at:new Date().toISOString(),updated_by:"Administrador"},{onConflict:"wod_id"}).select("wod_id,content,updated_at,updated_by").single();
+      if(error)throw error;note=data;
+    }else throw Error("Inicia sesión para guardar notas");
+    notesCache[id]=note;if(status)status.textContent="Notas guardadas y compartidas.";updateNoteMeta(note);
+  }catch(e){if(status)status.textContent=e.message||"No se pudieron guardar las notas"}
+}
+async function deleteNote(id){
+  if(!confirm("¿Quieres borrar las notas de este WOD para todos?"))return;
+  const status=$("noteStatus");if(status)status.textContent="Borrando…";
+  try{
+    if(accessMode==="team")await teamCall("delete",{wod_id:id});
+    else if(accessMode==="admin"){const {error}=await sb.from("wod_notes").delete().eq("wod_id",id);if(error)throw error}
+    notesCache[id]={wod_id:id,content:""};const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if(status)status.textContent="Notas borradas para todos.";
+  }catch(e){if(status)status.textContent=e.message||"No se pudieron borrar las notas"}
+}
+async function initAccess(){
+  $("guestModeBtn").onclick=async()=>{if(accessMode==="admin")await sb.auth.signOut();setAccessMode("guest")};
+  $("teamModeBtn").onclick=showTeamForm;
+  $("adminModeBtn").onclick=showAdminForm;
+  try{
+    const client=await ensureSupabase();
+    client.auth.onAuthStateChange((_event,session)=>{
+      queueMicrotask(()=>{if(session?.user?.email)setAccessMode("admin",{email:session.user.email});else setAccessMode("guest")});
+    });
+    const {data}=await client.auth.getSession();
+    if(data.session?.user?.email)setAccessMode("admin",{email:data.session.user.email});
+  }catch(e){console.warn("El acceso de administrador no está disponible sin conexión",e)}
+}
+
+async function init(){
+ try{
+   const requestedParam=/\/la-carlota(?:\/|$)/.test(location.pathname)?"wod-games-la-carlota-2026":new URLSearchParams(location.search).get("competition");
+   const lastCompetition=storageGet("throwdown:last-competition");
+   const requested=requestedParam||(lastCompetition&&/^[a-z0-9-]+$/.test(lastCompetition)?lastCompetition:"badajoz-elvas-2026");
+   if(!/^[a-z0-9-]+$/.test(requested))throw Error("Identificador de competición no válido");
+   let configResponse;
+   try{const r=await fetch("./data/competitions/"+requested+".json",{cache:"no-store"});if(!r.ok)throw Error("HTTP "+r.status);configResponse=await r.json();storageSet("throwdown:competition:"+requested,JSON.stringify(configResponse));}
+   catch(networkError){const cached=storageGet("throwdown:competition:"+requested);if(!cached)throw Error("No se encuentra una copia local de la competición. Abre la app con conexión al menos una vez.");configResponse=JSON.parse(cached)}
+   cfg=configResponse;
+   if(cfg.id!==requested)throw Error("La configuración cargada no coincide con el identificador solicitado");
+   storageSet("throwdown:last-competition",requested);
+   document.title=(cfg.competition?.name||"Throwdown Tracker")+" · Throwdown Tracker";
+   $("subtitle").textContent=cfg.competition.category||"";
+   $("heat").textContent=cfg.competition.heat?"HEAT "+cfg.competition.heat:"HEAT —";
+   $("venue").textContent=cfg.competition.venue||"Sede pendiente";
+   $("compName").textContent=cfg.competition.name||"—";
+   $("lane").textContent=cfg.competition.lane||"—";
+   $("team").textContent=cfg.competition.team||"—";$("teamMembers").textContent=Array.isArray(cfg.competition.teamMembers)&&cfg.competition.teamMembers.length?"Componentes: "+cfg.competition.teamMembers.join(" y "):"";
+   $("dayCount").textContent=cfg.days.length+" jornadas";
+   const iso=dateInZone(new Date()),idx=cfg.days.findIndex(d=>d.date===iso);
+   if(idx>=0)dayIndex=idx;
+   renderDays();renderWods();renderEvent();update();setInterval(update,1000);
+   const hasSupportedResults=cfg.results?.provider==="wodbuster"&&typeof cfg.results.teamName==="string"&&cfg.results.teamName.trim()&&/^\d+$/.test(String(cfg.results.competitionId))&&/^\d+$/.test(String(cfg.results.divisionId))&&Array.isArray(cfg.results.pages)&&cfg.results.pages.length>0;
+   $("resultsSection").hidden=!hasSupportedResults;
+   if(hasSupportedResults)startResultsPolling();
+   initBriefingNotifications();
+   updateConnectionStatus();
+ }catch(e){$("statusTitle").textContent="Error al cargar";$("statusDesc").textContent=e.message}
+}
+init();initAccess();updateConnectionStatus();if("serviceWorker"in navigator&&location.protocol.startsWith("http"))addEventListener("load",()=>navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).then(reg=>reg.update()).catch(()=>{}));
+</script></body></html>
