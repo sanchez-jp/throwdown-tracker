@@ -1,0 +1,24 @@
+{
+  "name": "Throwdown Tracker · Elvas 2026",
+  "short_name": "Elvas 2026",
+  "id": "../elvas-2026/",
+  "start_url": "../elvas-2026/",
+  "scope": "../",
+  "display": "standalone",
+  "background_color": "#061b19",
+  "theme_color": "#073b32",
+  "icons": [
+    {
+      "src": "../icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
