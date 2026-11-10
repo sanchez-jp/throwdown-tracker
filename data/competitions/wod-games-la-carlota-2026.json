@@ -50,7 +50,7 @@
           "start": "14:08",
           "end": "14:17",
           "workout": {
-            "format": "Clean Complex · 3 ventanas por atleta (cada 1'30'')",
+            "format": "Clean Complex · 3 sets cada 1'30'' (4'30'' por atleta)",
             "blocks": [
               "Athlete A: 3 sets de Clean Complex sin soltar la barra (No Drop): 1 Power Clean + 1 Hang Squat Clean + 1 Front Squat + 1 Shoulder to Overhead.",
               "Athlete B: 3 sets del mismo Clean Complex sin soltar la barra (No Drop).",
@@ -59,7 +59,8 @@
             "scores": [
               "Team Score: suma del mejor levantamiento válido de cada atleta."
             ]
-          }
+          },
+          "notes": "En la lista inicial de nombres figuraba IRON LANGUAGE; en el encabezado de la descripción posterior aparece IRON LENGUAJE. Se conserva IRON LENGUAJE hasta confirmar la grafía oficial."
         },
         {
           "name": "WOD 3",
