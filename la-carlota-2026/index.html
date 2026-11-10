@@ -553,7 +553,7 @@ async function initAccess(){
 
 async function init(){
  try{
-   const requestedParam=/\/la-carlota(?:\/|$)/.test(location.pathname)?"wod-games-la-carlota-2026":new URLSearchParams(location.search).get("competition");
+   const requestedParam=/\/la-carlota-2026(?:\/|$)/.test(location.pathname)?"wod-games-la-carlota-2026":new URLSearchParams(location.search).get("competition");
    const lastCompetition=storageGet("throwdown:last-competition");
    const requested=requestedParam||(lastCompetition&&/^[a-z0-9-]+$/.test(lastCompetition)?lastCompetition:"badajoz-elvas-2026");
    if(!/^[a-z0-9-]+$/.test(requested))throw Error("Identificador de competición no válido");
