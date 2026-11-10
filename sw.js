@@ -1,8 +1,9 @@
-const CACHE="throwdown-tracker-v27";
+const CACHE="throwdown-tracker-v28";
 const FILES=[
   "./",
   "./index.html",
   "./manifest.webmanifest",
+  "./manifests/wod-games-la-carlota-2026.webmanifest",
   "./icon.svg",
   "./brand-mark.svg",
   "./header-logo.png",
