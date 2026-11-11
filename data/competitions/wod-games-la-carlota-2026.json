@@ -59,7 +59,8 @@
               "Team Score: suma del mejor levantamiento válido de cada atleta."
             ]
           },
-          "notes": "Nombre oficial confirmado: IRON LANGUAGE."
+          "notes": "Nombre oficial confirmado: IRON LANGUAGE.",
+          "flowUrl": "https://drive.google.com/file/d/1Pu72HSmOWzsenYSJfwy1sZmy1AT9SQSt/view?usp=drivesdk"
         },
         {
           "name": "WOD 3",
@@ -87,7 +88,8 @@
             "scores": [
               "Tiempo total de finalización."
             ]
-          }
+          },
+          "flowUrl": "https://drive.google.com/file/d/1QvhR9cHRwIpX_EL8rus340zN44MCbHzF/view?usp=drivesdk"
         }
       ]
     },
@@ -118,7 +120,8 @@
               "Team Score: tiempo total de finalización."
             ]
           },
-          "notes": "En otra publicación aparece THE LAST SAND. Se mantiene THE LAST STAND hasta aclaración de la organización."
+          "notes": "En otra publicación aparece THE LAST SAND. Se mantiene THE LAST STAND hasta aclaración de la organización.",
+          "flowUrl": "https://drive.google.com/file/d/19UiyhDT0Q-FLdRy4iLD-atE9d--IFODl/view?usp=drivesdk"
         },
         {
           "name": "WOD 5",
@@ -139,7 +142,8 @@
               "Team Score 1: tiempo empleado en completar las 6 rondas. Este resultado tiene prioridad en caso de empate.",
               "Team Score 2: metros totales acumulados en el remo al finalizar los 7 minutos."
             ]
-          }
+          },
+          "flowUrl": "https://drive.google.com/file/d/1NRC565Osb4uTvn8bhr_YYysv_wIvhqJ2/view?usp=drivesdk"
         }
       ]
     }
