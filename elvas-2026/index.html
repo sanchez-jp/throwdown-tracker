@@ -449,7 +449,7 @@ addList("Puntuación",x.scores,"scores");
 addList("Pesos / categorías",x.loads,"loads");
 if(w.notes){const note=document.createElement("div");note.className="workout-note";note.textContent=w.notes;card.append(note)}
 if(w.flowUrl){const flow=document.createElement("a");flow.className="flow-link";flow.href=w.flowUrl;flow.target="_blank";flow.rel="noopener noreferrer";flow.textContent="VER FLOW ↗";card.append(flow)}
-const timerButton=document.createElement("button");timerButton.type="button";timerButton.className="timer-launch";timerButton.textContent="⏱";timerButton.setAttribute("aria-label","Abrir cronómetro");timerButton.title="Abrir cronómetro";timerButton.onclick=()=>openWodTimer(w);card.append(timerButton);
+const timerButton=document.createElement("button");timerButton.type="button";timerButton.className="timer-launch";timerButton.textContent="◷";timerButton.setAttribute("aria-label","Abrir cronómetro");timerButton.title="Abrir cronómetro";timerButton.onclick=()=>openWodTimer(w);card.append(timerButton);
 
 root.append(card);
 if(accessMode!=="guest")renderNotes(w)
@@ -531,8 +531,15 @@ function timerClock(seconds){
  const h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),s=seconds%60;
  return h?String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0"):String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
 }
-function timerBeep(freq=880,duration=.13){
- try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;wodTimerAudio=wodTimerAudio||new C();if(wodTimerAudio.state==="suspended")wodTimerAudio.resume();const osc=wodTimerAudio.createOscillator(),gain=wodTimerAudio.createGain();osc.type="square";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,wodTimerAudio.currentTime);gain.gain.exponentialRampToValueAtTime(.12,wodTimerAudio.currentTime+.012);gain.gain.exponentialRampToValueAtTime(.0001,wodTimerAudio.currentTime+duration);osc.connect(gain);gain.connect(wodTimerAudio.destination);osc.start();osc.stop(wodTimerAudio.currentTime+duration+.02)}catch(_){}
+async function timerBeep(freq=880,duration=.13){
+ try{
+  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  if(!wodTimerAudio||wodTimerAudio.state==="closed")wodTimerAudio=new C();
+  if(wodTimerAudio.state!=="running")await wodTimerAudio.resume();
+  if(wodTimerAudio.state!=="running")return;
+  const now=wodTimerAudio.currentTime,osc=wodTimerAudio.createOscillator(),gain=wodTimerAudio.createGain();
+  osc.type="square";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.12,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain);gain.connect(wodTimerAudio.destination);osc.start(now);osc.stop(now+duration+.02);
+ }catch(_){}
 }
 async function timerKeepAwake(){
  try{if("wakeLock"in navigator)wodTimerWakeLock=await navigator.wakeLock.request("screen")}catch(_){}
@@ -590,7 +597,7 @@ function closeWodTimer(){
 function renderWodTimer(){
  const s=wodTimerState,overlay=document.getElementById("wodTimerOverlay");if(!s||!overlay)return;
  const display=overlay.querySelector(".timer-display"),status=overlay.querySelector(".timer-status"),phase=overlay.querySelector(".timer-phase"),play=overlay.querySelector(".timer-play"),reset=overlay.querySelector(".timer-reset");
- if(s.phase==="prestart"&&Date.now()>=s.prestartUntil){s.phase="running";s.startedAt=Date.now();s.elapsedMs=0;timerBeep(1040,.45)}
+ if(s.phase==="prestart"&&Date.now()>=s.prestartUntil){s.phase="running";s.startedAt=Date.now();s.elapsedMs=0;timerBeep(1040,.9)}
  if(s.phase==="running"&&s.cfg.mode!=="fortime"&&s.cfg.total>0&&s.elapsedMs+Date.now()-s.startedAt>=s.cfg.total*1000)finishWodTimer();
  if(s.phase==="running"&&s.cfg.mode==="fortime"&&s.cfg.cap>0&&s.elapsedMs+Date.now()-s.startedAt>=s.cfg.cap*1000)finishWodTimer();
  const elapsed=Math.floor((s.elapsedMs+(s.phase==="running"?Date.now()-s.startedAt:0))/1000);
@@ -607,10 +614,10 @@ function renderWodTimer(){
   if(s.cfg.mode==="intervals"&&s.cfg.restSeconds>0&&s.cfg.rounds>0){
    const cycle=s.cfg.workSeconds+s.cfg.restSeconds,round=Math.min(Math.floor(elapsed/cycle)+1,s.cfg.rounds),within=elapsed%cycle,resting=within>=s.cfg.workSeconds&&round<s.cfg.rounds,segment=round+":"+(resting?"rest":"work"),left=resting?cycle-within:s.cfg.workSeconds-within;
    detail="SET "+round+" · "+(resting?"DESCANSO":"TRABAJO")+" · "+timerClock(left);
-   if(s.phase==="running"&&s.lastIntervalSegment&&segment!==s.lastIntervalSegment)timerBeep(resting?620:900,.34);
+   if(s.phase==="running"&&s.lastIntervalSegment&&segment!==s.lastIntervalSegment)timerBeep(resting?620:900,.68);
    s.lastIntervalSegment=segment;
   }else if((s.cfg.mode==="emom"||s.cfg.mode==="intervals")&&s.cfg.interval>0){const round=Math.min(Math.floor(elapsed/s.cfg.interval)+1,Math.ceil(s.cfg.total/s.cfg.interval)||1),roundLeft=s.cfg.interval-(elapsed%s.cfg.interval);detail="RONDA "+round+" · CAMBIO EN "+timerClock(roundLeft)}
-  else if(s.cfg.mode==="phases"&&s.cfg.phases.length){let idx=-1;for(let i=0;i<s.cfg.phases.length;i++)if(elapsed>=s.cfg.phases[i].at)idx=i;if(idx>=0){detail=s.cfg.phases[idx].label;if(idx!==s.lastPhase&&s.phase==="running"){if(s.lastPhase>=0)timerBeep(780,.38);s.lastPhase=idx}}}
+  else if(s.cfg.mode==="phases"&&s.cfg.phases.length){let idx=-1;for(let i=0;i<s.cfg.phases.length;i++)if(elapsed>=s.cfg.phases[i].at)idx=i;if(idx>=0){detail=s.cfg.phases[idx].label;if(idx!==s.lastPhase&&s.phase==="running"){if(s.lastPhase>=0)timerBeep(780,.76);s.lastPhase=idx}}}
   else if(s.cfg.mode==="fortime"&&s.cfg.cap>0)detail="TIME CAP · "+timerClock(s.cfg.cap);
   else if(s.cfg.mode==="amrap")detail="TIEMPO RESTANTE";
  }
