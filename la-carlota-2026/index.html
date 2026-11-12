@@ -59,7 +59,7 @@
 @media(max-width:380px){.neighbor-list{grid-template-columns:1fr}}
 .notification-button{width:38px;height:38px;display:grid;place-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted);cursor:pointer}.notification-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.notification-button.enabled{border-color:var(--lime);background:#26333a;color:var(--lime)}.notification-button:disabled{opacity:.45;cursor:not-allowed}.notification-button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 
-.timer-launch{display:flex;align-items:center;justify-content:center;width:46px;height:46px;flex:0 0 46px;margin:14px 0 0 auto;padding:3px;border:1px solid #526d62;border-radius:12px;background:linear-gradient(110deg,#1d342d,#182a30);color:var(--lime);cursor:pointer}.timer-launch svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.workout-actions{display:flex;align-items:center;gap:8px;margin:0 0 12px}.flow-link{margin:0}.timer-launch{display:flex;align-items:center;justify-content:center;width:38px;height:38px;flex:0 0 38px;margin:0 0 0 auto;padding:3px;border:1px solid #526d62;border-radius:12px;background:linear-gradient(110deg,#1d342d,#182a30);color:var(--lime);cursor:pointer}.timer-launch svg{display:block;width:100%;height:100%;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 .timer-launch:active{transform:scale(.99)}.timer-launch:focus-visible,.timer-control:focus-visible,.timer-close:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
 .timer-overlay{position:fixed;inset:0;z-index:10000;display:none;background:#070b0b;color:#eef4fb;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 .timer-overlay.open{display:grid;grid-template-rows:minmax(0,1.08fr) minmax(0,.92fr)}
@@ -448,8 +448,9 @@ addList("Estructura",x.blocks,"");
 addList("Puntuación",x.scores,"scores");
 addList("Pesos / categorías",x.loads,"loads");
 if(w.notes){const note=document.createElement("div");note.className="workout-note";note.textContent=w.notes;card.append(note)}
-if(w.flowUrl){const flow=document.createElement("a");flow.className="flow-link";flow.href=w.flowUrl;flow.target="_blank";flow.rel="noopener noreferrer";flow.textContent="VER FLOW ↗";card.append(flow)}
-const timerButton=document.createElement("button");timerButton.type="button";timerButton.className="timer-launch";timerButton.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="18" r="11.5"></circle><path d="M13 2.5h6M16 2.5v4M16 11v7l5 3"></path></svg>';timerButton.setAttribute("aria-label","Abrir cronómetro");timerButton.title="Abrir cronómetro";timerButton.onclick=()=>openWodTimer(w);card.append(timerButton);
+const actions=document.createElement("div");actions.className="workout-actions";
+if(w.flowUrl){const flow=document.createElement("a");flow.className="flow-link";flow.href=w.flowUrl;flow.target="_blank";flow.rel="noopener noreferrer";flow.textContent="VER FLOW ↗";actions.append(flow)}
+const timerButton=document.createElement("button");timerButton.type="button";timerButton.className="timer-launch";timerButton.innerHTML='<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="18" r="11.5"></circle><path d="M13 2.5h6M16 2.5v4M16 11v7l5 3"></path></svg>';timerButton.setAttribute("aria-label","Abrir cronómetro");timerButton.title="Abrir cronómetro";timerButton.onclick=()=>openWodTimer(w);actions.append(timerButton);card.append(actions);
 
 root.append(card);
 if(accessMode!=="guest")renderNotes(w)
