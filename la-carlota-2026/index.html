@@ -460,8 +460,9 @@ function timerDuration(value){
  if(value===null||value===undefined)return 0;
  const s=String(value).trim(),clock=s.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
  if(clock)return clock[3]?Number(clock[1])*3600+Number(clock[2])*60+Number(clock[3]):Number(clock[1])*60+Number(clock[2]);
- const mins=s.match(/(\d+(?:\.\d+)?)\s*(?:minutes?|mins?|minutos?|m)\b/i);
- if(mins)return Math.round(Number(mins[1])*60);
+ const clockish=s.match(/(\d+)\s*\x27\s*(\d{1,2})/);if(clockish)return Number(clockish[1])*60+Number(clockish[2]);
+ const mins=s.match(/(\d+(?:\.\d+)?)\s*(?:minutes?|mins?|minutos?|m)\b|(\d+(?:\.\d+)?)\s*\x27/i);
+ if(mins)return Math.round(Number(mins[1]||mins[2])*60);
  const secs=s.match(/(\d+)\s*(?:seconds?|secs?|segundos?|s)\b/i);
  return secs?Number(secs[1]):0;
 }
@@ -478,20 +479,19 @@ function timerPhases(w){
   if(!m)continue;
   const at=timerDuration(m[1]),end=timerDuration(m[2]);
   const label=block.text.replace(m[0],"").replace(/^\s*[:·-]\s*/,"").trim()||block.children.join(" · ")||("Bloque hasta "+m[2]);
-  if(at===0)phases.push({at:0,label});
-  phases.push({at:end,label:block.children.length?block.children.join(" · "):label});
+  if(at===0)phases.push({at,label});
  }
  return phases.filter((p,i,a)=>p.at>=0&&a.findIndex(q=>q.at===p.at)===i).sort((a,b)=>a.at-b.at);
 }
 function deriveWodTimer(w){
  const x=w?.workout||{},format=String(x.format||"")+" "+String(x.timeCap||"");
  const explicit=x.timer||{};
- const cap=timerDuration(x.timeCap)||timerDuration((format.match(/(?:TC|TIME\s*CAP)\s*[:·-]?\s*(\d{1,2}:\d{2}|\d+\s*(?:min|m))/i)||[])[1]);
+ const cap=timerDuration(x.timeCap)||timerDuration((format.match(/(?:TC|TIME\s*CAP)\s*[:·-]?\s*(\d{1,2}:\d{2}|\d+\s*(?:min|m|\x27))/i)||[])[1]);
  let mode=String(explicit.mode||"").toLowerCase(),interval=Number(explicit.intervalSeconds)||0,total=Number(explicit.durationSeconds)||0;
  if(!mode){
   if(/\bAMRAP\b/i.test(format))mode="amrap";
   else if(/\b(?:E\s*\d+\s*MOM|EMOM|E\d+MOM)\b/i.test(format))mode="emom";
-  else if(/\bINTERVALS?\b|\bINTERVALOS?\b/i.test(format))mode="intervals";
+  else if(/\bcada\s*\d+\s*\x27|\bINTERVALS?\b|\bINTERVALOS?\b/i.test(format))mode="intervals";
   else mode="fortime";
  }
  if(mode==="emom"){
@@ -503,7 +503,12 @@ function deriveWodTimer(w){
   const dm=format.match(/AMRAP\s*(\d+)\s*(?::\s*(\d+))?/i);
   total=total||cap||(dm?Number(dm[1])*60+Number(dm[2]||0):0);
  }
- if(mode==="intervals"&&!total)total=cap;
+ if(mode==="intervals"){
+  const every=format.match(/cada\s*(\d+)\s*\x27\s*(\d{1,2})?/i);
+  interval=interval||(every?Number(every[1])*60+Number(every[2]||0):0);
+  const sets=format.match(/(\d+)\s*(?:sets?|series|rondas?)/i);
+  total=total||cap||(sets&&interval?Number(sets[1])*interval:0);
+ }
  if(mode==="fortime")total=cap;
  const phases=timerPhases(w);
  if(phases.length>1&&mode==="fortime")mode="phases";
@@ -587,13 +592,13 @@ function renderWodTimer(){
  status.textContent=statusText;
  let detail="";
  if(s.phase==="running"||s.phase==="paused"||s.phase==="finished"){
-  if(s.cfg.mode==="emom"&&s.cfg.interval>0){const round=Math.min(Math.floor(elapsed/s.cfg.interval)+1,Math.ceil(s.cfg.total/s.cfg.interval)||1),roundLeft=s.cfg.interval-(elapsed%s.cfg.interval);detail="RONDA "+round+" · CAMBIO EN "+timerClock(roundLeft===s.cfg.interval&&elapsed>0?0:roundLeft)}
+  if((s.cfg.mode==="emom"||s.cfg.mode==="intervals")&&s.cfg.interval>0){const round=Math.min(Math.floor(elapsed/s.cfg.interval)+1,Math.ceil(s.cfg.total/s.cfg.interval)||1),roundLeft=s.cfg.interval-(elapsed%s.cfg.interval);detail="RONDA "+round+" · CAMBIO EN "+timerClock(roundLeft===s.cfg.interval&&elapsed>0?0:roundLeft)}
   else if(s.cfg.mode==="phases"&&s.cfg.phases.length){let idx=-1;for(let i=0;i<s.cfg.phases.length;i++)if(elapsed>=s.cfg.phases[i].at)idx=i;if(idx>=0){detail=s.cfg.phases[idx].label;if(idx!==s.lastPhase&&s.phase==="running"){if(s.lastPhase>=0)timerBeep(780,.12);s.lastPhase=idx}}}
   else if(s.cfg.mode==="fortime"&&s.cfg.cap>0)detail="TIME CAP · "+timerClock(s.cfg.cap);
   else if(s.cfg.mode==="amrap")detail="TIEMPO RESTANTE";
  }
  phase.textContent=s.phase==="prestart"?"LA SESIÓN COMIENZA EN BREVE":detail;
- if(s.phase==="running"&&s.cfg.mode==="emom"&&s.cfg.interval>0){const round=Math.floor(elapsed/s.cfg.interval)+1;if(round!==s.lastRound&&elapsed>0){if(s.lastRound>0)timerBeep(760,.1);s.lastRound=round}}
+ if(s.phase==="running"&&(s.cfg.mode==="emom"||s.cfg.mode==="intervals")&&s.cfg.interval>0){const round=Math.floor(elapsed/s.cfg.interval)+1;if(round!==s.lastRound&&elapsed>0){if(s.lastRound>0)timerBeep(760,.1);s.lastRound=round}}
  play.textContent=s.phase==="running"||s.phase==="prestart"?"PAUSAR":s.phase==="paused"?"CONTINUAR":s.phase==="finished"?"FINALIZADO":"INICIAR";
  play.disabled=s.phase==="finished";
  reset.disabled=s.phase==="ready";
