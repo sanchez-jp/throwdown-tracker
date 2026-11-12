@@ -59,7 +59,7 @@
 @media(max-width:380px){.neighbor-list{grid-template-columns:1fr}}
 .notification-button{width:38px;height:38px;display:grid;place-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted);cursor:pointer}.notification-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.notification-button.enabled{border-color:var(--lime);background:#26333a;color:var(--lime)}.notification-button:disabled{opacity:.45;cursor:not-allowed}.notification-button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 
-.timer-launch{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;padding:13px 16px;border:1px solid #526d62;border-radius:12px;background:linear-gradient(110deg,#1d342d,#182a30);color:var(--lime);font-weight:950;letter-spacing:.09em;font-size:12px;cursor:pointer}
+.timer-launch{display:flex;align-items:center;justify-content:center;gap:9px;width:max-content;max-width:100%;margin:14px 0 0 auto;padding:13px 16px;border:1px solid #526d62;border-radius:12px;background:linear-gradient(110deg,#1d342d,#182a30);color:var(--lime);font-weight:950;letter-spacing:.09em;font-size:12px;cursor:pointer}
 .timer-launch:active{transform:scale(.99)}.timer-launch:focus-visible,.timer-control:focus-visible,.timer-close:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
 .timer-overlay{position:fixed;inset:0;z-index:10000;display:none;background:#070b0b;color:#eef4fb;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 .timer-overlay.open{display:grid;grid-template-rows:minmax(0,1.08fr) minmax(0,.92fr)}
@@ -68,7 +68,7 @@
 .timer-kicker{color:#9baea3;font-size:clamp(10px,1.6vw,14px);font-weight:900;letter-spacing:.18em;text-transform:uppercase}
 .timer-close{border:1px solid #42554c;border-radius:50%;width:42px;height:42px;background:#111b17;color:#eaf4ed;font-size:24px;cursor:pointer}
 .timer-mode{color:var(--cyan);font-size:clamp(11px,1.7vw,15px);font-weight:900;letter-spacing:.14em;text-transform:uppercase;text-align:center;margin:0 0 10px}
-.timer-display{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-variant-numeric:tabular-nums;font-weight:900;line-height:.92;letter-spacing:-.065em;font-size:clamp(76px,20vw, min(29vw,260px));color:var(--lime);text-shadow:0 0 16px #a7ef4c55,0 0 48px #a7ef4c24;white-space:nowrap}
+.timer-display{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-variant-numeric:tabular-nums;font-weight:900;line-height:.92;letter-spacing:-.065em;font-size:clamp(78px,27vw,min(35vw,260px));color:var(--lime);text-shadow:0 0 16px #a7ef4c55,0 0 48px #a7ef4c24;white-space:nowrap}
 .timer-display.danger{color:#ff555d;text-shadow:0 0 16px #ff454c66,0 0 48px #ff454c33}
 .timer-status{min-height:26px;margin-top:15px;color:#c2d0c8;font-size:clamp(12px,2vw,17px);font-weight:900;letter-spacing:.1em;text-align:center}
 .timer-phase{min-height:24px;margin-top:5px;color:var(--cyan);font-size:clamp(12px,2vw,18px);font-weight:850;text-align:center}
@@ -536,15 +536,17 @@ function openWodTimer(w){
  const cfgTimer=deriveWodTimer(w),overlay=document.createElement("div");overlay.className="timer-overlay open";overlay.id="wodTimerOverlay";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Cronómetro de "+cfgTimer.name);
  overlay.innerHTML='<section class="timer-main"><div class="timer-topline"><span class="timer-kicker">THROWDOWN TIMER</span><button class="timer-close" type="button" aria-label="Cerrar cronómetro">×</button></div><div class="timer-mode"></div><div class="timer-display" role="timer" aria-live="off">00:00</div><div class="timer-status">LISTO</div><div class="timer-phase"></div><div class="timer-controls"><button class="timer-control primary timer-play" type="button">INICIAR</button><button class="timer-control timer-reset" type="button">REINICIAR</button></div></section><section class="timer-description"><div class="timer-description-content"></div></section>';
  document.body.append(overlay);timerDescription(w,overlay.querySelector(".timer-description-content"));
- wodTimerState={w,cfg:cfgTimer,phase:"ready",resumePhase:null,prestartUntil:0,prestartRemaining:10000,startedAt:0,elapsedMs:0,lastPhase:-1,lastRound:0};
+ wodTimerState={w,cfg:cfgTimer,phase:"ready",resumePhase:null,prestartUntil:0,prestartRemaining:10000,startedAt:0,elapsedMs:0,lastPhase:-1,lastRound:0,lastPrestartSecond:11};
  const modeLabels={fortime:"FOR TIME",amrap:"AMRAP",emom:"EMOM",intervals:"INTERVALOS",phases:"WOD POR FASES"};
  overlay.querySelector(".timer-mode").textContent=modeLabels[cfgTimer.mode]||"WORKOUT";
  overlay.querySelector(".timer-close").onclick=closeWodTimer;
  overlay.querySelector(".timer-play").onclick=toggleWodTimer;
  overlay.querySelector(".timer-reset").onclick=resetWodTimer;
+ document.addEventListener("visibilitychange",timerVisibilityChanged);
  overlay.addEventListener("keydown",e=>{if(e.key==="Escape"){e.preventDefault();closeWodTimer()}});
  wodTimerTick=setInterval(renderWodTimer,100);renderWodTimer();overlay.querySelector(".timer-play").focus();
 }
+function timerVisibilityChanged(){if(!document.hidden&&wodTimerState&&(wodTimerState.phase==="running"||wodTimerState.phase==="prestart"))timerKeepAwake()}
 function toggleWodTimer(){
  const s=wodTimerState;if(!s)return;
  if(s.phase==="ready"){s.phase="prestart";s.prestartUntil=Date.now()+10000;s.prestartRemaining=10000;timerKeepAwake();timerBeep(660,.12)}
@@ -558,7 +560,7 @@ function toggleWodTimer(){
 }
 function resetWodTimer(){
  const s=wodTimerState;if(!s)return;
- s.phase="ready";s.resumePhase=null;s.prestartUntil=0;s.prestartRemaining=10000;s.startedAt=0;s.elapsedMs=0;s.lastPhase=-1;s.lastRound=0;timerReleaseWake();renderWodTimer();
+ s.phase="ready";s.resumePhase=null;s.prestartUntil=0;s.prestartRemaining=10000;s.startedAt=0;s.elapsedMs=0;s.lastPhase=-1;s.lastRound=0;s.lastPrestartSecond=11;timerReleaseWake();renderWodTimer();
 }
 function finishWodTimer(){
  const s=wodTimerState;if(!s||s.phase==="finished")return;
@@ -566,7 +568,7 @@ function finishWodTimer(){
 }
 function closeWodTimer(){
  if(wodTimerTick){clearInterval(wodTimerTick);wodTimerTick=null}
- timerReleaseWake();document.getElementById("wodTimerOverlay")?.remove();wodTimerState=null;
+ timerReleaseWake();document.removeEventListener("visibilitychange",timerVisibilityChanged);document.getElementById("wodTimerOverlay")?.remove();wodTimerState=null;
 }
 function renderWodTimer(){
  const s=wodTimerState,overlay=document.getElementById("wodTimerOverlay");if(!s||!overlay)return;
@@ -575,7 +577,8 @@ function renderWodTimer(){
  if(s.phase==="running"&&s.cfg.mode!=="fortime"&&s.cfg.total>0&&s.elapsedMs+Date.now()-s.startedAt>=s.cfg.total*1000)finishWodTimer();
  if(s.phase==="running"&&s.cfg.mode==="fortime"&&s.cfg.cap>0&&s.elapsedMs+Date.now()-s.startedAt>=s.cfg.cap*1000)finishWodTimer();
  const elapsed=Math.floor((s.elapsedMs+(s.phase==="running"?Date.now()-s.startedAt:0))/1000);
- const pre=Math.ceil(Math.max(0,s.prestartUntil-Date.now())/1000);
+ const pre=s.phase==="paused"&&s.resumePhase==="prestart"?Math.ceil(s.prestartRemaining/1000):Math.ceil(Math.max(0,s.prestartUntil-Date.now())/1000);
+ if(s.phase==="prestart"&&pre<=3&&pre>0&&pre!==s.lastPrestartSecond){s.lastPrestartSecond=pre;timerBeep(pre===1?1040:780,.09)}
  let remaining=s.cfg.total>0?Math.max(0,s.cfg.total-elapsed):0,shown=s.cfg.mode==="fortime"||s.cfg.mode==="phases"?elapsed:remaining;
  let statusText=s.phase==="ready"?"LISTO":s.phase==="prestart"?"PREPÁRATE":s.phase==="paused"?"PAUSADO":s.phase==="finished"?"TIEMPO":s.cfg.mode==="fortime"||s.cfg.mode==="phases"?"EN MARCHA":"EN MARCHA";
  if(s.phase==="prestart")shown=pre;
