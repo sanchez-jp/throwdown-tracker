@@ -539,7 +539,7 @@ async function timerBeep(freq=880,duration=.13){
   if(wodTimerAudio.state!=="running")await wodTimerAudio.resume();
   if(wodTimerAudio.state!=="running")return;
   const now=wodTimerAudio.currentTime,osc=wodTimerAudio.createOscillator(),gain=wodTimerAudio.createGain();
-  osc.type="square";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.12,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain);gain.connect(wodTimerAudio.destination);osc.start(now);osc.stop(now+duration+.02);
+  osc.type="square";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.24,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain);gain.connect(wodTimerAudio.destination);osc.start(now);osc.stop(now+duration+.02);
  }catch(_){}
 }
 async function timerKeepAwake(){
