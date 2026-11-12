@@ -35,7 +35,19 @@
           "arena": "09:08",
           "start": "09:10",
           "end": "09:21",
-          "workout": null
+          "workout": {
+            "format": "For Time · TC 11:00 · Parejas Scaled MF",
+            "blocks": [
+              "De 00:00 a 05:00: máximas calorías de remo (solo 1 atleta trabaja a la vez).",
+              "De 05:00 a 11:00:",
+              "800 m de carrera, realizados juntos.",
+              "Tiempo restante: máximos Facing Burpee Over Bar sincronizados."
+            ],
+            "scores": [
+              "Team Score: suma total de las calorías acumuladas en el remo y el número de burpees sincronizados completados."
+            ]
+          },
+          "flowUrl": "https://drive.google.com/file/d/1zeg-xx0QCEv9xIDMe5Vr9K6li-I0BK-s/view?usp=drivesdk"
         },
         {
           "name": "WOD 2",
