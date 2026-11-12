@@ -531,8 +531,15 @@ function timerClock(seconds){
  const h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),s=seconds%60;
  return h?String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0"):String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
 }
-function timerBeep(freq=880,duration=.13){
- try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;wodTimerAudio=wodTimerAudio||new C();if(wodTimerAudio.state==="suspended")wodTimerAudio.resume();const osc=wodTimerAudio.createOscillator(),gain=wodTimerAudio.createGain();osc.type="square";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,wodTimerAudio.currentTime);gain.gain.exponentialRampToValueAtTime(.12,wodTimerAudio.currentTime+.012);gain.gain.exponentialRampToValueAtTime(.0001,wodTimerAudio.currentTime+duration);osc.connect(gain);gain.connect(wodTimerAudio.destination);osc.start();osc.stop(wodTimerAudio.currentTime+duration+.02)}catch(_){}
+async function timerBeep(freq=880,duration=.13){
+ try{
+  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
+  if(!wodTimerAudio||wodTimerAudio.state==="closed")wodTimerAudio=new C();
+  if(wodTimerAudio.state!=="running")await wodTimerAudio.resume();
+  if(wodTimerAudio.state!=="running")return;
+  const now=wodTimerAudio.currentTime,osc=wodTimerAudio.createOscillator(),gain=wodTimerAudio.createGain();
+  osc.type="square";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(.12,now+.012);gain.gain.exponentialRampToValueAtTime(.0001,now+duration);osc.connect(gain);gain.connect(wodTimerAudio.destination);osc.start(now);osc.stop(now+duration+.02);
+ }catch(_){}
 }
 async function timerKeepAwake(){
  try{if("wakeLock"in navigator)wodTimerWakeLock=await navigator.wakeLock.request("screen")}catch(_){}
