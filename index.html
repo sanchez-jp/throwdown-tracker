@@ -615,7 +615,7 @@ function renderWodTimer(){
   else if(s.cfg.mode==="amrap")detail="TIEMPO RESTANTE";
  }
  phase.textContent=s.phase==="prestart"?"LA SESIÓN COMIENZA EN BREVE":detail;
- if(s.phase==="running"&&(s.cfg.mode==="emom"||s.cfg.mode==="intervals")&&s.cfg.interval>0){const round=Math.floor(elapsed/s.cfg.interval)+1;if(round!==s.lastRound&&elapsed>0){if(s.lastRound>0)timerBeep(760,.1);s.lastRound=round}}
+ if(s.phase==="running"&&(s.cfg.mode==="emom"||(s.cfg.mode==="intervals"&&s.cfg.restSeconds===0))&&s.cfg.interval>0){const round=Math.floor(elapsed/s.cfg.interval)+1;if(round!==s.lastRound&&elapsed>0){if(s.lastRound>0)timerBeep(760,.1);s.lastRound=round}}
  play.textContent=s.phase==="running"||s.phase==="prestart"?"PAUSAR":s.phase==="paused"?"CONTINUAR":s.phase==="finished"?"FINALIZADO":"INICIAR";
  play.disabled=s.phase==="finished";
  reset.disabled=s.phase==="ready";
