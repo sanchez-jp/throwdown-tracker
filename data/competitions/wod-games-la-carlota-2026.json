@@ -75,7 +75,14 @@
             ],
             "scores": [
               "Team Score: suma del mejor levantamiento válido de cada atleta."
-            ]
+            ],
+            "timer": {
+              "mode": "intervals",
+              "intervalSeconds": 90,
+              "durationSeconds": 540,
+              "rounds": 6,
+              "workSeconds": 90
+            }
           },
           "flowUrl": "https://drive.google.com/file/d/1Pu72HSmOWzsenYSJfwy1sZmy1AT9SQSt/view?usp=drivesdk"
         },
