@@ -38,10 +38,16 @@
           "workout": {
             "format": "For Time · TC 11:00 · Parejas Scaled MF",
             "blocks": [
-              "De 00:00 a 05:00: máximas calorías de remo (solo 1 atleta trabaja a la vez).",
-              "De 05:00 a 11:00:",
-              "800 m de carrera, realizados juntos.",
-              "Tiempo restante: máximos Facing Burpee Over Bar sincronizados."
+              {
+                "text": "De 00:00 a 05:00: máximas calorías de remo (solo 1 atleta trabaja a la vez)."
+              },
+              {
+                "text": "De 05:00 a 11:00:",
+                "children": [
+                  "800 m de carrera, realizados juntos.",
+                  "Tiempo restante: máximos Facing Burpee Over Bar sincronizados."
+                ]
+              }
             ],
             "scores": [
               "Team Score: suma total de las calorías acumuladas en el remo y el número de burpees sincronizados completados."
