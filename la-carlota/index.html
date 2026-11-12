@@ -472,14 +472,14 @@ function timerBlocks(w){
 }
 function timerPhases(w){
  const explicit=w?.workout?.timer?.phases;
- if(Array.isArray(explicit)&&explicit.length)return explicit.map(p=>({at:timerDuration(p.at)||Number(p.at)||0,label:p.label||p.name||"Siguiente fase"})).filter(p=>p.at>0).sort((a,b)=>a.at-b.at);
+ if(Array.isArray(explicit)&&explicit.length)return explicit.map(p=>({at:timerDuration(p.at)||Number(p.at)||0,label:p.label||p.name||"Siguiente fase"})).filter(p=>p.at>=0).sort((a,b)=>a.at-b.at);
  const phases=[];
  for(const block of timerBlocks(w)){
   const m=block.text.match(/(?:de\s*)?(\d{1,2}:\d{2})\s*(?:a|–|-)\s*(\d{1,2}:\d{2})\s*:?/i);
   if(!m)continue;
   const at=timerDuration(m[1]),end=timerDuration(m[2]);
   const label=block.text.replace(m[0],"").replace(/^\s*[:·-]\s*/,"").trim()||block.children.join(" · ")||("Bloque hasta "+m[2]);
-  if(at===0)phases.push({at,label});
+  phases.push({at,label});
  }
  return phases.filter((p,i,a)=>p.at>=0&&a.findIndex(q=>q.at===p.at)===i).sort((a,b)=>a.at-b.at);
 }
