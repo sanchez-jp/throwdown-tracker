@@ -461,6 +461,7 @@ function timerDuration(value){
  const s=String(value).trim(),clock=s.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
  if(clock)return clock[3]?Number(clock[1])*3600+Number(clock[2])*60+Number(clock[3]):Number(clock[1])*60+Number(clock[2]);
  const clockish=s.match(/(\d+)\s*\x27\s*(\d{1,2})/);if(clockish)return Number(clockish[1])*60+Number(clockish[2]);
+ const mixed=s.match(/(\d+)\s*(?:minutes?|mins?|minutos?|min|m)\s*(\d+)\s*(?:seconds?|secs?|segundos?|s)\b/i);if(mixed)return Number(mixed[1])*60+Number(mixed[2]);
  const mins=s.match(/(\d+(?:\.\d+)?)\s*(?:minutes?|mins?|minutos?|m)\b|(\d+(?:\.\d+)?)\s*\x27/i);
  if(mins)return Math.round(Number(mins[1]||mins[2])*60);
  const secs=s.match(/(\d+)\s*(?:seconds?|secs?|segundos?|s)\b/i);
@@ -489,7 +490,8 @@ function deriveWodTimer(w){
  const cap=timerDuration(x.timeCap)||timerDuration((format.match(/(?:TC|TIME\s*CAP)\s*[:·-]?\s*(\d{1,2}:\d{2}|\d+\s*(?:min|m|\x27))/i)||[])[1]);
  let mode=String(explicit.mode||"").toLowerCase(),interval=Number(explicit.intervalSeconds)||0,total=Number(explicit.durationSeconds)||0;
  if(!mode){
-  if(/\bAMRAP\b/i.test(format))mode="amrap";
+  if(/\b\d+\s*sets?\b.*\bAMRAP\b/i.test(format))mode="intervals";
+  else if(/\bAMRAP\b/i.test(format))mode="amrap";
   else if(/\b(?:E\s*\d+\s*MOM|EMOM|E\d+MOM)\b/i.test(format))mode="emom";
   else if(/\bcada\s*\d+\s*\x27|\bINTERVALS?\b|\bINTERVALOS?\b/i.test(format))mode="intervals";
   else mode="fortime";
@@ -503,16 +505,26 @@ function deriveWodTimer(w){
   const dm=format.match(/AMRAP\s*(\d+)\s*(?::\s*(\d+))?/i);
   total=total||cap||(dm?Number(dm[1])*60+Number(dm[2]||0):0);
  }
+ let workSeconds=Number(explicit.workSeconds)||0,restSeconds=Number(explicit.restSeconds)||0,rounds=Number(explicit.rounds)||0;
  if(mode==="intervals"){
+  const multiAmrap=format.match(/(\d+)\s*sets?.*AMRAP\s*(\d+)\s*(?:min|m|minutos?)\s*(\d+)\s*(?:s|segundos?)/i);
   const every=format.match(/cada\s*(\d+)\s*\x27\s*(\d{1,2})?/i);
-  interval=interval||(every?Number(every[1])*60+Number(every[2]||0):0);
   const sets=format.match(/(\d+)\s*(?:sets?|series|rondas?)/i);
-  total=total||cap||(sets&&interval?Number(sets[1])*interval:0);
+  if(multiAmrap){
+   rounds=rounds||Number(multiAmrap[1]);workSeconds=workSeconds||Number(multiAmrap[2])*60+Number(multiAmrap[3]);
+   const rest=timerBlocks(w).map(b=>b.text).join(" ").match(/descanso\s*:\s*([^.;]+)/i);
+   restSeconds=restSeconds||(rest?timerDuration(rest[1]):0);
+   interval=workSeconds+restSeconds;total=total||rounds*workSeconds+Math.max(0,rounds-1)*restSeconds;
+  }else{
+   interval=interval||(every?Number(every[1])*60+Number(every[2]||0):0);
+   rounds=rounds||(sets?Number(sets[1]):0);workSeconds=workSeconds||interval;
+   total=total||cap||(rounds&&interval?rounds*interval:0);
+  }
  }
  if(mode==="fortime")total=cap;
  const phases=timerPhases(w);
  if(phases.length>1&&mode==="fortime")mode="phases";
- return {mode,interval,total,phases,cap:mode==="fortime"||mode==="phases"?cap:total,title:w?.title||w?.name||"WOD",name:w?.name||"WOD",format:x.format||""};
+ return {mode,interval,total,phases,cap:mode==="fortime"||mode==="phases"?cap:total,workSeconds,restSeconds,rounds,title:w?.title||w?.name||"WOD",name:w?.name||"WOD",format:x.format||""};
 }
 function timerClock(seconds){
  seconds=Math.max(0,Math.floor(seconds));
@@ -541,7 +553,7 @@ function openWodTimer(w){
  const cfgTimer=deriveWodTimer(w),overlay=document.createElement("div");overlay.className="timer-overlay open";overlay.id="wodTimerOverlay";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Cronómetro de "+cfgTimer.name);
  overlay.innerHTML='<section class="timer-main"><div class="timer-topline"><span class="timer-kicker">THROWDOWN TIMER</span><button class="timer-close" type="button" aria-label="Cerrar cronómetro">×</button></div><div class="timer-mode"></div><div class="timer-display" role="timer" aria-live="off">00:00</div><div class="timer-status">LISTO</div><div class="timer-phase"></div><div class="timer-controls"><button class="timer-control primary timer-play" type="button">INICIAR</button><button class="timer-control timer-reset" type="button">REINICIAR</button></div></section><section class="timer-description"><div class="timer-description-content"></div></section>';
  document.body.append(overlay);timerDescription(w,overlay.querySelector(".timer-description-content"));
- wodTimerState={w,cfg:cfgTimer,phase:"ready",resumePhase:null,prestartUntil:0,prestartRemaining:10000,startedAt:0,elapsedMs:0,lastPhase:-1,lastRound:0,lastPrestartSecond:11};
+ wodTimerState={w,cfg:cfgTimer,phase:"ready",resumePhase:null,prestartUntil:0,prestartRemaining:10000,startedAt:0,elapsedMs:0,lastPhase:-1,lastRound:0,lastPrestartSecond:11,lastIntervalSegment:null};
  const modeLabels={fortime:"FOR TIME",amrap:"AMRAP",emom:"EMOM",intervals:"INTERVALOS",phases:"WOD POR FASES"};
  overlay.querySelector(".timer-mode").textContent=modeLabels[cfgTimer.mode]||"WORKOUT";
  overlay.querySelector(".timer-close").onclick=closeWodTimer;
@@ -565,7 +577,7 @@ function toggleWodTimer(){
 }
 function resetWodTimer(){
  const s=wodTimerState;if(!s)return;
- s.phase="ready";s.resumePhase=null;s.prestartUntil=0;s.prestartRemaining=10000;s.startedAt=0;s.elapsedMs=0;s.lastPhase=-1;s.lastRound=0;s.lastPrestartSecond=11;timerReleaseWake();renderWodTimer();
+ s.phase="ready";s.resumePhase=null;s.prestartUntil=0;s.prestartRemaining=10000;s.startedAt=0;s.elapsedMs=0;s.lastPhase=-1;s.lastRound=0;s.lastPrestartSecond=11;s.lastIntervalSegment=null;timerReleaseWake();renderWodTimer();
 }
 function finishWodTimer(){
  const s=wodTimerState;if(!s||s.phase==="finished")return;
@@ -592,7 +604,12 @@ function renderWodTimer(){
  status.textContent=statusText;
  let detail="";
  if(s.phase==="running"||s.phase==="paused"||s.phase==="finished"){
-  if((s.cfg.mode==="emom"||s.cfg.mode==="intervals")&&s.cfg.interval>0){const round=Math.min(Math.floor(elapsed/s.cfg.interval)+1,Math.ceil(s.cfg.total/s.cfg.interval)||1),roundLeft=s.cfg.interval-(elapsed%s.cfg.interval);detail="RONDA "+round+" · CAMBIO EN "+timerClock(roundLeft===s.cfg.interval&&elapsed>0?0:roundLeft)}
+  if(s.cfg.mode==="intervals"&&s.cfg.restSeconds>0&&s.cfg.rounds>0){
+   const cycle=s.cfg.workSeconds+s.cfg.restSeconds,round=Math.min(Math.floor(elapsed/cycle)+1,s.cfg.rounds),within=elapsed%cycle,resting=within>=s.cfg.workSeconds&&round<s.cfg.rounds,segment=round+":"+(resting?"rest":"work"),left=resting?cycle-within:s.cfg.workSeconds-within;
+   detail="SET "+round+" · "+(resting?"DESCANSO":"TRABAJO")+" · "+timerClock(left);
+   if(s.phase==="running"&&s.lastIntervalSegment&&segment!==s.lastIntervalSegment)timerBeep(resting?620:900,.16);
+   s.lastIntervalSegment=segment;
+  }else if((s.cfg.mode==="emom"||s.cfg.mode==="intervals")&&s.cfg.interval>0){const round=Math.min(Math.floor(elapsed/s.cfg.interval)+1,Math.ceil(s.cfg.total/s.cfg.interval)||1),roundLeft=s.cfg.interval-(elapsed%s.cfg.interval);detail="RONDA "+round+" · CAMBIO EN "+timerClock(roundLeft)}
   else if(s.cfg.mode==="phases"&&s.cfg.phases.length){let idx=-1;for(let i=0;i<s.cfg.phases.length;i++)if(elapsed>=s.cfg.phases[i].at)idx=i;if(idx>=0){detail=s.cfg.phases[idx].label;if(idx!==s.lastPhase&&s.phase==="running"){if(s.lastPhase>=0)timerBeep(780,.12);s.lastPhase=idx}}}
   else if(s.cfg.mode==="fortime"&&s.cfg.cap>0)detail="TIME CAP · "+timerClock(s.cfg.cap);
   else if(s.cfg.mode==="amrap")detail="TIEMPO RESTANTE";
