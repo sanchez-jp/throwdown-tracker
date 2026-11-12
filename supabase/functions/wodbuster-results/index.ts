@@ -24,7 +24,10 @@ type ResultsConfig = { provider: string; teamName: string; competitionId: string
 type CacheEntry = { expires: number; payload: unknown };
 type ResultsPayload = { results: Record<string, any>; errors: Record<string, string>; updatedAt: string; source: string };
 const cache = new Map<string, CacheEntry>();
-const HISTORY_SCOPES = new Set(["4282:18412:VENI VIDI REGULINCHI"]);
+const HISTORY_SCOPES = new Set([
+  "4282:18412:VENI VIDI REGULINCHI",
+  "3829:16625:ESCUCHO BORROSO",
+]);
 const HISTORY_TABLE = "competition_result_snapshots";
 
 function json(payload: unknown, status = 200) {
