@@ -58,6 +58,45 @@
 .evolution-entry span:first-child{color:var(--muted)}
 @media(max-width:380px){.neighbor-list{grid-template-columns:1fr}}
 .notification-button{width:38px;height:38px;display:grid;place-items:center;padding:8px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted);cursor:pointer}.notification-button svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.notification-button.enabled{border-color:var(--lime);background:#26333a;color:var(--lime)}.notification-button:disabled{opacity:.45;cursor:not-allowed}.notification-button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.timer-launch{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;margin-top:14px;padding:13px 16px;border:1px solid #526d62;border-radius:12px;background:linear-gradient(110deg,#1d342d,#182a30);color:var(--lime);font-weight:950;letter-spacing:.09em;font-size:12px;cursor:pointer}
+.timer-launch:active{transform:scale(.99)}.timer-launch:focus-visible,.timer-control:focus-visible,.timer-close:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+.timer-overlay{position:fixed;inset:0;z-index:10000;display:none;background:#070b0b;color:#eef4fb;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.timer-overlay.open{display:grid;grid-template-rows:minmax(0,1.08fr) minmax(0,.92fr)}
+.timer-main{position:relative;display:flex;min-height:0;flex-direction:column;align-items:center;justify-content:center;padding:clamp(16px,3vw,34px);background:radial-gradient(ellipse at 50% 45%,#17352b 0,transparent 58%),#080d0c;border-bottom:1px solid #263b32}
+.timer-topline{position:absolute;top:clamp(14px,3vh,28px);left:20px;right:20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.timer-kicker{color:#9baea3;font-size:clamp(10px,1.6vw,14px);font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+.timer-close{border:1px solid #42554c;border-radius:50%;width:42px;height:42px;background:#111b17;color:#eaf4ed;font-size:24px;cursor:pointer}
+.timer-mode{color:var(--cyan);font-size:clamp(11px,1.7vw,15px);font-weight:900;letter-spacing:.14em;text-transform:uppercase;text-align:center;margin:0 0 10px}
+.timer-display{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-variant-numeric:tabular-nums;font-weight:900;line-height:.92;letter-spacing:-.065em;font-size:clamp(76px,20vw, min(29vw,260px));color:var(--lime);text-shadow:0 0 16px #a7ef4c55,0 0 48px #a7ef4c24;white-space:nowrap}
+.timer-display.danger{color:#ff555d;text-shadow:0 0 16px #ff454c66,0 0 48px #ff454c33}
+.timer-status{min-height:26px;margin-top:15px;color:#c2d0c8;font-size:clamp(12px,2vw,17px);font-weight:900;letter-spacing:.1em;text-align:center}
+.timer-phase{min-height:24px;margin-top:5px;color:var(--cyan);font-size:clamp(12px,2vw,18px);font-weight:850;text-align:center}
+.timer-controls{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:clamp(16px,3vh,28px)}
+.timer-control{min-width:112px;padding:13px 20px;border:1px solid #526d62;border-radius:12px;background:#17251f;color:#eef4fb;font-weight:950;letter-spacing:.1em;cursor:pointer}
+.timer-control.primary{background:var(--lime);border-color:var(--lime);color:#10160d}
+.timer-control:disabled{opacity:.45;cursor:default}
+.timer-description{min-height:0;overflow:auto;padding:clamp(16px,3vw,28px) clamp(18px,4vw,42px);background:#101a17}
+.timer-description-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px}
+.timer-description h2{margin:0;color:#f1f7f2;font-size:clamp(18px,3vw,27px);line-height:1.15}
+.timer-description .timer-format{color:var(--cyan);font-size:clamp(11px,1.8vw,15px);font-weight:850;margin:8px 0 14px}
+.timer-description .timer-list{margin:8px 0 14px;padding-left:1.2em}
+.timer-description .timer-list li{font-size:clamp(14px,2.1vw,19px);line-height:1.35;margin:0 0 7px;color:#e4ece6}
+.timer-description .timer-list ul{margin:5px 0 0;padding-left:1.1em}
+.timer-description .timer-list b{color:var(--lime)}
+.timer-description .timer-notes{color:#bdcabe;font-size:clamp(13px,1.9vw,16px);margin-top:12px}
+@media (orientation:landscape) and (min-width:600px){
+ .timer-overlay.open{grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr);grid-template-rows:1fr}
+ .timer-main{border-bottom:0;border-right:1px solid #263b32}
+ .timer-display{font-size:clamp(76px,13vw,230px)}
+ .timer-description{padding:clamp(18px,3vw,36px);align-self:stretch}
+ .timer-description .timer-list li{font-size:clamp(14px,1.5vw,19px)}
+}
+@media (max-height:520px) and (orientation:landscape){
+ .timer-topline{top:8px}.timer-mode{margin:0 0 4px}.timer-status{margin-top:7px}.timer-phase{margin-top:2px}.timer-controls{margin-top:8px}.timer-control{padding:9px 16px}
+}
+@media (prefers-reduced-motion:no-preference){.timer-display{transition:color .18s,text-shadow .18s}}
+
 </style></head><body><canvas class="particle-bg" id="particleCanvas" aria-hidden="true"></canvas><main class="wrap">
 <header><div><div class="eyebrow">Competition HQ</div><h1>THROWDOWN<br>TRACKER</h1><div class="sub" id="subtitle">Cargando competición…</div></div><img class="brand-mark" src="./header-logo.png" alt="Throwdown Tracker"><div style="display:grid;justify-items:end;gap:6px"><button class="notification-button" id="briefingNotificationsButton" type="button" aria-label="Activar avisos del briefing" aria-pressed="false" title="Activar avisos del briefing"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" /></svg></button><span class="pill" id="heat">HEAT —</span><span class="connection-pill" id="connectionStatus" role="status">COMPROBANDO CONEXIÓN</span></div></header>
 <section class="hero" aria-live="polite"><div class="heroTop"><span class="live">● DIRECTO</span><span class="pill" id="venue">—</span></div><div class="clock" id="clock">--:--:--</div><div class="date" id="date"></div><div class="timezone" id="timezone">HORA OFICIAL · ZONA DE COMPETICIÓN</div><div class="status"><div class="statusLabel" id="statusLabel">TU SITUACIÓN</div><h2 id="statusTitle">Cargando…</h2><p id="statusDesc"></p><div class="countrow"><div class="count" id="countdown">--:--:--<small id="countLabel">Cuenta atrás</small></div></div></div><div class="meta"><div><span>Competición</span><b id="compName">—</b></div><div><span>Calle</span><b id="lane">—</b></div><div><span>Equipo</span><b id="team">—</b></div></div><div class="team-members" id="teamMembers"></div></section>
@@ -410,10 +449,154 @@ addList("Puntuación",x.scores,"scores");
 addList("Pesos / categorías",x.loads,"loads");
 if(w.notes){const note=document.createElement("div");note.className="workout-note";note.textContent=w.notes;card.append(note)}
 if(w.flowUrl){const flow=document.createElement("a");flow.className="flow-link";flow.href=w.flowUrl;flow.target="_blank";flow.rel="noopener noreferrer";flow.textContent="VER FLOW ↗";card.append(flow)}
+const timerButton=document.createElement("button");timerButton.type="button";timerButton.className="timer-launch";timerButton.textContent="◷  ABRIR CRONÓMETRO";timerButton.onclick=()=>openWodTimer(w);card.append(timerButton);
 
 root.append(card);
 if(accessMode!=="guest")renderNotes(w)
 }
+
+let wodTimerState=null,wodTimerTick=null,wodTimerWakeLock=null,wodTimerAudio=null;
+function timerDuration(value){
+ if(value===null||value===undefined)return 0;
+ const s=String(value).trim(),clock=s.match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?$/);
+ if(clock)return clock[3]?Number(clock[1])*3600+Number(clock[2])*60+Number(clock[3]):Number(clock[1])*60+Number(clock[2]);
+ const mins=s.match(/(\d+(?:\.\d+)?)\s*(?:minutes?|mins?|minutos?|m)\b/i);
+ if(mins)return Math.round(Number(mins[1])*60);
+ const secs=s.match(/(\d+)\s*(?:seconds?|secs?|segundos?|s)\b/i);
+ return secs?Number(secs[1]):0;
+}
+function timerBlocks(w){
+ const blocks=w?.workout?.blocks;if(!Array.isArray(blocks))return [];
+ return blocks.map(v=>typeof v==="string"?{text:v,children:[]}:{text:v?.text||"",children:Array.isArray(v?.children)?v.children:[]});
+}
+function timerPhases(w){
+ const explicit=w?.workout?.timer?.phases;
+ if(Array.isArray(explicit)&&explicit.length)return explicit.map(p=>({at:timerDuration(p.at)||Number(p.at)||0,label:p.label||p.name||"Siguiente fase"})).filter(p=>p.at>0).sort((a,b)=>a.at-b.at);
+ const phases=[];
+ for(const block of timerBlocks(w)){
+  const m=block.text.match(/(?:de\s*)?(\d{1,2}:\d{2})\s*(?:a|–|-)\s*(\d{1,2}:\d{2})\s*:?/i);
+  if(!m)continue;
+  const at=timerDuration(m[1]),end=timerDuration(m[2]);
+  const label=block.text.replace(m[0],"").replace(/^\s*[:·-]\s*/,"").trim()||block.children.join(" · ")||("Bloque hasta "+m[2]);
+  if(at===0)phases.push({at:0,label});
+  phases.push({at:end,label:block.children.length?block.children.join(" · "):label});
+ }
+ return phases.filter((p,i,a)=>p.at>=0&&a.findIndex(q=>q.at===p.at)===i).sort((a,b)=>a.at-b.at);
+}
+function deriveWodTimer(w){
+ const x=w?.workout||{},format=String(x.format||"")+" "+String(x.timeCap||"");
+ const explicit=x.timer||{};
+ const cap=timerDuration(x.timeCap)||timerDuration((format.match(/(?:TC|TIME\s*CAP)\s*[:·-]?\s*(\d{1,2}:\d{2}|\d+\s*(?:min|m))/i)||[])[1]);
+ let mode=String(explicit.mode||"").toLowerCase(),interval=Number(explicit.intervalSeconds)||0,total=Number(explicit.durationSeconds)||0;
+ if(!mode){
+  if(/\bAMRAP\b/i.test(format))mode="amrap";
+  else if(/\b(?:E\s*\d+\s*MOM|EMOM|E\d+MOM)\b/i.test(format))mode="emom";
+  else if(/\bINTERVALS?\b|\bINTERVALOS?\b/i.test(format))mode="intervals";
+  else mode="fortime";
+ }
+ if(mode==="emom"){
+  const im=format.match(/E\s*(\d+)\s*MOM|E(\d+)MOM/i);interval=interval||Number(im?.[1]||im?.[2]||1)*60;
+  const dm=format.match(/MOM\s*(\d+)\s*(?:min|m|')/i);
+  total=total||cap||(dm?Number(dm[1])*60:0);
+ }
+ if(mode==="amrap"){
+  const dm=format.match(/AMRAP\s*(\d+)\s*(?::\s*(\d+))?/i);
+  total=total||cap||(dm?Number(dm[1])*60+Number(dm[2]||0):0);
+ }
+ if(mode==="intervals"&&!total)total=cap;
+ if(mode==="fortime")total=cap;
+ const phases=timerPhases(w);
+ if(phases.length>1&&mode==="fortime")mode="phases";
+ return {mode,interval,total,phases,cap:mode==="fortime"||mode==="phases"?cap:total,title:w?.title||w?.name||"WOD",name:w?.name||"WOD",format:x.format||""};
+}
+function timerClock(seconds){
+ seconds=Math.max(0,Math.floor(seconds));
+ const h=Math.floor(seconds/3600),m=Math.floor(seconds%3600/60),s=seconds%60;
+ return h?String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0"):String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+function timerBeep(freq=880,duration=.13){
+ try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;wodTimerAudio=wodTimerAudio||new C();if(wodTimerAudio.state==="suspended")wodTimerAudio.resume();const osc=wodTimerAudio.createOscillator(),gain=wodTimerAudio.createGain();osc.type="square";osc.frequency.value=freq;gain.gain.setValueAtTime(.0001,wodTimerAudio.currentTime);gain.gain.exponentialRampToValueAtTime(.12,wodTimerAudio.currentTime+.012);gain.gain.exponentialRampToValueAtTime(.0001,wodTimerAudio.currentTime+duration);osc.connect(gain);gain.connect(wodTimerAudio.destination);osc.start();osc.stop(wodTimerAudio.currentTime+duration+.02)}catch(_){}
+}
+async function timerKeepAwake(){
+ try{if("wakeLock"in navigator)wodTimerWakeLock=await navigator.wakeLock.request("screen")}catch(_){}
+}
+async function timerReleaseWake(){
+ try{if(wodTimerWakeLock){await wodTimerWakeLock.release();wodTimerWakeLock=null}}catch(_){}
+}
+function timerDescription(w,root){
+ const x=w?.workout||{},head=document.createElement("div");head.className="timer-description-head";
+ const title=document.createElement("h2");title.textContent=(w?.name||"WOD")+" · "+(w?.title||"");head.append(title);root.append(head);
+ const format=document.createElement("div");format.className="timer-format";format.textContent=x.format||"";root.append(format);
+ const add=(label,items)=>{if(!Array.isArray(items)||!items.length)return;const b=document.createElement("b");b.textContent=label;root.append(b);const ul=document.createElement("ul");ul.className="timer-list";items.forEach(v=>{const li=document.createElement("li");if(typeof v==="string")li.textContent=v;else{li.textContent=v?.text||"";if(Array.isArray(v?.children)&&v.children.length){const nested=document.createElement("ul");v.children.forEach(c=>{const sub=document.createElement("li");sub.textContent=c;nested.append(sub)});li.append(nested)}}ul.append(li)});root.append(ul)};
+ add("ESTRUCTURA",x.blocks);add("PUNTUACIÓN",x.scores);add("PESOS / CATEGORÍAS",x.loads);
+ if(w?.notes){const note=document.createElement("p");note.className="timer-notes";note.textContent=w.notes;root.append(note)}
+}
+function openWodTimer(w){
+ closeWodTimer();
+ const cfgTimer=deriveWodTimer(w),overlay=document.createElement("div");overlay.className="timer-overlay open";overlay.id="wodTimerOverlay";overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","Cronómetro de "+cfgTimer.name);
+ overlay.innerHTML='<section class="timer-main"><div class="timer-topline"><span class="timer-kicker">THROWDOWN TIMER</span><button class="timer-close" type="button" aria-label="Cerrar cronómetro">×</button></div><div class="timer-mode"></div><div class="timer-display" role="timer" aria-live="off">00:00</div><div class="timer-status">LISTO</div><div class="timer-phase"></div><div class="timer-controls"><button class="timer-control primary timer-play" type="button">INICIAR</button><button class="timer-control timer-reset" type="button">REINICIAR</button></div></section><section class="timer-description"><div class="timer-description-content"></div></section>';
+ document.body.append(overlay);timerDescription(w,overlay.querySelector(".timer-description-content"));
+ wodTimerState={w,cfg:cfgTimer,phase:"ready",resumePhase:null,prestartUntil:0,prestartRemaining:10000,startedAt:0,elapsedMs:0,lastPhase:-1,lastRound:0};
+ const modeLabels={fortime:"FOR TIME",amrap:"AMRAP",emom:"EMOM",intervals:"INTERVALOS",phases:"WOD POR FASES"};
+ overlay.querySelector(".timer-mode").textContent=modeLabels[cfgTimer.mode]||"WORKOUT";
+ overlay.querySelector(".timer-close").onclick=closeWodTimer;
+ overlay.querySelector(".timer-play").onclick=toggleWodTimer;
+ overlay.querySelector(".timer-reset").onclick=resetWodTimer;
+ overlay.addEventListener("keydown",e=>{if(e.key==="Escape"){e.preventDefault();closeWodTimer()}});
+ wodTimerTick=setInterval(renderWodTimer,100);renderWodTimer();overlay.querySelector(".timer-play").focus();
+}
+function toggleWodTimer(){
+ const s=wodTimerState;if(!s)return;
+ if(s.phase==="ready"){s.phase="prestart";s.prestartUntil=Date.now()+10000;s.prestartRemaining=10000;timerKeepAwake();timerBeep(660,.12)}
+ else if(s.phase==="prestart"){s.prestartRemaining=Math.max(0,s.prestartUntil-Date.now());s.phase="paused";s.resumePhase="prestart";timerReleaseWake()}
+ else if(s.phase==="running"){s.elapsedMs+=Date.now()-s.startedAt;s.phase="paused";s.resumePhase="running";timerReleaseWake()}
+ else if(s.phase==="paused"){
+  if(s.resumePhase==="prestart"){s.phase="prestart";s.prestartUntil=Date.now()+s.prestartRemaining;timerKeepAwake()}
+  else{s.phase="running";s.startedAt=Date.now();timerKeepAwake()}
+ }
+ renderWodTimer();
+}
+function resetWodTimer(){
+ const s=wodTimerState;if(!s)return;
+ s.phase="ready";s.resumePhase=null;s.prestartUntil=0;s.prestartRemaining=10000;s.startedAt=0;s.elapsedMs=0;s.lastPhase=-1;s.lastRound=0;timerReleaseWake();renderWodTimer();
+}
+function finishWodTimer(){
+ const s=wodTimerState;if(!s||s.phase==="finished")return;
+ s.elapsedMs+=Date.now()-s.startedAt;s.phase="finished";timerReleaseWake();timerBeep(1040,.5);
+}
+function closeWodTimer(){
+ if(wodTimerTick){clearInterval(wodTimerTick);wodTimerTick=null}
+ timerReleaseWake();document.getElementById("wodTimerOverlay")?.remove();wodTimerState=null;
+}
+function renderWodTimer(){
+ const s=wodTimerState,overlay=document.getElementById("wodTimerOverlay");if(!s||!overlay)return;
+ const display=overlay.querySelector(".timer-display"),status=overlay.querySelector(".timer-status"),phase=overlay.querySelector(".timer-phase"),play=overlay.querySelector(".timer-play"),reset=overlay.querySelector(".timer-reset");
+ if(s.phase==="prestart"&&Date.now()>=s.prestartUntil){s.phase="running";s.startedAt=Date.now();s.elapsedMs=0;timerBeep(1040,.22)}
+ if(s.phase==="running"&&s.cfg.mode!=="fortime"&&s.cfg.total>0&&s.elapsedMs+Date.now()-s.startedAt>=s.cfg.total*1000)finishWodTimer();
+ if(s.phase==="running"&&s.cfg.mode==="fortime"&&s.cfg.cap>0&&s.elapsedMs+Date.now()-s.startedAt>=s.cfg.cap*1000)finishWodTimer();
+ const elapsed=Math.floor((s.elapsedMs+(s.phase==="running"?Date.now()-s.startedAt:0))/1000);
+ const pre=Math.ceil(Math.max(0,s.prestartUntil-Date.now())/1000);
+ let remaining=s.cfg.total>0?Math.max(0,s.cfg.total-elapsed):0,shown=s.cfg.mode==="fortime"||s.cfg.mode==="phases"?elapsed:remaining;
+ let statusText=s.phase==="ready"?"LISTO":s.phase==="prestart"?"PREPÁRATE":s.phase==="paused"?"PAUSADO":s.phase==="finished"?"TIEMPO":s.cfg.mode==="fortime"||s.cfg.mode==="phases"?"EN MARCHA":"EN MARCHA";
+ if(s.phase==="prestart")shown=pre;
+ display.textContent=timerClock(shown);
+ display.classList.toggle("danger",s.phase==="finished"||(s.cfg.cap>0&&((s.cfg.mode==="fortime"||s.cfg.mode==="phases")?elapsed>=s.cfg.cap-60:remaining<=60)));
+ status.textContent=statusText;
+ let detail="";
+ if(s.phase==="running"||s.phase==="paused"||s.phase==="finished"){
+  if(s.cfg.mode==="emom"&&s.cfg.interval>0){const round=Math.min(Math.floor(elapsed/s.cfg.interval)+1,Math.ceil(s.cfg.total/s.cfg.interval)||1),roundLeft=s.cfg.interval-(elapsed%s.cfg.interval);detail="RONDA "+round+" · CAMBIO EN "+timerClock(roundLeft===s.cfg.interval&&elapsed>0?0:roundLeft)}
+  else if(s.cfg.mode==="phases"&&s.cfg.phases.length){let idx=-1;for(let i=0;i<s.cfg.phases.length;i++)if(elapsed>=s.cfg.phases[i].at)idx=i;if(idx>=0){detail=s.cfg.phases[idx].label;if(idx!==s.lastPhase&&s.phase==="running"){if(s.lastPhase>=0)timerBeep(780,.12);s.lastPhase=idx}}}
+  else if(s.cfg.mode==="fortime"&&s.cfg.cap>0)detail="TIME CAP · "+timerClock(s.cfg.cap);
+  else if(s.cfg.mode==="amrap")detail="TIEMPO RESTANTE";
+ }
+ phase.textContent=s.phase==="prestart"?"LA SESIÓN COMIENZA EN BREVE":detail;
+ if(s.phase==="running"&&s.cfg.mode==="emom"&&s.cfg.interval>0){const round=Math.floor(elapsed/s.cfg.interval)+1;if(round!==s.lastRound&&elapsed>0){if(s.lastRound>0)timerBeep(760,.1);s.lastRound=round}}
+ play.textContent=s.phase==="running"||s.phase==="prestart"?"PAUSAR":s.phase==="paused"?"CONTINUAR":s.phase==="finished"?"FINALIZADO":"INICIAR";
+ play.disabled=s.phase==="finished";
+ reset.disabled=s.phase==="ready";
+ if(s.phase==="finished")status.textContent=s.cfg.mode==="fortime"||s.cfg.mode==="phases"?"TIME CAP":"FINALIZADO";
+}
+
 function eventLane(w){return w&&w.lane?w.lane:(cfg.competition.lane||"—")}
 function renderEvent(){let d=cfg.days[dayIndex],w=d.events[eventIndex];renderWorkout(w);if(!w){$("timelineTitle").textContent="Sin cronograma";$("eventMeta").textContent="";$("timeline").innerHTML='<div class="empty">No hay horarios para mostrar en esta jornada.</div>';return}let es=events(d,w);$("timelineTitle").textContent=w.name+" · CRONOGRAMA";$("eventMeta").textContent="Calle "+eventLane(w)+" · Heat "+eventHeat(w)+(w.scheduleStatus==="provisional"?" · HORARIO PROVISIONAL":"");$("heat").textContent="HEAT "+eventHeat(w);$("timeline").innerHTML=es.length?es.map((e,i)=>'<div class="event" data-step="'+i+'"><div class="time">'+e.time+'</div><div><div class="dot"></div></div><div><div class="name">'+e.label+'</div><div class="desc">'+e.desc+'</div></div></div>').join(""):'<div class="empty">Horarios oficiales pendientes para este WOD.</div>'}
 function renderCards(){let d=cfg.days[dayIndex];$("cards").innerHTML=d.events.length?d.events.map((w,i)=>'<div class="card"><strong>'+w.name+' · Briefing '+(w.briefing||"—")+'</strong><div class="range">'+(w.start?(w.scheduleStatus==="provisional"?"PROVISIONAL · ":"")+w.start+(w.end?"–"+w.end:""):"HORARIO PENDIENTE") +'</div><small>Calle '+eventLane(w)+' · Calentamiento '+(w.warmup||"—")+' · Corrales '+(w.corrals||"—")+' · Pista '+(w.arena||"—")+'</small><button class="button" data-open="'+i+'" style="grid-column:2;grid-row:1 / span 2">Ver WOD</button></div>').join(""):'<div class="empty">Aún no hay eventos cargados.</div>';document.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>{eventIndex=+b.dataset.open;renderWods();renderEvent();update()})}
