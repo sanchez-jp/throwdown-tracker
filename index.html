@@ -140,6 +140,7 @@ const BRIEFING_NOTIFICATIONS_URL=SUPABASE_URL+"/functions/v1/briefing-notificati
 let sb=null;
 async function ensureSupabase(){if(!sb){const {createClient}=await import("https://esm.sh/@supabase/supabase-js@2");sb=createClient(SUPABASE_URL,SUPABASE_KEY)}return sb;}
 let cfg,dayIndex=0,eventIndex=0,accessMode="guest",teamPassword=null,currentAdmin=null,currentNoteWodId=null,notesPoll=null,notesCache={};
+let noteDirty=false,noteLoadedAt=null;
 let officialResults={},resultsLastUpdated=null,resultsPoll=null,resultsCachedAt=null,resultsHistory=[],resultsHistoryEnabled=false,resultsHistoryError=null;const $=id=>document.getElementById(id);
 const storageGet=key=>{try{return localStorage.getItem(key)}catch(_){return null}};
 const storageSet=(key,value)=>{try{localStorage.setItem(key,value);return true}catch(_){return false}};
@@ -440,7 +441,7 @@ function setAccessMode(mode,details={}){
     accessMessage("Sesión activa: "+who+'. <button class="button" id="logoutBtn" type="button">Cerrar sesión</button>');
     $("logoutBtn").onclick=async()=>{if(mode==="admin"&&sb)await sb.auth.signOut();setAccessMode("guest")};
     if(notesPoll)clearInterval(notesPoll);
-    notesPoll=setInterval(refreshCurrentNote,5000);
+    notesPoll=setInterval(()=>{if(!document.hidden)refreshCurrentNote()},15000);
   }
   if(cfg)renderEvent();
 }
@@ -486,10 +487,11 @@ function renderNotes(w){
   const del=document.createElement("button");del.className="button danger";del.type="button";del.textContent="Borrar";
   const status=document.createElement("div");status.className="note-status";status.id="noteStatus";
   const meta=document.createElement("div");meta.className="note-meta";meta.id="noteMeta";
+  editor.addEventListener("input",()=>{noteDirty=true;const s=$("noteStatus");if(s)s.textContent="Cambios sin guardar."});
   save.onclick=()=>saveNote(id,editor.value);
   del.onclick=()=>deleteNote(id);
   actions.append(save,del);box.append(head,editor,actions,status,meta);$("workout").append(box);
-  editor.value="";updateNoteMeta(null);
+  editor.value="";updateNoteMeta(null);noteDirty=false;noteLoadedAt=null;
   save.dataset.offlineAction="true";del.dataset.offlineAction="true";updateConnectionStatus();
   if(navigator.onLine)loadNote(id);else if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";
 }
@@ -511,11 +513,19 @@ async function fetchNote(id){
 }
 async function loadNote(id){
   try{const note=await fetchNote(id),stored=note||{wod_id:id,content:""};notesCache[id]=stored;if(currentNoteWodId!==id)return;
-    const editor=$("noteEditor");if(editor&&document.activeElement!==editor)editor.value=stored.content||"";updateNoteMeta(stored);
-    const status=$("noteStatus");if(status)status.textContent="Notas sincronizadas.";
-  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);const status=$("noteStatus");if(status)status.textContent=!navigator.onLine?"Conéctate a internet para consultar las notas estratégicas.":(e.message||"No se pudieron cargar las notas")}
+    const editor=$("noteEditor"),status=$("noteStatus");
+    if(noteDirty){
+      if(status&&noteLoadedAt!==null&&(stored.updated_at||"")!==noteLoadedAt)
+        status.textContent="⚠ Un compañero ha guardado cambios. Si guardas ahora, sobrescribirás su versión.";
+    }else{
+      if(editor&&document.activeElement!==editor)editor.value=stored.content||"";
+      noteLoadedAt=stored.updated_at||"";
+      updateNoteMeta(stored);
+      if(status)status.textContent="Notas sincronizadas.";
+    }
+  }catch(e){if(accessMode==="admin"&&(e.code==="42501"||/permission|row-level/i.test(e.message||""))){setAccessMode("guest");accessMessage("Este correo no tiene permisos de administrador.");return}const editor=$("noteEditor");if(editor&&!noteDirty)editor.value="";if(!noteDirty)updateNoteMeta(null);const status=$("noteStatus");if(status)status.textContent=!navigator.onLine?"Conéctate a internet para consultar las notas estratégicas.":(e.message||"No se pudieron cargar las notas")}
 }
-async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId)return;if(!navigator.onLine){const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";return}await loadNote(currentNoteWodId)}
+async function refreshCurrentNote(){if(accessMode==="guest"||!currentNoteWodId)return;if(!navigator.onLine){const editor=$("noteEditor");if(editor&&!noteDirty)editor.value="";if(!noteDirty)updateNoteMeta(null);if($("noteStatus"))$("noteStatus").textContent="Conéctate a internet para consultar las notas estratégicas.";return}await loadNote(currentNoteWodId)}
 async function saveNote(id,content){
   const status=$("noteStatus");if(status)status.textContent="Guardando…";
   try{
@@ -525,6 +535,7 @@ async function saveNote(id,content){
       const {data,error}=await sb.from("wod_notes").upsert({wod_id:id,content,updated_at:new Date().toISOString(),updated_by:"Administrador"},{onConflict:"wod_id"}).select("wod_id,content,updated_at,updated_by").single();
       if(error)throw error;note=data;
     }else throw Error("Inicia sesión para guardar notas");
+    noteDirty=false;noteLoadedAt=note?.updated_at||"";
     notesCache[id]=note;if(status)status.textContent="Notas guardadas y compartidas.";updateNoteMeta(note);
   }catch(e){if(status)status.textContent=e.message||"No se pudieron guardar las notas"}
 }
@@ -534,6 +545,7 @@ async function deleteNote(id){
   try{
     if(accessMode==="team")await teamCall("delete",{wod_id:id});
     else if(accessMode==="admin"){const {error}=await sb.from("wod_notes").delete().eq("wod_id",id);if(error)throw error}
+    noteDirty=false;noteLoadedAt="";
     notesCache[id]={wod_id:id,content:""};const editor=$("noteEditor");if(editor)editor.value="";updateNoteMeta(null);if(status)status.textContent="Notas borradas para todos.";
   }catch(e){if(status)status.textContent=e.message||"No se pudieron borrar las notas"}
 }

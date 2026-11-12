@@ -1,4 +1,4 @@
-const CACHE="throwdown-tracker-v32";
+const CACHE="throwdown-tracker-v33";
 const FILES=[
   "./",
   "./index.html",
@@ -68,6 +68,14 @@ self.addEventListener("notificationclick",event=>{
   })());
 });
 
+function fetchFresh(request, ms) {
+  if (!ms) return fetch(request, { cache: "no-store" });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(request, { cache: "no-store", signal: controller.signal })
+    .finally(() => clearTimeout(timer));
+}
+
 self.addEventListener("fetch",event=>{
   const request=event.request;
   if(request.method!=="GET")return;
@@ -77,25 +85,32 @@ self.addEventListener("fetch",event=>{
   const isNavigation=request.mode==="navigate"||url.pathname.endsWith("/index.html")||url.pathname.endsWith("/");
   const isCompetitionConfig=url.pathname.includes("/data/competitions/")&&url.pathname.endsWith(".json");
 
-  if(isNavigation){
-    event.respondWith(
-      fetch(request,{cache:"no-store"})
-        .then(response=>{
-          if(response.ok){
-            const copy=response.clone();
-            caches.open(CACHE).then(cache=>{
-              cache.put(request,copy);
-              if(url.pathname.endsWith("/")||url.pathname.endsWith("/index.html")){
-                cache.put("./index.html",response.clone());
-              }
-            });
-          }
-          return response;
-        })
-        .catch(()=>caches.match(request).then(cached=>cached||caches.match("./index.html")))
-    );
-    return;
-  }
+  if (isNavigation) {
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE);
+    const cached = (await cache.match(request)) || (await cache.match("./index.html"));
+    try {
+      // Con copia local: máximo 4 s de espera. Sin copia (primera visita): sin límite.
+      const response = await fetchFresh(request, cached ? 4000 : 0);
+      if (response.ok) {
+        const rootPath = new URL("./", self.registration.scope).pathname;
+        const isRoot = url.pathname === rootPath || url.pathname === rootPath + "index.html";
+        // Los clones se crean AHORA, antes de devolver la respuesta.
+        const forRequest = response.clone();
+        const forIndex = isRoot ? response.clone() : null;
+        event.waitUntil(Promise.all([
+          cache.put(request, forRequest),
+          forIndex ? cache.put("./index.html", forIndex) : Promise.resolve(),
+        ]));
+      }
+      return response;
+    } catch (error) {
+      if (cached) return cached;
+      throw error;
+    }
+  })());
+  return;
+}
 
   if(isCompetitionConfig){
     event.respondWith(
