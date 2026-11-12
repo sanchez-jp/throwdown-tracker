@@ -42,6 +42,9 @@
               "De 05:00 a 11:00:",
               "800 m de carrera, realizados juntos.",
               "Tiempo restante: máximos Facing Burpee Over Bar sincronizados."
+            ],
+            "scores": [
+              "Team Score: suma total de las calorías acumuladas en el remo y el número de burpees sincronizados completados."
             ]
           },
           "flowUrl": "https://drive.google.com/file/d/1zeg-xx0QCEv9xIDMe5Vr9K6li-I0BK-s/view?usp=drivesdk"
