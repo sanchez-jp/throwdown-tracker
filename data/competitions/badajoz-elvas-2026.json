@@ -27,7 +27,7 @@
           "workout": {
             "format": "AMRAP 12 minutos",
             "timeCap": "12 min",
-            "score": [
+            "scores": [
               "Score 1: máximo de repeticiones de gimnasia",
               "Score 2: metros de remo"
             ],
@@ -53,7 +53,7 @@
           "workout": {
             "format": "For Time · 4 RFT por atleta",
             "timeCap": "10 min",
-            "score": [
+            "scores": [
               "Tiempo"
             ],
             "blocks": [
@@ -80,7 +80,7 @@
           "workout": {
             "format": "For Time · 2 RFT",
             "timeCap": "12 min",
-            "score": [
+            "scores": [
               "Tiempo"
             ],
             "blocks": [
@@ -112,7 +112,7 @@
           "workout": {
             "format": "3 sets · AMRAP 2 min 30 s",
             "timeCap": "9 min 30 s",
-            "score": [
+            "scores": [
               "Repeticiones totales"
             ],
             "blocks": [
