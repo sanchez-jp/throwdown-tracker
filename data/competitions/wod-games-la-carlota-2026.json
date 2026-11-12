@@ -173,8 +173,15 @@
       {
         "key": "overall",
         "label": "Clasificación general",
-        "idw": "65498",
+        "idw": "",
         "overall": true
+      },
+      {
+        "key": "wod1",
+        "label": "WOD 1",
+        "shortLabel": "WOD 1",
+        "idw": "65498",
+        "event": "WOD 1"
       },
       {
         "key": "wod2",
