@@ -385,10 +385,7 @@ async function refreshOfficialResults(){
     storageSet(competitionStorageKey("results","official"),JSON.stringify({results:officialResults,updatedAt:resultsLastUpdated,cachedAt:resultsCachedAt,history:resultsHistory,historyEnabled:resultsHistoryEnabled,historyError:resultsHistoryError}));
     renderOfficialResults();
     updateVisibleWorkoutClassification();
-    const errors=Object.keys(payload.errors||{});
-    $("resultsFootnote").textContent=errors.length
-      ?"Fuente: "+(cfg.results.provider||"Resultados")+" · Algunas clasificaciones no se han podido actualizar; se conserva el último dato válido."
-      :"Fuente: "+(payload.source||cfg.results.provider)+" · Actualización automática cada minuto mientras la aplicación está abierta.";
+    $("resultsFootnote").textContent="Fuente: "+(payload.source||cfg.results.provider)+" · Actualización automática cada minuto mientras la aplicación está abierta.";
   }catch(error){
     console.warn("No se pudieron actualizar las clasificaciones oficiales",error);
     $("resultsUpdated").textContent=resultsLastUpdated?"Sin actualizar · último dato guardado":"Conectando con el proveedor…";
