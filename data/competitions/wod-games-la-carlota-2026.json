@@ -174,7 +174,15 @@
               "Team Score 2: metros totales acumulados en el remo al finalizar los 7 minutos."
             ]
           },
-          "flowUrl": "https://drive.google.com/file/d/1NRC565Osb4uTvn8bhr_YYysv_wIvhqJ2/view?usp=drivesdk"
+          "flowUrl": "https://drive.google.com/file/d/1NRC565Osb4uTvn8bhr_YYysv_wIvhqJ2/view?usp=drivesdk",
+          "lane": "7",
+          "heat": "5",
+          "briefing": "12:05",
+          "warmup": "12:25",
+          "corrals": "12:42",
+          "arena": "12:43",
+          "start": "12:45",
+          "end": "12:52"
         }
       ]
     }
