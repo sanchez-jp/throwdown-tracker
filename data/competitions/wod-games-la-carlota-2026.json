@@ -144,7 +144,15 @@
               "Team Score: tiempo total de finalización."
             ]
           },
-          "flowUrl": "https://drive.google.com/file/d/19UiyhDT0Q-FLdRy4iLD-atE9d--IFODl/view?usp=drivesdk"
+          "flowUrl": "https://drive.google.com/file/d/19UiyhDT0Q-FLdRy4iLD-atE9d--IFODl/view?usp=drivesdk",
+          "lane": "7",
+          "heat": "5",
+          "briefing": "08:08",
+          "warmup": "08:28",
+          "corrals": "08:45",
+          "arena": "08:46",
+          "start": "08:48",
+          "end": "08:57"
         },
         {
           "name": "WOD 5",
